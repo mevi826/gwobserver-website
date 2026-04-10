@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GW Observer — Guild Wars GvG Match Replay &amp; Analysis</title>
+  <link rel="icon" href="assets/icon2.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="assets/icon2.ico" alt="GW Observer" class="nav-icon">
+        <span>GW Observer</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#analytics">Analytics</a></li>
+        <li><a href="#replay">Replay</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="https://github.com/MC92-hash/GuildWarsObserver/releases" class="nav-cta" target="_blank" rel="noopener">Download</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg-wrap">
+      <img src="assets/maps/Warrior's Isle.webp" alt="" class="hero-bg active" data-index="0">
+      <img src="assets/maps/Frozen Isle.webp" alt="" class="hero-bg" data-index="1">
+      <img src="assets/maps/Druid's Isle.webp" alt="" class="hero-bg" data-index="2">
+      <img src="assets/maps/Isle of Jade.jpg" alt="" class="hero-bg" data-index="3">
+      <div class="hero-bg-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">Guild Wars GvG Analysis Tool</div>
+      <h1>Relive Every <span class="gold">Battle</span></h1>
+      <p class="hero-sub">Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Load recorded matches and analyze every detail.</p>
+      <div class="hero-actions">
+        <a href="https://github.com/MC92-hash/GuildWarsObserver/releases" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
+        <a href="#features" class="btn btn-outline">Explore Features</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">3D</span><span class="stat-label">Map Replay</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Features</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">15</span><span class="stat-label">GvG Maps</span></div>
+      </div>
+      <div class="hero-dots">
+        <button class="hero-dot active" data-index="0"></button>
+        <button class="hero-dot" data-index="1"></button>
+        <button class="hero-dot" data-index="2"></button>
+        <button class="hero-dot" data-index="3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Professions Strip -->
+  <section class="prof-strip">
+    <div class="prof-inner">
+      <img src="assets/professions/[1] - Warrior.png" alt="Warrior" title="Warrior">
+      <img src="assets/professions/[2] - Ranger.png" alt="Ranger" title="Ranger">
+      <img src="assets/professions/[3] - Monk.png" alt="Monk" title="Monk">
+      <img src="assets/professions/[4] - Necromancer.png" alt="Necromancer" title="Necromancer">
+      <img src="assets/professions/[5] - Mesmer.png" alt="Mesmer" title="Mesmer">
+      <img src="assets/professions/[6] - Elementalist.png" alt="Elementalist" title="Elementalist">
+      <img src="assets/professions/[7] - Assassin.png" alt="Assassin" title="Assassin">
+      <img src="assets/professions/[8] - Ritualist.png" alt="Ritualist" title="Ritualist">
+      <img src="assets/professions/[9] - Paragon.png" alt="Paragon" title="Paragon">
+      <img src="assets/professions/[10] - Dervish.png" alt="Dervish" title="Dervish">
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Powerful <span class="gold">Features</span></h2>
+        <p>Everything you need to analyze Guild Wars GvG matches down to the finest detail.</p>
+      </div>
+      <div class="grid grid-3">
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>
+          <h3>Full 3D Map Replay</h3>
+          <p>Replay GvG matches on fully rendered DirectX 11 maps with terrain, props, water, and sky. Navigate freely with orbit, pan, and zoom camera controls.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><rect x="13" y="5" width="7" height="5" rx="1" stroke-dasharray="2 1"/></svg></div>
+          <h3>Picture-in-Picture Camera</h3>
+          <p>Secondary viewport with independent camera controls. Watch one area of the map while keeping an eye on another — perfect for split analysis.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg></div>
+          <h3>Auto Camera</h3>
+          <p>Intelligent camera that follows the action. Configurable triggers: death events, low HP detection, lord targeting, flag carriers, resurrections, and isolated players.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div>
+          <h3>Range Rings &amp; Spirit Ranges</h3>
+          <p>Team-colored range rings around agents visualizing skill ranges. Toggle individual ring types, spirit ranges for monks and ritualists. Dashed, solid, or filled styles.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          <h3>Skill Lasers</h3>
+          <p>Line-of-sight laser beams visualize targeted skills in real-time. See exactly who is casting what on whom during intense team fights, with fade-out animations.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><path d="M12 9v6M9 12h6" stroke-width="2"/></svg></div>
+          <h3>Fog of War</h3>
+          <p>Switch perspective — view from Blue team, Red team, ghost mode, or a single player's vision. Understand positioning and vision from any side of the battle.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Analytics -->
+  <section id="analytics" class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Deep <span class="gold">Analytics</span></h2>
+        <p>Go beyond replay with analytical tools that reveal the strategy behind every match.</p>
+      </div>
+      <div class="grid grid-3">
+
+        <div class="card card-glass">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 6-10"/></svg></div>
+          <h3>Flag Analytics &amp; Timeline</h3>
+          <p>Track every flag event — spawns, pickups, drops, and captures — on a visual timeline. Analyze flag stand control, split pressure, and morale expiry timing.</p>
+        </div>
+
+        <div class="card card-glass">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19V6l12-3v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="15" r="3"/></svg></div>
+          <h3>Piano Roll / Skill Timeline</h3>
+          <p>Skill usage timeline per agent, laid out like a music score. Zoomable from 5s to 60s windows. See exact cast sequences, timing gaps, and coordination across the team.</p>
+        </div>
+
+        <div class="card card-glass">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <h3>Heatmaps</h3>
+          <p>Position density visualization with multiple palettes — Thermal, Inferno, Viridis, team-specific, and dominance mode. Per-team or per-player tracking with adjustable opacity.</p>
+        </div>
+
+        <div class="card card-glass">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/></svg></div>
+          <h3>Combat Log</h3>
+          <p>Filterable log covering damage, heals, skills, interrupts, cancels, deaths, blocks, and basic attacks. Skill name autocomplete, player filter, and time sync on row click.</p>
+        </div>
+
+        <div class="card card-glass">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+          <h3>Morale &amp; Lord Damage</h3>
+          <p>Track morale boosts with per-team timers (120s duration). Lord damage panel shows attacker breakdown, damage percentage, per-hit timeline, and phase counting.</p>
+        </div>
+
+        <div class="card card-glass">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h3>Party Windows &amp; Build Detection</h3>
+          <p>Full team composition with profession icons, health bars, and conditions. Automatic build detection from profession counts and key skill matching via JSON definitions.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Replay Controls -->
+  <section id="replay" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Replay <span class="gold">Controls</span></h2>
+        <p>Precise control over match playback with intuitive tools and configurable hotkeys.</p>
+      </div>
+
+      <div class="hotkey-row">
+        <div class="hotkey-item">
+          <kbd>Space</kbd>
+          <div><strong>Play / Pause</strong><span>Instant toggle</span></div>
+        </div>
+        <div class="hotkey-item">
+          <kbd>&larr; &rarr;</kbd>
+          <div><strong>Seek &plusmn;5s</strong><span>Step through the match</span></div>
+        </div>
+        <div class="hotkey-item">
+          <kbd>0.25x &mdash; 8x</kbd>
+          <div><strong>Speed Control</strong><span>Slow-mo to fast-forward</span></div>
+        </div>
+      </div>
+
+      <div class="grid grid-3 mt">
+        <div class="card card-sm">
+          <h4>Event Timeline <kbd class="inline">T</kbd></h4>
+          <p>Chronological event strip — kills, flag events, morale shifts, resurrections, and lord attacks displayed alongside the playback timeline.</p>
+        </div>
+        <div class="card card-sm">
+          <h4>Bookmarks</h4>
+          <p>Mark key moments with custom titles for quick access. Jump between bookmarked events instantly during review.</p>
+        </div>
+        <div class="card card-sm">
+          <h4>Drawing Tools</h4>
+          <p>Annotate the map with arrows, circles, freehand lines, and eraser. Color picker and undo support. Perfect for coaching and VOD review.</p>
+        </div>
+        <div class="card card-sm">
+          <h4>Top View <kbd class="inline">V</kbd></h4>
+          <p>Switch to orthographic top-down camera for tactical overview with smooth transition animation and full overlay visibility.</p>
+        </div>
+        <div class="card card-sm">
+          <h4>Notepad</h4>
+          <p>Take notes during replay review without leaving the application. Keep observations alongside the match.</p>
+        </div>
+        <div class="card card-sm">
+          <h4>Agent Follow</h4>
+          <p>Click any agent to follow them. Smooth camera transition, adjustable follow distance via scroll wheel, full yaw/pitch control while tracking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools & Extras -->
+  <section id="tools" class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Additional <span class="gold">Tools</span></h2>
+        <p>Power features for data exploration and asset management.</p>
+      </div>
+      <div class="grid grid-2">
+
+        <div class="card card-wide">
+          <h4>Cloud Replay Browser</h4>
+          <p>Browse, search, and filter match replays from cloud storage. Stream directly or cache locally for offline use. Background sync keeps your library current. Star ratings and match notes for organization.</p>
+        </div>
+        <div class="card card-wide">
+          <h4>DAT Browser</h4>
+          <p>Explore the Guild Wars .dat archive — textures, models, audio, and binary data. Filter by type, ID, hash, or name. Export assets as PNG, DDS, OBJ, MP3, JSON, and TIFF.</p>
+        </div>
+        <div class="card card-wide">
+          <h4>3D Model Viewer</h4>
+          <p>Interactive model preview with orbital camera, animation playback, wireframe mode, bone visualization, skinning toggle, and vertex color coding by bone index.</p>
+        </div>
+        <div class="card card-wide">
+          <h4>Spatial Audio</h4>
+          <p>3D positional audio powered by BASS. Hear skill sounds from the direction they occur on the map. Per-agent skill cast and impact audio with cursor tracking.</p>
+        </div>
+
+      </div>
+
+      <div class="grid grid-4 mt">
+        <div class="mini-card">
+          <h5>Catapult &amp; Bundle Tracking</h5>
+          <p>Catapult lever states, repair kit and vine seed carry events on a dedicated timeline.</p>
+        </div>
+        <div class="mini-card">
+          <h5>Rendering Options</h5>
+          <p>MSAA 1x-16x, LOD quality, water level, sky controls, fog, shadows, lighting, and FPS limiting.</p>
+        </div>
+        <div class="mini-card">
+          <h5>Setup Wizard</h5>
+          <p>Guided first-run setup for DAT path, match folder, cloud mode, and font preferences.</p>
+        </div>
+        <div class="mini-card">
+          <h5>Custom Hotkeys</h5>
+          <p>Remap all overlay and camera controls. WASD movement with invertible mouse axes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Gallery -->
+  <section class="section maps-section">
+    <div class="container">
+      <div class="section-head">
+        <h2>GvG <span class="gold">Maps</span></h2>
+        <p>All Guild Wars guild hall maps rendered in full 3D.</p>
+      </div>
+      <div class="maps-grid">
+        <div class="map-thumb"><img src="assets/maps/Warrior's Isle.webp" alt="Warrior's Isle" loading="lazy"><span>Warrior's Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Frozen Isle.webp" alt="Frozen Isle" loading="lazy"><span>Frozen Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Druid's Isle.webp" alt="Druid's Isle" loading="lazy"><span>Druid's Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Isle of Jade.jpg" alt="Isle of Jade" loading="lazy"><span>Isle of Jade</span></div>
+        <div class="map-thumb"><img src="assets/maps/Wizard's Isle.webp" alt="Wizard's Isle" loading="lazy"><span>Wizard's Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Isle of the Dead.jpg" alt="Isle of the Dead" loading="lazy"><span>Isle of the Dead</span></div>
+        <div class="map-thumb"><img src="assets/maps/Burning Isle.jpg" alt="Burning Isle" loading="lazy"><span>Burning Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Isle of Weeping Stone.webp" alt="Isle of Weeping Stone" loading="lazy"><span>Isle of Weeping Stone</span></div>
+        <div class="map-thumb"><img src="assets/maps/Corrupted Isle.jpg" alt="Corrupted Isle" loading="lazy"><span>Corrupted Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Nomad's Isle.jpg" alt="Nomad's Isle" loading="lazy"><span>Nomad's Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Imperial Isle.jpg" alt="Imperial Isle" loading="lazy"><span>Imperial Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Isle of Meditation.jpg" alt="Isle of Meditation" loading="lazy"><span>Isle of Meditation</span></div>
+        <div class="map-thumb"><img src="assets/maps/Uncharted Isle.jpg" alt="Uncharted Isle" loading="lazy"><span>Uncharted Isle</span></div>
+        <div class="map-thumb"><img src="assets/maps/Isle of Solitude.jpg" alt="Isle of Solitude" loading="lazy"><span>Isle of Solitude</span></div>
+        <div class="map-thumb"><img src="assets/maps/Isle of Wurms.webp" alt="Isle of Wurms" loading="lazy"><span>Isle of Wurms</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download CTA -->
+  <section id="download" class="section cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Ready to Analyze?</h2>
+        <p>Download GW Observer and start reviewing GvG matches with full 3D replay, tactical overlays, and advanced analytics.</p>
+        <a href="https://github.com/MC92-hash/GuildWarsObserver/releases" class="btn btn-primary btn-lg" target="_blank" rel="noopener">Download for Windows</a>
+        <div class="cta-meta">
+          <span>Windows 10 / 11</span>
+          <span class="dot">&bull;</span>
+          <span>DirectX 11</span>
+          <span class="dot">&bull;</span>
+          <span>Free</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/icon2.ico" alt="" class="footer-icon">
+        <span>GW Observer</span>
+      </div>
+      <small>&copy; 2025 GW Observer.</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
