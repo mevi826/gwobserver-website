@@ -69,6 +69,48 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
+  // ---- GIF Preview Modal ----
+  const modal = document.getElementById('gifModal');
+  const modalImg = modal.querySelector('.modal-gif');
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalLoading = modal.querySelector('.modal-loading');
+  const modalClose = modal.querySelector('.modal-close');
+
+  document.querySelectorAll('.card.has-preview').forEach(card => {
+    card.addEventListener('click', () => {
+      const gifUrl = card.dataset.gif;
+      const title = card.querySelector('h3').textContent;
+
+      modalTitle.textContent = title;
+      modalImg.classList.remove('loaded');
+      modalImg.src = '';
+      modalLoading.style.display = 'block';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Load the GIF
+      modalImg.onload = () => {
+        modalLoading.style.display = 'none';
+        modalImg.classList.add('loaded');
+      };
+      modalImg.src = gifUrl;
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    modalImg.src = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
   // Add fade-in CSS dynamically
   const style = document.createElement('style');
   style.textContent = `
