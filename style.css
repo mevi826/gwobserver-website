@@ -122,9 +122,10 @@ a:hover { color: var(--gold-bright); }
   position: absolute; inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(19, 24, 30, 0.55) 0%,
-    rgba(19, 24, 30, 0.80) 50%,
-    rgba(19, 24, 30, 0.97) 100%
+    rgba(19, 24, 30, 0.45) 0%,
+    rgba(19, 24, 30, 0.70) 40%,
+    rgba(19, 24, 30, 0.92) 75%,
+    rgba(19, 24, 30, 0.98) 100%
   );
 }
 .hero-content {
@@ -147,6 +148,34 @@ a:hover { color: var(--gold-bright); }
   margin: 0 auto 36px; line-height: 1.7;
 }
 .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* Hero Showcase */
+.hero-showcase {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  margin-top: 48px; max-width: 880px; margin-left: auto; margin-right: auto;
+}
+.showcase-card {
+  position: relative; border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--gold-dim);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 160, 32, 0.1);
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.showcase-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 160, 32, 0.15);
+}
+.showcase-card img {
+  width: 100%; display: block;
+}
+.showcase-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 10px 16px; font-size: 13px; font-weight: 600;
+  color: var(--gold);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+  letter-spacing: 0.03em;
+}
 
 /* Buttons */
 .btn {
@@ -470,6 +499,7 @@ a.map-thumb { text-decoration: none; color: var(--text); }
 
   .hero { min-height: auto; padding: 120px 24px 60px; }
   .hero h1 { font-size: 36px; }
+  .hero-showcase { grid-template-columns: 1fr; max-width: 480px; }
   .hero-stats { gap: 16px; }
   .stat-num { font-size: 22px; }
 
