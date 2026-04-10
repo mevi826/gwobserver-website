@@ -76,10 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalLoading = modal.querySelector('.modal-loading');
   const modalClose = modal.querySelector('.modal-close');
 
-  document.querySelectorAll('.card.has-preview').forEach(card => {
+  document.querySelectorAll('.has-preview').forEach(card => {
     card.addEventListener('click', () => {
       const gifUrl = card.dataset.gif;
-      const title = card.querySelector('h3').textContent;
+      const titleEl = card.querySelector('h3') || card.querySelector('.showcase-label');
+      const title = titleEl ? titleEl.textContent : '';
 
       modalTitle.textContent = title;
       modalImg.classList.remove('loaded');

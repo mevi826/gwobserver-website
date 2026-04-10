@@ -159,6 +159,7 @@ a:hover { color: var(--gold-bright); }
 .showcase-card {
   position: relative; border-radius: var(--radius-lg);
   overflow: hidden; flex: 1 1 0; min-width: 0;
+  cursor: pointer;
   border: 1px solid var(--gold-dim);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 160, 32, 0.1);
   transition: transform .3s, border-color .3s, box-shadow .3s;
@@ -178,6 +179,15 @@ a:hover { color: var(--gold-bright); }
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
   letter-spacing: 0.03em;
 }
+.showcase-zoom {
+  position: absolute; top: 12px; right: 12px;
+  padding: 4px 10px; font-size: 11px; font-weight: 500;
+  color: var(--gold); background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--gold-dim); border-radius: 4px;
+  opacity: 0; transition: opacity .25s;
+  pointer-events: none;
+}
+.showcase-card:hover .showcase-zoom { opacity: 1; }
 
 /* Buttons */
 .btn {
