@@ -85,7 +85,10 @@ a:hover { color: var(--gold-bright); }
 .nav-logo:hover { color: var(--gold); }
 .nav-icon { width: 28px; height: 28px; }
 .nav-links {
-  display: flex; list-style: none; gap: 32px; align-items: center;
+  display: flex; list-style: none; gap: 32px; align-items: center; height: 100%;
+}
+.nav-links li {
+  display: flex; align-items: center;
 }
 .nav-links a {
   color: var(--text-dim); font-size: 14px; font-weight: 500;
@@ -98,6 +101,13 @@ a:hover { color: var(--gold-bright); }
   transition: background .2s !important;
 }
 .nav-cta:hover { background: var(--gold-bright) !important; }
+.nav-discord {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--text-dim) !important;
+  transition: color .2s !important;
+}
+.nav-discord svg { width: 16px; height: 16px; fill: currentColor; }
+.nav-discord:hover { color: #5865F2 !important; }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
 .nav-toggle span {
   display: block; width: 22px; height: 2px; background: var(--text);
