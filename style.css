@@ -113,7 +113,7 @@ a:hover { color: var(--gold-bright); }
   color: var(--text-dim) !important;
   transition: color .2s !important;
 }
-.nav-kofi svg { width: 16px; height: 16px; fill: currentColor; }
+.nav-kofi svg { width: 16px; height: 16px; flex-shrink: 0; vertical-align: middle; fill: currentColor; }
 .nav-kofi:hover { color: #FF5E5B !important; }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
 .nav-toggle span {
