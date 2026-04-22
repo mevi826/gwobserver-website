@@ -108,6 +108,13 @@ a:hover { color: var(--gold-bright); }
 }
 .nav-discord svg { width: 16px; height: 16px; fill: currentColor; }
 .nav-discord:hover { color: #5865F2 !important; }
+.nav-kofi {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--text-dim) !important;
+  transition: color .2s !important;
+}
+.nav-kofi svg { width: 16px; height: 16px; fill: currentColor; }
+.nav-kofi:hover { color: #FF5E5B !important; }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
 .nav-toggle span {
   display: block; width: 22px; height: 2px; background: var(--text);
@@ -447,6 +454,18 @@ kbd.inline {
 .footer-icon { width: 22px; height: 22px; }
 .footer-credits {
   font-size: 14px; color: var(--text-dim);
+}
+.footer-right {
+  display: flex; align-items: center; gap: 12px;
+}
+.footer-kofi {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--gold); text-decoration: none;
+  padding: 4px 10px; border: 1px solid var(--gold-dim); border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.footer-kofi:hover {
+  background: var(--gold); color: var(--bg);
 }
 .footer-right small {
   font-size: 12px; color: var(--text-dim);
