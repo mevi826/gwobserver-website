@@ -128,7 +128,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return res.json();
       })
       .then(function(releases) {
-        if (!releases || !releases.length) {
+        // Filter out pre-release versions before v1.1.0
+        releases = (releases || []).filter(function(r) {
+          var v = r.tag_name.replace(/^v/, '').split('.').map(Number);
+          return v[0] > 1 || (v[0] === 1 && v[1] >= 1);
+        });
+        if (!releases.length) {
           changelogContainer.innerHTML = '<p class="changelog-empty">No releases found.</p>';
           return;
         }
