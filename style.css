@@ -413,22 +413,22 @@ kbd.inline {
 /* ---- Changelog ---- */
 .changelog-list {
   max-width: 800px; margin: 0 auto;
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: 24px;
 }
 .changelog-loading, .changelog-empty {
   text-align: center; color: var(--text-dim); font-size: 14px; padding: 40px 0;
 }
 .changelog-empty a { color: var(--gold); }
 .changelog-entry {
-  background: var(--bg-card);
+  background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 32px;
   transition: border-color .25s;
 }
 .changelog-entry:hover { border-color: var(--gold-dim); }
 .changelog-header {
-  display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
 }
 .changelog-version {
   display: inline-block;
@@ -441,7 +441,7 @@ kbd.inline {
   font-size: 13px; color: var(--text-dim);
 }
 .changelog-title {
-  font-size: 17px; font-weight: 600; margin-bottom: 12px; color: var(--text);
+  font-size: 18px; font-weight: 600; margin-bottom: 14px; color: var(--text);
 }
 .changelog-body {
   color: var(--text-dim); font-size: 14px; line-height: 1.7;
@@ -495,7 +495,19 @@ kbd.inline {
 .changelog-body a { color: var(--gold); }
 .changelog-body a:hover { color: var(--gold-bright); }
 .changelog-footer {
-  text-align: center; margin-top: 36px;
+  text-align: center; margin-top: 40px;
+}
+.changelog-body table {
+  width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px;
+}
+.changelog-body th, .changelog-body td {
+  border: 1px solid var(--border); padding: 6px 10px; text-align: left;
+}
+.changelog-body th {
+  background: var(--bg-card); color: var(--text); font-weight: 600;
+}
+.changelog-body hr {
+  border: none; border-top: 1px solid var(--border); margin: 16px 0;
 }
 
 /* ---- CTA Section ---- */
