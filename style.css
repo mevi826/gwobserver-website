@@ -445,7 +445,28 @@ kbd.inline {
 }
 .changelog-body {
   color: var(--text-dim); font-size: 14px; line-height: 1.7;
+  max-height: 200px; overflow: hidden;
+  position: relative;
 }
+.changelog-body.expanded { max-height: none; }
+.changelog-body:not(.expanded)::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, var(--bg-card));
+  pointer-events: none;
+}
+.changelog-body img {
+  max-width: 100%; max-height: 200px;
+  border-radius: var(--radius); margin: 8px 0;
+}
+.changelog-toggle {
+  display: inline-block; margin-top: 10px;
+  background: none; border: none; cursor: pointer;
+  color: var(--gold); font-size: 13px; font-weight: 500;
+  padding: 0; transition: color .2s;
+}
+.changelog-toggle:hover { color: var(--gold-bright); }
 .changelog-body h1, .changelog-body h2, .changelog-body h3 {
   color: var(--text); font-size: 15px; font-weight: 600;
   margin: 16px 0 8px;

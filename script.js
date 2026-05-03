@@ -142,12 +142,22 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <h3 class="changelog-title">${release.name || release.tag_name}</h3>
               <div class="changelog-body">${body}</div>
+              <button class="changelog-toggle">Show more</button>
             </article>
           `;
         }).join('');
 
-        // Animate entries in
+        // Hide toggle for short entries, add click handler
         changelogContainer.querySelectorAll('.changelog-entry').forEach(el => {
+          const body = el.querySelector('.changelog-body');
+          const toggle = el.querySelector('.changelog-toggle');
+          if (body.scrollHeight <= 200) {
+            toggle.style.display = 'none';
+          }
+          toggle.addEventListener('click', () => {
+            const expanded = body.classList.toggle('expanded');
+            toggle.textContent = expanded ? 'Show less' : 'Show more';
+          });
           observer.observe(el);
         });
       })
