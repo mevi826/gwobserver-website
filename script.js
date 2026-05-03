@@ -113,55 +113,62 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---- Changelog from GitHub Releases ----
+  function renderMarkdown(text) {
+    try {
+      if (typeof marked !== 'undefined' && marked.parse) return marked.parse(text);
+    } catch (e) { /* fall through */ }
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
+  }
+
   const changelogContainer = document.getElementById('changelog-entries');
   if (changelogContainer) {
     fetch('https://api.github.com/repos/MC92-hash/GuildWarsObserver/releases?per_page=10')
-      .then(res => {
-        if (!res.ok) throw new Error('GitHub API error');
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
       })
-      .then(releases => {
-        if (!releases.length) {
+      .then(function(releases) {
+        if (!releases || !releases.length) {
           changelogContainer.innerHTML = '<p class="changelog-empty">No releases found.</p>';
           return;
         }
 
-        changelogContainer.innerHTML = releases.map(release => {
-          const date = new Date(release.published_at).toLocaleDateString('en-US', {
+        var html = '';
+        for (var i = 0; i < releases.length; i++) {
+          var release = releases[i];
+          var date = new Date(release.published_at).toLocaleDateString('en-US', {
             year: 'numeric', month: 'long', day: 'numeric'
           });
-          const body = release.body
-            ? (typeof marked !== 'undefined' ? marked.parse(release.body) : release.body.replace(/\n/g, '<br>'))
-            : '<p>No release notes.</p>';
+          var body = release.body ? renderMarkdown(release.body) : '<p>No release notes.</p>';
+          var title = release.name || release.tag_name;
 
-          return `
-            <article class="changelog-entry fade-in">
-              <div class="changelog-header">
-                <span class="changelog-version">${release.tag_name}</span>
-                <span class="changelog-date">${date}</span>
-              </div>
-              <h3 class="changelog-title">${release.name || release.tag_name}</h3>
-              <div class="changelog-body">${body}</div>
-              <button class="changelog-toggle">Show more</button>
-            </article>
-          `;
-        }).join('');
+          html += '<article class="changelog-entry fade-in">'
+            + '<div class="changelog-header">'
+            + '<span class="changelog-version">' + release.tag_name + '</span>'
+            + '<span class="changelog-date">' + date + '</span>'
+            + '</div>'
+            + '<h3 class="changelog-title">' + title + '</h3>'
+            + '<div class="changelog-body">' + body + '</div>'
+            + '<button class="changelog-toggle">Show more</button>'
+            + '</article>';
+        }
+        changelogContainer.innerHTML = html;
 
         // Hide toggle for short entries, add click handler
-        changelogContainer.querySelectorAll('.changelog-entry').forEach(el => {
-          const body = el.querySelector('.changelog-body');
-          const toggle = el.querySelector('.changelog-toggle');
+        changelogContainer.querySelectorAll('.changelog-entry').forEach(function(el) {
+          var body = el.querySelector('.changelog-body');
+          var toggle = el.querySelector('.changelog-toggle');
           if (body.scrollHeight <= 200) {
             toggle.style.display = 'none';
           }
-          toggle.addEventListener('click', () => {
-            const expanded = body.classList.toggle('expanded');
+          toggle.addEventListener('click', function() {
+            var expanded = body.classList.toggle('expanded');
             toggle.textContent = expanded ? 'Show less' : 'Show more';
           });
           observer.observe(el);
         });
       })
-      .catch(() => {
+      .catch(function(err) {
         changelogContainer.innerHTML = '<p class="changelog-empty">Could not load changelog. <a href="https://github.com/MC92-hash/GuildWarsObserver/releases" target="_blank">View on GitHub</a></p>';
       });
   }
