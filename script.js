@@ -112,6 +112,50 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
+  // ---- Changelog from GitHub Releases ----
+  const changelogContainer = document.getElementById('changelog-entries');
+  if (changelogContainer) {
+    fetch('https://api.github.com/repos/MC92-hash/GuildWarsObserver/releases?per_page=10')
+      .then(res => {
+        if (!res.ok) throw new Error('GitHub API error');
+        return res.json();
+      })
+      .then(releases => {
+        if (!releases.length) {
+          changelogContainer.innerHTML = '<p class="changelog-empty">No releases found.</p>';
+          return;
+        }
+
+        changelogContainer.innerHTML = releases.map(release => {
+          const date = new Date(release.published_at).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+          });
+          const body = release.body
+            ? (typeof marked !== 'undefined' ? marked.parse(release.body) : release.body.replace(/\n/g, '<br>'))
+            : '<p>No release notes.</p>';
+
+          return `
+            <article class="changelog-entry fade-in">
+              <div class="changelog-header">
+                <span class="changelog-version">${release.tag_name}</span>
+                <span class="changelog-date">${date}</span>
+              </div>
+              <h3 class="changelog-title">${release.name || release.tag_name}</h3>
+              <div class="changelog-body">${body}</div>
+            </article>
+          `;
+        }).join('');
+
+        // Animate entries in
+        changelogContainer.querySelectorAll('.changelog-entry').forEach(el => {
+          observer.observe(el);
+        });
+      })
+      .catch(() => {
+        changelogContainer.innerHTML = '<p class="changelog-empty">Could not load changelog. <a href="https://github.com/MC92-hash/GuildWarsObserver/releases" target="_blank">View on GitHub</a></p>';
+      });
+  }
+
   // Add fade-in CSS dynamically
   const style = document.createElement('style');
   style.textContent = `
