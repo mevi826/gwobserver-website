@@ -64,6 +64,19 @@
     </div>
     <div class="hero-content">
       <div class="hero-badge">Version 2.0.0 &mdash; Out Now</div>
+      <div class="hero-media">
+        <!-- Facade only: script.js swaps in the player on click, so YouTube
+             loads for people who watch and nobody else. With JavaScript off
+             this stays a plain link to the video. -->
+        <a class="video-facade" data-trailer
+           href="https://www.youtube.com/watch?v=KztEBKYX5ho"
+           target="_blank" rel="noopener"
+           aria-label="Play the Guild Wars Observer official trailer">
+          <img src="https://i.ytimg.com/vi/KztEBKYX5ho/maxresdefault.jpg"
+               width="1280" height="720" alt="">
+          <span class="video-play"></span>
+        </a>
+      </div>
       <h1>Replay Every <span class="gold">Battle</span></h1>
       <p class="hero-sub">Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Real health values, complete builds, and accurate skill behaviour on every recording.</p>
       <div class="hero-actions">
@@ -95,7 +108,7 @@
       <p class="release-band-sub">The replay window is faster, clearer and far more informative, and the match library gained the filters you have been asking for.</p>
 
       <div class="release-media" id="release-media">
-        <!-- script.js swaps this for the trailer once YOUTUBE_ID is set -->
+        <!-- The trailer sits in the hero; this band keeps the 2.0.0 still -->
         <img src="assets/releases/2.0.0/replay-window.webp" width="1600" height="856" alt="The GW Observer replay window in 2.0.0, with the ribbon toolbar pinned, absolute health on the party bars and weapons drawn on the models">
       </div>
 

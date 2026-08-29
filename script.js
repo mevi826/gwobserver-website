@@ -2,53 +2,42 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ============================================================
-  //  v2.0.0 TRAILER SWITCH
-  //  Paste the YouTube video ID below to turn the trailer on —
-  //  it is the part after "?v=" in the watch URL. For example
-  //  https://www.youtube.com/watch?v=dQw4w9WgXcQ  ->  'dQw4w9WgXcQ'
-  //  While this is empty the release band keeps showing the
-  //  2.0.0 screenshot instead. Nothing else needs changing.
+  //  v2.0.0 TRAILER
+  //  The trailer sits in the hero, above the headline. Its facade
+  //  (thumbnail plus play button) is written into index.html, so
+  //  with JavaScript off it stays a plain link to YouTube. The
+  //  handler below upgrades it to an inline player on click, which
+  //  is the only point YouTube's script and cookies load.
+  //  The release band keeps the 2.0.0 screenshot on purpose: the
+  //  same trailer twice on one page helps nobody.
   // ============================================================
-  const YOUTUBE_ID = '';
+  const TRAILER_ID = 'KztEBKYX5ho';
 
-  // ---- Release band trailer ----
-  // With an ID set, swap the screenshot for a lightweight facade: the YouTube
-  // thumbnail plus a play button. The real iframe is only injected on click, so
-  // YouTube's player script and cookies never load for people who don't watch.
-  const releaseMedia = document.getElementById('release-media');
-  if (releaseMedia && YOUTUBE_ID) {
-    releaseMedia.classList.add('has-video');   // switches the box to a 16:9 frame
-    const thumb = new Image();
-    thumb.alt = '';
-    thumb.src = 'https://i.ytimg.com/vi/' + YOUTUBE_ID + '/maxresdefault.jpg';
+  document.querySelectorAll('[data-trailer]').forEach(function (facade) {
     // maxresdefault is missing on some uploads; hqdefault always exists
-    thumb.onerror = () => {
-      thumb.onerror = null;
-      thumb.src = 'https://i.ytimg.com/vi/' + YOUTUBE_ID + '/hqdefault.jpg';
-    };
+    const thumb = facade.querySelector('img');
+    if (thumb) {
+      thumb.addEventListener('error', function () {
+        thumb.src = 'https://i.ytimg.com/vi/' + TRAILER_ID + '/hqdefault.jpg';
+      }, { once: true });
+    }
 
-    const play = document.createElement('span');
-    play.className = 'video-play';
-
-    const facade = document.createElement('button');
-    facade.type = 'button';
-    facade.className = 'video-facade';
-    facade.setAttribute('aria-label', 'Play the GW Observer 2.0.0 trailer');
-    facade.append(thumb, play);
-
-    facade.addEventListener('click', () => {
+    facade.addEventListener('click', function (e) {
+      e.preventDefault();
       const frame = document.createElement('iframe');
-      frame.src = 'https://www.youtube-nocookie.com/embed/' + YOUTUBE_ID + '?autoplay=1&rel=0';
-      frame.title = 'GW Observer 2.0.0 trailer';
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + TRAILER_ID + '?autoplay=1&rel=0';
+      frame.title = 'Guild Wars Observer official trailer';
       frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       frame.allowFullscreen = true;
-      releaseMedia.replaceChildren(frame);
+      facade.parentNode.replaceChildren(frame);
     });
+  });
 
-    releaseMedia.replaceChildren(facade);
-  } else if (releaseMedia) {
-    // No trailer yet — let the 2.0.0 still open full size in the lightbox
-    // instead. (Never combined with the facade: a click must not zoom AND play.)
+  // ---- Release band still ----
+  // The 2.0.0 screenshot opens full size in the lightbox. (Never a facade as
+  // well: a click must not zoom AND play.)
+  const releaseMedia = document.getElementById('release-media');
+  if (releaseMedia) {
     releaseMedia.classList.add('has-preview');
     releaseMedia.dataset.gif = 'assets/releases/2.0.0/replay-window.webp';
     releaseMedia.dataset.title = 'The replay window in 2.0.0';

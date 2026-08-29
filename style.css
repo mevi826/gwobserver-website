@@ -158,6 +158,31 @@ a:hover { color: var(--gold-bright); }
   color: var(--gold); font-size: 13px; font-weight: 500;
   letter-spacing: 0.04em; margin-bottom: 24px;
 }
+/* Hero trailer. Capped under the 720px column, and capped again against the
+   viewport so the headline and the download button still clear the fold on a
+   short laptop screen: at 16/9 a 70vh-wide box is only 39vh tall.
+   The facade inside it reuses .video-facade / .video-play further down. */
+.hero-media {
+  position: relative;
+  width: 100%;
+  max-width: min(600px, 70vh);
+  margin: 0 auto 26px;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+}
+.hero-media img,
+.hero-media iframe {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; border: 0;
+}
+/* The trailer adds ~340px to the stack, so pull the lower furniture in. */
+.hero-media ~ .hero-stats { margin-top: 32px; }
+.hero-media ~ .hero-dots { margin-top: 22px; }
+
 .hero h1 {
   font-size: clamp(40px, 7vw, 72px); font-weight: 700;
   line-height: 1.1; margin-bottom: 20px;
@@ -253,10 +278,9 @@ a:hover { color: var(--gold-bright); }
   margin-top: 32px;
 }
 
-/* Holds the 2.0.0 still now, the trailer once YOUTUBE_ID is set. The still
-   keeps its own shape (it is 1.87:1, so a forced 16:9 box would crop the app's
-   title bar and timeline); only the trailer gets a true 16:9 frame, where the
-   facade and the iframe are the same size and swap with no layout shift. */
+/* Holds the 2.0.0 still. It keeps its own shape (it is 1.87:1, so a forced
+   16:9 box would crop the app's title bar and timeline). The trailer lives in
+   the hero instead - see .hero-media. */
 .release-media {
   position: relative;
   background: var(--bg-panel);
@@ -277,14 +301,8 @@ a:hover { color: var(--gold-bright); }
 .release-media > img {
   display: block; width: 100%; height: auto;
 }
-.release-media.has-video { aspect-ratio: 16 / 9; }
-.release-media.has-video img,
-.release-media.has-video iframe {
-  display: block; width: 100%; height: 100%;
-  object-fit: cover; border: 0;
-}
-
-/* Lite YouTube facade — thumbnail + play button, real iframe only on click */
+/* Lite YouTube facade - thumbnail + play button, real iframe only on click.
+   Used by the hero trailer (.hero-media). */
 .video-facade {
   display: block; position: relative;
   width: 100%; height: 100%;
