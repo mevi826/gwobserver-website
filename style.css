@@ -253,19 +253,33 @@ a:hover { color: var(--gold-bright); }
   margin-top: 32px;
 }
 
-/* 16:9 frame — holds the screenshot now, the trailer once YOUTUBE_ID is set.
-   Fixed ratio so swapping one for the other causes no layout shift. */
+/* Holds the 2.0.0 still now, the trailer once YOUTUBE_ID is set. The still
+   keeps its own shape (it is 1.87:1, so a forced 16:9 box would crop the app's
+   title bar and timeline); only the trailer gets a true 16:9 frame, where the
+   facade and the iframe are the same size and swap with no layout shift. */
 .release-media {
   position: relative;
-  max-width: 920px; margin: 0 auto;
-  aspect-ratio: 16 / 9;
   background: var(--bg-panel);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
-.release-media img,
-.release-media iframe {
+/* A 1600px-wide app screenshot is only legible with real width behind it. The
+   band media and the stacked feature shots share this breakout: fill the
+   container, and where the viewport allows, spill past it up to 1400px — never
+   narrower than the container, never closer than ~32px to the screen edges. */
+.release-media,
+.release-feature.stack .release-feature-media {
+  --breakout: min(1400px, max(100%, 100vw - 64px));
+  width: var(--breakout);
+  margin-left: calc((100% - var(--breakout)) / 2);
+}
+.release-media > img {
+  display: block; width: 100%; height: auto;
+}
+.release-media.has-video { aspect-ratio: 16 / 9; }
+.release-media.has-video img,
+.release-media.has-video iframe {
   display: block; width: 100%; height: 100%;
   object-fit: cover; border: 0;
 }
@@ -318,8 +332,10 @@ a:hover { color: var(--gold-bright); }
   margin-bottom: 56px;
 }
 .release-feature.reverse .release-feature-text { order: 2; }
-/* the ribbon toolbar shot is 10:1 — it needs the full width, not a column */
+/* dense 1600px-wide shots are unreadable in a half-width column — these rows
+   stack instead: text above at a readable measure, shot below at breakout width */
 .release-feature.stack { grid-template-columns: 1fr; gap: 22px; }
+.release-feature.stack .release-feature-text { max-width: 720px; }
 /* the minimap shot is nearly square — rein it in so the row stays balanced */
 .release-feature.narrow .release-feature-media { max-width: 430px; }
 .release-feature-text h3 {
@@ -339,6 +355,27 @@ a:hover { color: var(--gold-bright); }
 .release-feature-media figcaption {
   margin-top: 10px; font-size: 12.5px; color: var(--text-dim); line-height: 1.5;
 }
+
+/* Click-to-enlarge — screenshots with .has-preview open full size in the same
+   lightbox the feature cards use (script.js wires everything with a data-gif) */
+.release-feature-media.has-preview,
+.release-media.has-preview { cursor: zoom-in; }
+.release-feature-media.has-preview { position: relative; }
+.release-feature-media.has-preview:hover img,
+.release-media.has-preview:hover { border-color: var(--gold-dim); }
+.release-feature-media.has-preview::after,
+.release-media.has-preview::after {
+  content: 'Click to enlarge';
+  position: absolute; top: 12px; right: 12px;
+  padding: 4px 12px; border-radius: 100px;
+  background: rgba(14, 19, 26, 0.85);
+  border: 1px solid var(--border-gold);
+  color: var(--gold); font-size: 12px; font-weight: 500;
+  opacity: 0; transition: opacity .2s;
+  pointer-events: none;
+}
+.release-feature-media.has-preview:hover::after,
+.release-media.has-preview:hover::after { opacity: 1; }
 
 /* ---- Sections ---- */
 .section { padding: 96px 0; }
@@ -426,7 +463,8 @@ a:hover { color: var(--gold-bright); }
 }
 .modal-overlay.open { opacity: 1; visibility: visible; }
 .modal-content {
-  position: relative; max-width: 1200px; width: 100%;
+  /* wide enough for the 1600px release shots to show at (or near) 1:1 */
+  position: relative; max-width: 1660px; width: 100%;
   background: var(--bg-panel);
   border: 1px solid var(--gold-dim);
   border-radius: var(--radius-lg);
@@ -447,7 +485,8 @@ a:hover { color: var(--gold-bright); }
   color: var(--text-dim); font-size: 14px; padding: 40px 0;
 }
 .modal-gif {
-  max-width: 100%; border-radius: var(--radius);
+  max-width: 100%; max-height: calc(100vh - 170px);
+  margin: 0 auto; border-radius: var(--radius);
   display: none;
 }
 .modal-gif.loaded { display: block; }
@@ -573,8 +612,14 @@ kbd.inline {
   pointer-events: none;
 }
 .changelog-body img {
-  max-width: 100%; max-height: 200px;
+  /* GitHub's user-attachments markup sets width/height attributes. With both
+     axes specified, max-width and max-height clamp independently and squash the
+     image — height:auto drops the attribute so the ratio is preserved. The
+     height cap only reins in portrait shots; landscape ones get the full column
+     width, and script.js opens any of them full size in the lightbox. */
+  max-width: 100%; height: auto; max-height: 480px;
   border-radius: var(--radius); margin: 8px 0;
+  cursor: zoom-in;
 }
 .changelog-toggle {
   display: inline-block; margin-top: 10px;

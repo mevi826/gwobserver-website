@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // YouTube's player script and cookies never load for people who don't watch.
   const releaseMedia = document.getElementById('release-media');
   if (releaseMedia && YOUTUBE_ID) {
+    releaseMedia.classList.add('has-video');   // switches the box to a 16:9 frame
     const thumb = new Image();
     thumb.alt = '';
     thumb.src = 'https://i.ytimg.com/vi/' + YOUTUBE_ID + '/maxresdefault.jpg';
@@ -45,6 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     releaseMedia.replaceChildren(facade);
+  } else if (releaseMedia) {
+    // No trailer yet — let the 2.0.0 still open full size in the lightbox
+    // instead. (Never combined with the facade: a click must not zoom AND play.)
+    releaseMedia.classList.add('has-preview');
+    releaseMedia.dataset.gif = 'assets/releases/2.0.0/replay-window.webp';
+    releaseMedia.dataset.title = 'The replay window in 2.0.0';
   }
 
   // ---- Mobile nav toggle ----
@@ -122,25 +129,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalLoading = modal.querySelector('.modal-loading');
   const modalClose = modal.querySelector('.modal-close');
 
+  // Shared by the feature cards, the release screenshots and the changelog
+  function openPreview(title, url) {
+    modalTitle.textContent = title;
+    modalImg.classList.remove('loaded');
+    modalImg.src = '';
+    modalLoading.style.display = 'block';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    modalImg.onload = () => {
+      modalLoading.style.display = 'none';
+      modalImg.classList.add('loaded');
+    };
+    modalImg.src = url;
+  }
+
   document.querySelectorAll('.has-preview').forEach(card => {
     card.addEventListener('click', () => {
-      const gifUrl = card.dataset.gif;
       const titleEl = card.querySelector('h3') || card.querySelector('.showcase-label');
-      const title = titleEl ? titleEl.textContent : '';
-
-      modalTitle.textContent = title;
-      modalImg.classList.remove('loaded');
-      modalImg.src = '';
-      modalLoading.style.display = 'block';
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-
-      // Load the GIF
-      modalImg.onload = () => {
-        modalLoading.style.display = 'none';
-        modalImg.classList.add('loaded');
-      };
-      modalImg.src = gifUrl;
+      const title = card.dataset.title || (titleEl ? titleEl.textContent : '');
+      openPreview(title, card.dataset.gif);
     });
   });
 
@@ -226,9 +235,19 @@ document.addEventListener('DOMContentLoaded', () => {
         changelogContainer.querySelectorAll('.changelog-entry').forEach(function(el) {
           var body = el.querySelector('.changelog-body');
           var toggle = el.querySelector('.changelog-toggle');
-          if (body.scrollHeight <= 200) {
-            toggle.style.display = 'none';
+          var titleEl = el.querySelector('.changelog-title');
+          function syncToggle() {
+            toggle.style.display = body.scrollHeight > 200 ? '' : 'none';
           }
+          syncToggle();
+          // Release screenshots open full size in the lightbox. They also finish
+          // loading after the height check above, so re-check when each arrives.
+          body.querySelectorAll('img').forEach(function(img) {
+            img.addEventListener('load', syncToggle);
+            img.addEventListener('click', function() {
+              openPreview(img.alt || (titleEl ? titleEl.textContent : ''), img.src);
+            });
+          });
           toggle.addEventListener('click', function() {
             var expanded = body.classList.toggle('expanded');
             toggle.textContent = expanded ? 'Show less' : 'Show more';

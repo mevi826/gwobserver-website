@@ -35,6 +35,7 @@
     --inferred:#e0b563;
     --maxw:1000px;
     --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
   }
 
   *{box-sizing:border-box}
@@ -105,7 +106,7 @@
   figure{ margin:0 }
 
   .hero{
-    max-width:var(--wide);
+    max-width:var(--shot);
     margin:52px auto 0;
     padding:0 28px;
   }
@@ -213,9 +214,10 @@
 
   .fig{ margin:26px 0 0 }
   .fig.wide{
-    width:100vw;
-    max-width:var(--wide);
-    margin-left:calc(50% - min(50vw, var(--wide) / 2));
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
   }
   .fig.narrow{ max-width:560px }
   .fig-2{
@@ -464,7 +466,7 @@
       </div>
     </div>
 
-    <figure class="fig">
+    <figure class="fig wide">
       <img class="shot" loading="lazy" src="/assets/releases/2.0.0/character-panel.webp" alt="The Character panel showing a player's skill bar, weapon sets, armour and solved attributes">
       <figcaption>Open several panels at once to compare players side by side.</figcaption>
     </figure>
