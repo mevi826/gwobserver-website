@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 2.0.0 &mdash; Release Notes</title>
+<meta name="description" content="GW Observer 2.0.0 release notes - absolute health, the character panel, weapon sets HUD, minimap, sound FX mixer, ribbon toolbar, weapons and avatars on the 3D models, and a much stronger match library.">
+<link rel="icon" href="/assets/icon2.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 2.0.0 &mdash; Release Notes">
+<meta property="og:description" content="GW Observer 2.0.0 release notes - absolute health, the character panel, weapon sets HUD, minimap, sound FX mixer, ribbon toolbar, weapons and avatars on the 3D models, and a much stronger match library.">
+<meta property="og:url" content="https://gwobserver.com/releases/2.0.0/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 2.0.0 &mdash; Release Notes">
+<meta name="twitter:description" content="GW Observer 2.0.0 release notes - absolute health, the character panel, weapon sets HUD, minimap, sound FX mixer, ribbon toolbar, weapons and avatars on the 3D models, and a much stronger match library.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--wide);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    width:100vw;
+    max-width:var(--wide);
+    margin-left:calc(50% - min(50vw, var(--wide) / 2));
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">2.0.0</span></h1>
+  <p class="lede">
+    Our biggest update yet. The replay window is faster, clearer and far more informative, and the
+    match library gained the filters you have been asking for. You will see real health values, full
+    builds, accurate skill behaviour, and a modernised interface that makes exploring matches
+    genuinely enjoyable.
+  </p>
+
+  <div class="baseline">
+    <p>Recordings made from <strong>29 August 2026</strong> onward reliably include every feature listed below.</p>
+    <p>Older recordings still benefit from most of these improvements, but 29/08/2026 is the point where the full 2.0.0 feature set becomes guaranteed.</p>
+  </div>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v2.0.0/GWObserver.zip">Download 2.0.0</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+<div class="hero">
+  <figure>
+    <img class="shot" src="/assets/releases/2.0.0/replay-window.webp" alt="The replay window during a team fight, with the ribbon toolbar pinned, absolute health on the party bars and weapons drawn on the models">
+    <figcaption>The replay window in 2.0.0.</figcaption>
+  </figure>
+</div>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>In this release</h2>
+    <ol>
+      <li><a href="#health">Absolute Health</a></li>
+      <li><a href="#character">Character Panel</a></li>
+      <li><a href="#weaponsets">Weapon Sets HUD</a></li>
+      <li><a href="#minimap">Minimap</a></li>
+      <li><a href="#sound">Sound FX Mixer</a></li>
+      <li><a href="#ribbon">Ribbon Toolbar</a></li>
+      <li><a href="#models">Models &amp; Animation</a></li>
+      <li><a href="#maps">Map Improvements</a></li>
+      <li><a href="#library">Library Improvements</a></li>
+      <li><a href="#ui">UI &amp; Behaviour</a></li>
+      <li><a href="#fixes">Bug Fixes</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ MAJOR FEATURES ============ -->
+
+  <section id="health">
+    <h2>Major features</h2>
+    <div class="rule"></div>
+
+    <h3>Absolute Health</h3>
+    <p>
+      Party bars and player panels now show <strong>real HP</strong>, rebuilt from all visible
+      factors: base health, armour, weapon set, shrine bonuses, morale, Death Penalty and Deep Wound.
+    </p>
+    <p class="note">Older recordings fall back to a safe estimate, marked with a tilde.</p>
+  </section>
+
+  <section id="character" style="padding-top:56px">
+    <h3>Character Panel</h3>
+    <p>
+      A complete view of a player's build in one place. Some of it is read straight out of the
+      recording and is exact. The rest is worked out by the tool from what happened in the match, and
+      the panel is explicit about which is which.
+    </p>
+
+    <div class="trust">
+      <div class="card verified">
+        <h4>Read from the recording</h4>
+        <p class="sub">Exact. This is what the player had.</p>
+        <ul>
+          <li><b>Skill bar</b><span>The eight skills they were running.</span></li>
+          <li><b>Weapon sets</b><span>Main hand, off hand and swapped sets, with their exact skins and modifiers.</span></li>
+          <li><b>Armour pieces</b><span>Skins, dyes and armour names.</span></li>
+        </ul>
+      </div>
+      <div class="card inferred">
+        <h4>Calculated from combat</h4>
+        <p class="sub">Best effort. The recording does not carry these directly.</p>
+        <ul>
+          <li><b>Attributes</b><span>Solved from observed damage, heals, cast times and other evidence. Shown as a single value when certain, or a range when readings disagree. Hover the bar to see which combat events contributed.</span></li>
+          <li><b>Runes and insignias</b><span>The recording never sends rune data, so these are inferred from measured armour health. The panel lists the rune sets most likely to produce the player's observed total.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="fig">
+      <img class="shot" loading="lazy" src="/assets/releases/2.0.0/character-panel.webp" alt="The Character panel showing a player's skill bar, weapon sets, armour and solved attributes">
+      <figcaption>Open several panels at once to compare players side by side.</figcaption>
+    </figure>
+  </section>
+
+  <section id="weaponsets" style="padding-top:56px">
+    <h3>Weapon Sets HUD</h3>
+    <p>
+      The followed player's weapon sets appear on the familiar in-game plates. The active set is
+      highlighted, and hovering a plate shows the full item tooltip.
+    </p>
+    <p>Actual <strong>weapon skins</strong> also appear on the character models in the 3D scene.</p>
+    <figure class="fig wide">
+      <img class="shot" loading="lazy" src="/assets/releases/2.0.0/weapon-sets.webp" alt="Weapon set plates in the bottom right of the replay window, with an item tooltip open">
+      <figcaption>Weapon sets sit bottom right while you follow a player.</figcaption>
+    </figure>
+  </section>
+
+  <section id="minimap" style="padding-top:56px">
+    <h3>Minimap <span class="key">U</span></h3>
+    <p>
+      A top-down map much like the in-game minimap, with helpful additions such as
+      <strong>gate, lever and catapult indicators</strong>.
+    </p>
+    <figure class="fig narrow">
+      <img class="shot" loading="lazy" src="/assets/releases/2.0.0/minimap.webp" alt="The minimap panel showing both teams, flag stand, shrine state and gate indicators">
+      <figcaption>Both teams, objective state and gate status at a glance.</figcaption>
+    </figure>
+  </section>
+
+  <section id="sound" style="padding-top:56px">
+    <h3>Sound FX Mixer</h3>
+    <p>
+      Skill sounds, cast cancels, ambient effects and music now play at the
+      <strong>right time and in the right place</strong> in the 3D world.
+    </p>
+    <p class="note">
+      This is not a perfect reproduction of the original game's audio system, which would be a
+      project of its own, but timing and spatial placement are correct.
+    </p>
+  </section>
+
+  <section id="ribbon" style="padding-top:56px">
+    <h3>Ribbon Toolbar</h3>
+    <p>
+      Every replay tool is grouped into a single toolbar at the top of the match replay window:
+      Panels, Overlays, Combat &amp; Stats, Tools, Camera and Settings. The toolbar is pinnable and
+      collapsible, with hotkeys shown on each button.
+    </p>
+    <figure class="fig wide">
+      <img class="shot" loading="lazy" src="/assets/releases/2.0.0/ribbon-toolbar.webp" alt="The ribbon toolbar expanded, showing all six groups with hotkey labels">
+      <figcaption>All six groups, each button labelled with its hotkey.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ MODELS ============ -->
+
+  <section id="models">
+    <h2>Models &amp; animation</h2>
+    <div class="rule"></div>
+
+    <h3>Weapons in Hand</h3>
+    <p>Players now hold their actual 3D weapon models.</p>
+    <p class="note">
+      The attachment to the hand bone is sometimes slightly off. Fixing it perfectly would need
+      manual adjustment for every skin, so we are keeping it as it is for now.
+    </p>
+
+    <h3>Dervish Avatar Forms</h3>
+    <p>
+      When a Dervish activates an Avatar, their model now <strong>swaps to the correct Avatar
+      model</strong> and cleanly reverts when the form ends.
+    </p>
+
+    <h3>Ritualist Ashes</h3>
+    <p>
+      Item spells now place the correct urn in the caster's hands, instead of leaving phantom items
+      lying on the ground.
+    </p>
+
+    <h3>Ranger Pets</h3>
+    <p>
+      Pets are now detected and rendered with their proper model, name, evolution and health.
+      Killing a pet no longer grants morale.
+    </p>
+    <p class="note">Not every pet is mapped yet, but the most used ones are in (Moa Bird, Roller Beetle, Wolf and others).</p>
+
+    <h3>Summoned Minions</h3>
+    <p>All minion types now render correctly, with their proper names and 3D models.</p>
+
+    <h3>New Agents</h3>
+    <p>Several NPC types that previously appeared as a generic "Agent X" are now correctly detected and displayed.</p>
+
+    <h3>Guild Hall NPC Health</h3>
+    <p>The Guild Lord and the other hall NPCs (Bodyguard, footmen and the rest) now display the correct health.</p>
+  </section>
+
+  <!-- ============ MAPS ============ -->
+
+  <section id="maps">
+    <h2>Map improvements</h2>
+    <div class="rule"></div>
+
+    <h3>Map Asset Animations</h3>
+    <p>
+      Doors, gates, levers, catapults, teleporters and vine bridges now animate from the recording.
+      These have been tested extensively and are reliable.
+    </p>
+
+    <div class="fig-2">
+      <figure>
+        <img class="shot" loading="lazy" src="/assets/releases/2.0.0/catapult.webp" alt="The Warrior's Isle catapult being repaired, loaded and fired">
+        <figcaption>Warrior's Isle catapult: repaired, loaded, fired.</figcaption>
+      </figure>
+      <figure>
+        <img class="shot" loading="lazy" src="/assets/releases/2.0.0/gate.webp" alt="A guild hall gate opening after its lever is pulled">
+        <figcaption>Gates open on their lever, and reverse cleanly mid-swing.</figcaption>
+      </figure>
+    </div>
+
+    <p class="note" style="margin-top:22px">
+      Vine bridge behaviour may still show the occasional bug: there are few recordings on Druid's
+      Isle to test against.
+    </p>
+
+    <h3>Bundle Timeline</h3>
+    <p>
+      Flags, repair kits, vine seeds and Ritualist ashes are now correctly detected, tracked and
+      rendered, which fixes the cases where they were previously mixed up with each other.
+    </p>
+  </section>
+
+  <!-- ============ LIBRARY ============ -->
+
+  <section id="library">
+    <h2>Library improvements</h2>
+    <div class="rule"></div>
+
+    <h3>New Filters</h3>
+    <p>Several new ways to find a match:</p>
+    <ul class="plain">
+      <li>
+        Filter by <strong>skills used</strong> in the match
+        <ul><li>Ctrl-click skills to add more than one to the filter</li></ul>
+      </li>
+      <li>
+        Filter by <strong>guild or player</strong>
+        <ul><li>Clicking a guild name or a player name fills the search box for you</li></ul>
+      </li>
+      <li>
+        Filter by <strong>occasion</strong> (mAT, AT, scrims) and by <strong>matchup</strong>, to find
+        every match between two specific guilds
+      </li>
+    </ul>
+    <figure class="fig wide">
+      <img class="shot" loading="lazy" src="/assets/releases/2.0.0/library-filters.webp" alt="The replay browser with the skill filter and matchup filter both active">
+      <figcaption>Skill and matchup filters narrowing the library.</figcaption>
+    </figure>
+
+    <h3>Scout</h3>
+    <p>
+      A first usable draft of the Scout view. It shows an opponent guild's builds, their win and loss
+      record, and the builds that beat them.
+    </p>
+    <p class="note">Still under active development, but the baseline is here.</p>
+    <figure class="fig wide">
+      <img class="shot" loading="lazy" src="/assets/releases/2.0.0/scout.webp" alt="The Scout panel showing a guild's aggregated builds and the lost-to table">
+      <figcaption>Pick a guild, then drill into the losses behind the record.</figcaption>
+    </figure>
+
+    <h3>Patch-Aware Skill Data</h3>
+    <p>
+      Replays show skill values <strong>as they were on the day the match was played</strong>,
+      matching the balance patch in force at the time.
+    </p>
+
+    <h3>Loading Cursor</h3>
+    <p>
+      Every loading phase now shows a busy indicator, so you can tell whether the app is working or
+      actually frozen.
+    </p>
+  </section>
+
+  <!-- ============ UI ============ -->
+
+  <section id="ui">
+    <h2>UI &amp; behaviour</h2>
+    <div class="rule"></div>
+    <ul class="fixes">
+      <li>Minimum match rating filter added</li>
+      <li>Dark theme retuned with warmer accents</li>
+      <li>Bookmarks are easier to use</li>
+      <li>Party bar reacts correctly to Deep Wound, weapon swaps, morale and Death Penalty</li>
+      <li>Fog of war behaves consistently</li>
+      <li>Camera movement is no longer tied to framerate</li>
+      <li>Jade Isle props that blocked the view are removed</li>
+      <li>Setup wizard handles non-writable folders gracefully</li>
+    </ul>
+  </section>
+
+  <!-- ============ FIXES ============ -->
+
+  <section id="fixes">
+    <h2>Bug fixes</h2>
+    <div class="rule"></div>
+    <p>
+      Hundreds of fixes across rendering, numbers, state handling, layout, skill data and match
+      extraction. The highlights:
+    </p>
+    <ul class="fixes">
+      <li>Spirits, repair kits and world markers no longer appear early or linger after death</li>
+      <li>Fog of war correctly hides objects outside vision</li>
+      <li>Deep Wound and max HP calculations corrected</li>
+      <li>Fractional cast and recharge times now match the game's quarter-second system</li>
+      <li>PvP and PvE skill splits display correctly</li>
+      <li>Flag timeline is no longer confused by vine seeds or repair kits</li>
+      <li>Scout date range now works</li>
+      <li>Non-ASCII recording folders extract correctly</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Built for the Guild Wars GvG community. Happy observing.</p>
+    <p>Back-end support, tool improvements and testing by Maverick.</p>
+    <p class="legal">GW Observer is an unofficial fan-made project not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

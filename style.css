@@ -81,6 +81,7 @@ a:hover { color: var(--gold-bright); }
 .nav-logo {
   display: flex; align-items: center; gap: 10px;
   font-weight: 600; font-size: 18px; color: var(--text);
+  white-space: nowrap;
 }
 .nav-logo:hover { color: var(--gold); }
 .nav-icon { width: 28px; height: 28px; }
@@ -92,6 +93,7 @@ a:hover { color: var(--gold-bright); }
 }
 .nav-links a {
   color: var(--text-dim); font-size: 14px; font-weight: 500;
+  white-space: nowrap;
   transition: color .2s;
 }
 .nav-links a:hover { color: var(--text); }
@@ -223,6 +225,120 @@ a:hover { color: var(--gold-bright); }
   image-rendering: auto;
 }
 .prof-inner img:hover { opacity: 1; transform: scale(1.15); }
+
+/* ---- Release Band ---- */
+.eyebrow {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 14px;
+}
+.release-band {
+  border-bottom: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(212, 160, 32, 0.07), rgba(212, 160, 32, 0) 55%),
+    var(--bg-panel);
+  padding: 72px 0 76px;
+  text-align: center;
+}
+.release-band h2 {
+  font-size: clamp(26px, 3.6vw, 38px); font-weight: 700;
+  letter-spacing: -0.01em; margin-bottom: 12px;
+}
+.release-band-sub {
+  color: var(--text-dim); font-size: 16px; line-height: 1.7;
+  max-width: 620px; margin: 0 auto 36px;
+}
+.release-band-actions {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+/* 16:9 frame — holds the screenshot now, the trailer once YOUTUBE_ID is set.
+   Fixed ratio so swapping one for the other causes no layout shift. */
+.release-media {
+  position: relative;
+  max-width: 920px; margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.release-media img,
+.release-media iframe {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; border: 0;
+}
+
+/* Lite YouTube facade — thumbnail + play button, real iframe only on click */
+.video-facade {
+  display: block; position: relative;
+  width: 100%; height: 100%;
+  padding: 0; border: 0; background: none; cursor: pointer;
+}
+.video-facade img { transition: transform .4s, filter .3s; }
+.video-facade:hover img { transform: scale(1.03); filter: brightness(0.7); }
+.video-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px; height: 76px; border-radius: 50%;
+  background: rgba(14, 19, 26, 0.72);
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .25s, transform .25s;
+}
+.video-facade:hover .video-play {
+  background: var(--gold); transform: translate(-50%, -50%) scale(1.08);
+}
+.video-play::before {
+  content: ''; display: block; margin-left: 5px;
+  border-left: 22px solid var(--gold);
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  transition: border-left-color .25s;
+}
+.video-facade:hover .video-play::before { border-left-color: var(--bg-main); }
+
+/* ---- Release Highlights ---- */
+.baseline {
+  max-width: 800px; margin: 0 auto 56px;
+  padding: 20px 24px;
+  background: linear-gradient(180deg, var(--gold-bg), rgba(212, 160, 32, 0.02));
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  font-size: 14px; color: var(--text); line-height: 1.65;
+}
+.baseline p { margin: 0; }
+.baseline p + p { margin-top: 8px; color: var(--text-dim); }
+.baseline strong { color: var(--gold); font-weight: 600; }
+
+.release-feature {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 44px; align-items: center;
+  margin-bottom: 56px;
+}
+.release-feature.reverse .release-feature-text { order: 2; }
+/* the ribbon toolbar shot is 10:1 — it needs the full width, not a column */
+.release-feature.stack { grid-template-columns: 1fr; gap: 22px; }
+/* the minimap shot is nearly square — rein it in so the row stays balanced */
+.release-feature.narrow .release-feature-media { max-width: 430px; }
+.release-feature-text h3 {
+  font-size: 22px; font-weight: 600; margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.release-feature-text h3 kbd { vertical-align: middle; margin-left: 4px; }
+.release-feature-text p {
+  color: var(--text-dim); font-size: 15px; line-height: 1.75;
+}
+.release-feature-text strong { color: var(--text); font-weight: 600; }
+.release-feature-media { margin: 0; }
+.release-feature-media img {
+  width: 100%; height: auto; background: #000;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+}
+.release-feature-media figcaption {
+  margin-top: 10px; font-size: 12.5px; color: var(--text-dim); line-height: 1.5;
+}
 
 /* ---- Sections ---- */
 .section { padding: 96px 0; }
@@ -453,7 +569,7 @@ kbd.inline {
   content: '';
   position: absolute; bottom: 0; left: 0; right: 0;
   height: 60px;
-  background: linear-gradient(transparent, var(--bg-card));
+  background: linear-gradient(transparent, var(--bg-surface));
   pointer-events: none;
 }
 .changelog-body img {
@@ -494,7 +610,8 @@ kbd.inline {
 }
 .changelog-body a { color: var(--gold); }
 .changelog-body a:hover { color: var(--gold-bright); }
-.changelog-footer {
+.changelog-footer,
+.section-cta {
   text-align: center; margin-top: 40px;
 }
 .changelog-body table {
@@ -566,7 +683,7 @@ kbd.inline {
   transition: background 0.2s, color 0.2s;
 }
 .footer-kofi:hover {
-  background: var(--gold); color: var(--bg);
+  background: var(--gold); color: var(--bg-main);
 }
 .footer-right small {
   font-size: 12px; color: var(--text-dim);
@@ -581,13 +698,20 @@ kbd.inline {
 a.map-thumb { text-decoration: none; color: var(--text); }
 
 /* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  /* the nav gained a sixth link in 2.0.0 — tighten before it can overflow */
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 13px; }
+}
+
 @media (max-width: 1024px) {
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .maps-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 768px) {
+/* six links plus Discord, Ko-fi and the CTA stop fitting here — go to the menu */
+@media (max-width: 900px) {
   .nav-links { display: none; }
   .nav-links.open {
     display: flex; flex-direction: column;
@@ -596,7 +720,9 @@ a.map-thumb { text-decoration: none; color: var(--text); }
     border-bottom: 1px solid var(--border); gap: 16px;
   }
   .nav-toggle { display: block; }
+}
 
+@media (max-width: 768px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .maps-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -610,6 +736,18 @@ a.map-thumb { text-decoration: none; color: var(--text); }
 
   .section { padding: 64px 0; }
   .cta-box { padding: 40px 24px; }
+
+  .release-band { padding: 52px 0 56px; }
+  .release-band-sub { font-size: 15px; margin-bottom: 28px; }
+  .release-media { border-radius: var(--radius); }
+  .video-play { width: 58px; height: 58px; }
+  .video-play::before {
+    border-left-width: 17px; border-top-width: 10px; border-bottom-width: 10px;
+  }
+  .baseline { margin-bottom: 40px; padding: 16px 18px; }
+  .release-feature { grid-template-columns: 1fr; gap: 24px; margin-bottom: 44px; }
+  .release-feature.narrow .release-feature-media { max-width: none; }
+  .release-feature.reverse .release-feature-text { order: 0; }
 
   .footer-top {
     flex-direction: column; gap: 10px; text-align: center;

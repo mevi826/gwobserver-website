@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches.">
+  <meta name="description" content="Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Version 2.0.0 is out now &mdash; absolute health, character panels, a minimap, and a rebuilt interface.">
   <title>GW Observer — Guild Wars GvG Match Replay &amp; Analysis</title>
 
   <!-- Open Graph (Discord, Facebook, Slack, etc.) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="GW Observer">
-  <meta property="og:description" content="Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches.">
+  <meta property="og:description" content="Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Version 2.0.0 is out now &mdash; absolute health, character panels, a minimap, and a rebuilt interface.">
   <meta property="og:url" content="https://gwobserver.com">
   <meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
   <meta property="og:site_name" content="GW Observer">
@@ -18,7 +18,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GW Observer">
-  <meta name="twitter:description" content="Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches.">
+  <meta name="twitter:description" content="Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Version 2.0.0 is out now &mdash; absolute health, character panels, a minimap, and a rebuilt interface.">
   <meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
 
   <link rel="icon" href="assets/icon2.ico" type="image/x-icon">
@@ -37,6 +37,7 @@
         <span>GW Observer</span>
       </a>
       <ul class="nav-links">
+        <li><a href="#whats-new">What&rsquo;s New</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#analytics">Analytics</a></li>
         <li><a href="#replay">Replay</a></li>
@@ -44,7 +45,7 @@
         <li><a href="#changelog">Changelog</a></li>
         <li><a href="https://discord.gg/2M4KYxwdz7" class="nav-discord" target="_blank" rel="noopener"><svg viewBox="0 0 127.14 96.36" width="16" height="16"><path d="M107.7 8.07A105.15 105.15 0 0081.47 0a72.06 72.06 0 00-3.36 6.83 97.68 97.68 0 00-29.11 0A72.37 72.37 0 0045.64 0a105.89 105.89 0 00-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0032.17 16.15 77.7 77.7 0 006.89-11.11 68.42 68.42 0 01-10.85-5.18c.91-.66 1.8-1.34 2.66-2.03a75.57 75.57 0 0064.32 0c.87.71 1.76 1.39 2.66 2.03a68.68 68.68 0 01-10.87 5.19 77 77 0 006.89 11.1 105.25 105.25 0 0032.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15zM42.45 65.69C36.18 65.69 31 60 31 53.05s5-12.68 11.45-12.68S53.99 46.1 53.9 53.05c0 6.95-5.11 12.64-11.45 12.64zm42.24 0C78.41 65.69 73.25 60 73.25 53.05s5-12.68 11.44-12.68S96.23 46.1 96.14 53.05c0 6.95-5.1 12.64-11.45 12.64z"/></svg>Discord</a></li>
         <li><a href="https://ko-fi.com/gwobs_mevi_purif" class="nav-kofi" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Support us</span></a></li>
-        <li><a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v1.2.7/GWObserver.zip" class="nav-cta" target="_blank" rel="noopener">Download</a></li>
+        <li><a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v2.0.0/GWObserver.zip" class="nav-cta" target="_blank" rel="noopener" data-download>Download</a></li>
       </ul>
       <button class="nav-toggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -62,11 +63,11 @@
       <div class="hero-bg-overlay"></div>
     </div>
     <div class="hero-content">
-      <div class="hero-badge">Guild Wars GvG Analysis Tool</div>
+      <div class="hero-badge">Version 2.0.0 &mdash; Out Now</div>
       <h1>Replay Every <span class="gold">Battle</span></h1>
-      <p class="hero-sub">Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Load recorded matches and analyze every detail.</p>
+      <p class="hero-sub">Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Real health values, complete builds, and accurate skill behaviour on every recording.</p>
       <div class="hero-actions">
-        <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v1.2.7/GWObserver.zip" class="btn btn-primary" target="_blank" rel="noopener">Download v1.2.7</a>
+        <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v2.0.0/GWObserver.zip" class="btn btn-primary" target="_blank" rel="noopener" data-download="label">Download v2.0.0</a>
         <a href="https://github.com/MC92-hash/GuildWarsObserver" class="btn btn-outline" target="_blank" rel="noopener">Source Code</a>
         <a href="#features" class="btn btn-outline">Explore Features</a>
       </div>
@@ -86,6 +87,25 @@
     </div>
   </section>
 
+  <!-- v2.0.0 Release Band -->
+  <section class="release-band" id="release">
+    <div class="container">
+      <p class="eyebrow">Version 2.0.0 &mdash; out now</p>
+      <h2>Our biggest <span class="gold">update</span> yet</h2>
+      <p class="release-band-sub">The replay window is faster, clearer and far more informative, and the match library gained the filters you have been asking for.</p>
+
+      <div class="release-media" id="release-media">
+        <!-- script.js swaps this for the trailer once YOUTUBE_ID is set -->
+        <img src="assets/releases/2.0.0/replay-window.webp" width="1600" height="856" alt="The GW Observer replay window in 2.0.0, with the ribbon toolbar pinned, absolute health on the party bars and weapons drawn on the models">
+      </div>
+
+      <div class="release-band-actions">
+        <a href="releases/2.0.0/" class="btn btn-primary">What&rsquo;s new in 2.0.0</a>
+        <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v2.0.0/GWObserver.zip" class="btn btn-outline" target="_blank" rel="noopener" data-download="label">Download v2.0.0</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Professions Strip -->
   <section class="prof-strip">
     <div class="prof-inner">
@@ -99,6 +119,109 @@
       <img src="assets/professions/[8] - Ritualist.png" alt="Ritualist" title="Ritualist">
       <img src="assets/professions/[9] - Paragon.png" alt="Paragon" title="Paragon">
       <img src="assets/professions/[10] - Dervish.png" alt="Dervish" title="Dervish">
+    </div>
+  </section>
+
+  <!-- What's New in 2.0.0 -->
+  <section id="whats-new" class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>What&rsquo;s New in <span class="gold">2.0.0</span></h2>
+        <p>You will see real health values, full builds, accurate skill behaviour, and a modernised interface that makes exploring matches genuinely enjoyable.</p>
+      </div>
+
+      <div class="baseline">
+        <p>Recordings made from <strong>29 August 2026</strong> onward reliably include every feature listed below.</p>
+        <p>Older recordings still benefit from most of these improvements, but that date is where the full 2.0.0 feature set becomes guaranteed.</p>
+      </div>
+
+      <div class="release-feature">
+        <div class="release-feature-text">
+          <h3>Character Panel</h3>
+          <p>A complete view of a player&rsquo;s build in one place. Skill bar, weapon sets and armour are read straight out of the recording and are exact. Attributes, runes and insignias are solved from combat evidence &mdash; and the panel is explicit about which is which.</p>
+        </div>
+        <figure class="release-feature-media">
+          <img src="assets/releases/2.0.0/character-panel.webp" width="1600" height="549" loading="lazy" alt="The Character panel showing a player's skill bar, weapon sets, armour and solved attributes">
+          <figcaption>Open several panels at once to compare players side by side.</figcaption>
+        </figure>
+      </div>
+
+      <div class="release-feature stack">
+        <div class="release-feature-text">
+          <h3>Ribbon Toolbar</h3>
+          <p>Every replay tool is grouped into a single toolbar at the top of the match replay window: Panels, Overlays, Combat &amp; Stats, Tools, Camera and Settings. Pinnable and collapsible, with hotkeys shown on each button.</p>
+        </div>
+        <figure class="release-feature-media">
+          <img src="assets/releases/2.0.0/ribbon-toolbar.webp" width="1600" height="157" loading="lazy" alt="The ribbon toolbar expanded, showing all six groups with hotkey labels">
+          <figcaption>All six groups, each button labelled with its hotkey.</figcaption>
+        </figure>
+      </div>
+
+      <div class="release-feature reverse narrow">
+        <div class="release-feature-text">
+          <h3>Minimap <kbd class="inline">U</kbd></h3>
+          <p>A top-down map much like the in-game minimap, with helpful additions such as gate, lever and catapult indicators. Both teams, objective state and gate status at a glance.</p>
+        </div>
+        <figure class="release-feature-media">
+          <img src="assets/releases/2.0.0/minimap.webp" width="748" height="716" loading="lazy" alt="The minimap panel showing both teams, flag stand, shrine state and gate indicators">
+          <figcaption>Both teams, objective state and gate status at a glance.</figcaption>
+        </figure>
+      </div>
+
+      <div class="release-feature">
+        <div class="release-feature-text">
+          <h3>New Filters &amp; Scout</h3>
+          <p>Find a match by the skills used in it, by guild or player, by occasion (mAT, AT, scrims) or by matchup. Scout aggregates an opponent guild&rsquo;s builds, their win and loss record, and the builds that beat them.</p>
+        </div>
+        <figure class="release-feature-media">
+          <img src="assets/releases/2.0.0/library-filters.webp" width="1600" height="856" loading="lazy" alt="The replay browser with the skill filter and matchup filter both active">
+          <figcaption>Skill and matchup filters narrowing the library.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid grid-3 mt">
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <h3>Absolute Health</h3>
+          <p>Party bars and player panels show <strong>real HP</strong>, rebuilt from every visible factor: base health, armour, weapon set, shrine bonuses, morale, Death Penalty and Deep Wound. Older recordings fall back to a safe estimate, marked with a tilde.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Weapon Sets HUD</h3>
+          <p>The followed player&rsquo;s weapon sets appear on the familiar in-game plates, with the active set highlighted and full item tooltips on hover. The actual weapon skins also appear on the character models in the 3D scene.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg></div>
+          <h3>Sound FX Mixer</h3>
+          <p>Skill sounds, cast cancels, ambient effects and music now play at the right time and in the right place in the 3D world, with a mixer to balance them.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4v10l8 4 8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></div>
+          <h3>Models &amp; Animation</h3>
+          <p>Players hold their actual 3D weapons. Dervish avatar forms swap the model and revert cleanly, Ritualist ashes place the right urn, and ranger pets and summoned minions render with their proper models, names and health.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><path d="M8 2v16M16 6v16"/></svg></div>
+          <h3>Map Asset Animations</h3>
+          <p>Doors, gates, levers, catapults, teleporters and vine bridges now animate straight from the recording. Flags, repair kits, vine seeds and ashes are tracked separately and no longer get mixed up with each other.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Patch-Aware Skill Data</h3>
+          <p>Replays show skill values as they were on the day the match was played, matching the balance patch in force at the time.</p>
+        </div>
+
+      </div>
+
+      <div class="section-cta">
+        <a href="releases/2.0.0/" class="btn btn-outline">Read the full 2.0.0 release notes</a>
+      </div>
     </div>
   </section>
 
@@ -121,7 +244,7 @@
         <div class="card has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/release_notes_assets/1.2.0/Animation.gif">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></div>
           <h3>3D Agent Models</h3>
-          <p>Players rendered as in-game NPC models matched by profession and gender. NPCs, spirits, and pets use their authentic models. Full skeletal animation for movement, attacks, casting, and death.</p>
+          <p>Players rendered as in-game NPC models matched by profession and gender, now holding their actual 3D weapon skins. Dervish avatar forms, Ritualist ashes, ranger pets and summoned minions all use their proper models. Full skeletal animation for movement, attacks, casting, and death.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
@@ -219,7 +342,7 @@
         <div class="card card-glass has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/gifs/player_panel.gif">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
           <h3>Party Windows &amp; Build Detection</h3>
-          <p>Full team composition with profession icons, health bars, and conditions. Automatic build detection from profession counts and key skill matching via JSON definitions.</p>
+          <p>Full team composition with profession icons, absolute health bars, and conditions &mdash; health rebuilt from armour, weapon set, shrine bonuses, morale, Death Penalty and Deep Wound. Open the Character Panel on any player for their skill bar, weapon sets, armour and solved attributes.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
@@ -272,6 +395,14 @@
           <p>Take notes during replay review without leaving the application. Keep observations alongside the match.</p>
         </div>
         <div class="card card-sm">
+          <h4>Ribbon Toolbar</h4>
+          <p>Every replay tool grouped into one toolbar &mdash; Panels, Overlays, Combat &amp; Stats, Tools, Camera and Settings. Pinnable, collapsible, and every button labelled with its hotkey.</p>
+        </div>
+        <div class="card card-sm">
+          <h4>Minimap <kbd class="inline">U</kbd></h4>
+          <p>Top-down map much like the in-game minimap, with gate, lever, and catapult indicators alongside both teams and the objective state.</p>
+        </div>
+        <div class="card card-sm">
           <h4>Agent Follow</h4>
           <p>Click any agent to follow them. Smooth camera transition, adjustable follow distance via scroll wheel, full yaw/pitch control while tracking.</p>
         </div>
@@ -290,7 +421,7 @@
 
         <div class="card card-wide">
           <h4>Cloud Replay Browser</h4>
-          <p>Browse, search, and filter match replays from cloud storage. Stream directly or cache locally for offline use. Background sync keeps your library current. Star ratings and match notes for organization.</p>
+          <p>Browse, search, and filter match replays from cloud storage &mdash; by skills used, guild, player, occasion (mAT, AT, scrims) or matchup. Scout an opponent&rsquo;s builds and record. Stream directly or cache locally for offline use, with background sync, star ratings, and match notes.</p>
         </div>
         <div class="card card-wide">
           <h4>DAT Browser</h4>
@@ -302,7 +433,7 @@
         </div>
         <div class="card card-wide">
           <h4>Spatial Audio</h4>
-          <p>3D positional audio powered by BASS. Hear skill sounds from the direction they occur on the map. Per-agent skill cast and impact audio with cursor tracking.</p>
+          <p>3D positional audio powered by BASS, with a full sound FX mixer. Skill sounds, cast cancels, ambient effects and music play at the right time and in the right place in the 3D world.</p>
         </div>
 
       </div>
@@ -338,7 +469,7 @@
         </div>
         <div class="mini-card">
           <h5>Map Objects &amp; Gadgets</h5>
-          <p>3D models and animations for flagstands, gates, gate levers, obelisks, catapults, and more. Expanding to all maps progressively.</p>
+          <p>Doors, gates, levers, catapults, teleporters and vine bridges animate straight from the recording. Flagstands, obelisks and more, expanding to all maps progressively.</p>
         </div>
       </div>
     </div>
@@ -392,9 +523,9 @@
     <div class="container">
       <div class="cta-box">
         <h2>Ready to Analyze?</h2>
-        <p>Download GW Observer and start reviewing GvG matches with full 3D replay, tactical overlays, and advanced analytics.</p>
+        <p>Download GW Observer 2.0.0 and start reviewing GvG matches with full 3D replay, tactical overlays, and advanced analytics.</p>
         <div class="cta-buttons">
-          <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v1.2.7/GWObserver.zip" class="btn btn-primary btn-lg" target="_blank" rel="noopener">Download v1.2.7</a>
+          <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v2.0.0/GWObserver.zip" class="btn btn-primary btn-lg" target="_blank" rel="noopener" data-download="label">Download v2.0.0</a>
           <a href="https://github.com/MC92-hash/GuildWarsObserver" class="btn btn-outline btn-lg" target="_blank" rel="noopener">Source Code</a>
         </div>
         <div class="cta-meta">

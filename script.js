@@ -1,6 +1,52 @@
 // GW Observer Website — interactions
 
 document.addEventListener('DOMContentLoaded', () => {
+  // ============================================================
+  //  v2.0.0 TRAILER SWITCH
+  //  Paste the YouTube video ID below to turn the trailer on —
+  //  it is the part after "?v=" in the watch URL. For example
+  //  https://www.youtube.com/watch?v=dQw4w9WgXcQ  ->  'dQw4w9WgXcQ'
+  //  While this is empty the release band keeps showing the
+  //  2.0.0 screenshot instead. Nothing else needs changing.
+  // ============================================================
+  const YOUTUBE_ID = '';
+
+  // ---- Release band trailer ----
+  // With an ID set, swap the screenshot for a lightweight facade: the YouTube
+  // thumbnail plus a play button. The real iframe is only injected on click, so
+  // YouTube's player script and cookies never load for people who don't watch.
+  const releaseMedia = document.getElementById('release-media');
+  if (releaseMedia && YOUTUBE_ID) {
+    const thumb = new Image();
+    thumb.alt = '';
+    thumb.src = 'https://i.ytimg.com/vi/' + YOUTUBE_ID + '/maxresdefault.jpg';
+    // maxresdefault is missing on some uploads; hqdefault always exists
+    thumb.onerror = () => {
+      thumb.onerror = null;
+      thumb.src = 'https://i.ytimg.com/vi/' + YOUTUBE_ID + '/hqdefault.jpg';
+    };
+
+    const play = document.createElement('span');
+    play.className = 'video-play';
+
+    const facade = document.createElement('button');
+    facade.type = 'button';
+    facade.className = 'video-facade';
+    facade.setAttribute('aria-label', 'Play the GW Observer 2.0.0 trailer');
+    facade.append(thumb, play);
+
+    facade.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + YOUTUBE_ID + '?autoplay=1&rel=0';
+      frame.title = 'GW Observer 2.0.0 trailer';
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      releaseMedia.replaceChildren(frame);
+    });
+
+    releaseMedia.replaceChildren(facade);
+  }
+
   // ---- Mobile nav toggle ----
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
@@ -120,6 +166,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
   }
 
+  // ---- Keep the download buttons on the real latest release ----
+  // Piggybacks on the changelog fetch below, so it costs no extra API call
+  // (unauthenticated GitHub allows only 60 requests an hour per IP). If the
+  // fetch fails the hardcoded links in index.html still stand.
+  function syncDownloadLinks(releases) {
+    var latest = (releases || []).filter(function(r) { return !r.draft && !r.prerelease; })[0];
+    if (!latest) return;
+    var zip = (latest.assets || []).filter(function(a) { return /\.zip$/i.test(a.name); })[0];
+    if (!zip) return;
+    document.querySelectorAll('[data-download]').forEach(function(el) {
+      el.href = zip.browser_download_url;
+      if (el.dataset.download === 'label') el.textContent = 'Download ' + latest.tag_name;
+    });
+  }
+
   const changelogContainer = document.getElementById('changelog-entries');
   if (changelogContainer) {
     fetch('https://api.github.com/repos/MC92-hash/GuildWarsObserver/releases?per_page=10')
@@ -128,6 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return res.json();
       })
       .then(function(releases) {
+        syncDownloadLinks(releases);
+
         // Filter out pre-release versions before v1.1.0
         releases = (releases || []).filter(function(r) {
           var v = r.tag_name.replace(/^v/, '').split('.').map(Number);
