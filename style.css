@@ -158,15 +158,18 @@ a:hover { color: var(--gold-bright); }
   color: var(--gold); font-size: 13px; font-weight: 500;
   letter-spacing: 0.04em; margin-bottom: 24px;
 }
-/* Hero trailer. Capped under the 720px column, and capped again against the
-   viewport so the headline and the download button still clear the fold on a
-   short laptop screen: at 16/9 a 70vh-wide box is only 39vh tall.
+/* Hero trailer. It breaks out past the 720px text column the same way the
+   release band media does, so the trailer can be wider than the headline.
+   Three caps, smallest wins: 900px so it stays a trailer and not a wall;
+   74vh, which at 16/9 is only 42vh tall, so the headline and the download
+   button still clear the fold on a short laptop; and the viewport itself,
+   never narrower than the column and never under the scrollbar.
    The facade inside it reuses .video-facade / .video-play further down. */
 .hero-media {
+  --w: min(900px, 74vh, max(100%, 100vw - 64px));
   position: relative;
-  width: 100%;
-  max-width: min(600px, 70vh);
-  margin: 0 auto 26px;
+  width: var(--w);
+  margin: 0 0 26px calc((100% - var(--w)) / 2);
   aspect-ratio: 16 / 9;
   background: var(--bg-panel);
   border: 1px solid var(--border);
