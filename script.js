@@ -179,8 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Piggybacks on the changelog fetch below, so it costs no extra API call
   // (unauthenticated GitHub allows only 60 requests an hour per IP). If the
   // fetch fails the hardcoded links in index.html still stand.
+  // Pre-releases count: 2.0.0 is published as one, and skipping it here would
+  // quietly rewrite every button back to 1.2.7 on a page that advertises 2.0.0.
   function syncDownloadLinks(releases) {
-    var latest = (releases || []).filter(function(r) { return !r.draft && !r.prerelease; })[0];
+    var latest = (releases || []).filter(function(r) { return !r.draft; })[0];
     if (!latest) return;
     var zip = (latest.assets || []).filter(function(a) { return /\.zip$/i.test(a.name); })[0];
     if (!zip) return;
