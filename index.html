@@ -78,7 +78,7 @@
         </a>
       </div>
       <h1>Replay Every <span class="gold">Battle</span></h1>
-      <p class="hero-sub">Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Real health values, complete builds, and accurate skill behaviour on every recording.</p>
+      <p class="hero-sub">Full 3D match replay, tactical overlays, and deep analytics for Guild Wars 1 GvG matches. Every player as their own character, the game&rsquo;s own HUD, real health values and complete builds on every recording.</p>
       <div class="hero-actions">
         <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.0.0/GWObserver.zip" class="btn btn-primary" target="_blank" rel="noopener" data-download="label">Download v3.0.0</a>
         <a href="https://github.com/MC92-hash/GuildWarsObserver" class="btn btn-outline" target="_blank" rel="noopener">Source Code</a>
@@ -236,17 +236,17 @@
           <span class="preview-badge">Click to preview</span>
         </div>
 
-        <div class="card has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/release_notes_assets/1.2.0/Animation.gif">
+        <div class="card has-preview" data-gif="assets/releases/3.0.0/replay-character-appearances.webp">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></div>
-          <h3>3D Agent Models</h3>
-          <p>Players rendered as in-game NPC models matched by profession and gender, now holding their actual 3D weapon skins. Dervish avatar forms, Ritualist ashes, ranger pets and summoned minions all use their proper models. Full skeletal animation for movement, attacks, casting, and death.</p>
+          <h3>Real Characters</h3>
+          <p>Every recorded player walks onto the map as their own character: face, hair, skin, height, armour with its dyes, guild cape and weapons with their glows. Animations play at the game&rsquo;s own speed. Dervish avatar forms, ranger pets, spirits, rituals and minions all use their proper models.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
         <div class="card">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
-          <h3>Floating Combat Numbers</h3>
-          <p>Damage and healing appear as floating numbers over agents, matching the in-game style with authentic font, color, and sizing. Includes a target display with health bar, cast bar, and buff tracking.</p>
+          <h3>The Game&rsquo;s HUD &amp; Numbers</h3>
+          <p>Damage, healing and energy numbers rise over players with the game&rsquo;s own paths, timing and font, each carrying the icon of the skill that caused it. The followed player gets the game&rsquo;s skill bar, health and energy bars, cast bar and effect bar.</p>
         </div>
 
         <div class="card">
@@ -330,14 +330,14 @@
         <div class="card card-glass has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/gifs/morale_event_timeline.gif">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
           <h3>Morale &amp; Lord Damage</h3>
-          <p>Track morale boosts with per-team timers (120s duration). Lord damage panel shows attacker breakdown, damage percentage, per-hit timeline, and phase counting.</p>
+          <p>Track morale boosts with per-team timers (120s duration). Lord damage panel shows attacker breakdown, damage percentage, per-hit timeline, and phase counting. A morale graph charts each team&rsquo;s morale over the match; click it to seek.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
         <div class="card card-glass has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/gifs/player_panel.gif">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
           <h3>Party Windows &amp; Build Detection</h3>
-          <p>Full team composition with profession icons, absolute health bars, and conditions &mdash; health rebuilt from armour, weapon set, shrine bonuses, morale, Death Penalty and Deep Wound. Open the Character Panel on any player for their skill bar, weapon sets, armour and solved attributes.</p>
+          <p>Party windows drawn with the game&rsquo;s own health bars, frame and team colours: full team composition with profession icons, absolute health bars, and conditions &mdash; health rebuilt from armour, weapon set, shrine bonuses, morale, Death Penalty and Deep Wound. Open the Character Panel on any player for their skill bar, weapon sets, armour and solved attributes.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
@@ -414,6 +414,10 @@
       </div>
       <div class="grid grid-2">
 
+        <div class="card card-wide" style="grid-column:1 / -1">
+          <h4>The Wardrobe</h4>
+          <p>A second application inside GW Observer. Create any character and try every armour piece of every profession with dyes, costumes, weapons and a guild cape designer, in the game&rsquo;s character select scenes with their music. Open any recorded player&rsquo;s look, save looks as .gwlook files, and take PNG photos.</p>
+        </div>
         <div class="card card-wide">
           <h4>Cloud Replay Browser</h4>
           <p>Browse, search, and filter match replays from cloud storage &mdash; by skills used, guild, player, occasion (mAT, AT, scrims) or matchup. Scout an opponent&rsquo;s builds and record. Stream directly or cache locally for offline use, with background sync, star ratings, and match notes.</p>
@@ -428,7 +432,7 @@
         </div>
         <div class="card card-wide">
           <h4>Spatial Audio</h4>
-          <p>3D positional audio powered by BASS, with a full sound FX mixer. Skill sounds, cast cancels, ambient effects and music play at the right time and in the right place in the 3D world.</p>
+          <p>3D positional audio with a full sound FX mixer. Skill sounds, cast cancels, ambient effects and music play at the right time and in the right place in the 3D world.</p>
         </div>
 
       </div>
@@ -440,7 +444,7 @@
         </div>
         <div class="mini-card">
           <h5>Rendering Options</h5>
-          <p>MSAA 1x-16x, LOD quality, water level, sky controls, fog, shadows, lighting, and FPS limiting.</p>
+          <p>The game&rsquo;s own map lighting, fog and haze, optional bloom, character shadows and team glow. MSAA 1x-16x, LOD quality, water level, sky controls and FPS limiting.</p>
         </div>
         <div class="mini-card">
           <h5>Setup Wizard</h5>

@@ -2,13 +2,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ============================================================
-  //  v2.0.0 TRAILER
+  //  TRAILER
   //  The trailer sits in the hero, above the headline. Its facade
   //  (thumbnail plus play button) is written into index.html, so
   //  with JavaScript off it stays a plain link to YouTube. The
   //  handler below upgrades it to an inline player on click, which
   //  is the only point YouTube's script and cookies load.
-  //  The release band keeps the 2.0.0 screenshot on purpose: the
+  //  The release band keeps a still on purpose: the
   //  same trailer twice on one page helps nobody.
   // ============================================================
   const TRAILER_ID = 'KztEBKYX5ho';
@@ -34,13 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---- Release band still ----
-  // The 2.0.0 screenshot opens full size in the lightbox. (Never a facade as
+  // The release screenshot opens full size in the lightbox. (Never a facade as
   // well: a click must not zoom AND play.)
   const releaseMedia = document.getElementById('release-media');
   if (releaseMedia) {
     releaseMedia.classList.add('has-preview');
-    releaseMedia.dataset.gif = 'assets/releases/2.0.0/replay-window.webp';
-    releaseMedia.dataset.title = 'The replay window in 2.0.0';
+    releaseMedia.dataset.gif = 'assets/releases/3.0.0/replay-character-hero.webp';
+    releaseMedia.dataset.title = 'A guild battle in 3.0.0';
   }
 
   // ---- Mobile nav toggle ----
