@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 3.0.0 Release Notes</title>
+<meta name="description" content="GW Observer 3.0.0 adds recorded character appearances, the Wardrobe, replay HUD updates, animation improvements and bug fixes.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 3.0.0 Release Notes">
+<meta property="og:description" content="GW Observer 3.0.0 adds recorded character appearances, the Wardrobe, replay HUD updates, animation improvements and bug fixes.">
+<meta property="og:url" content="https://gwobserver.com/releases/3.0.0/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 3.0.0 Release Notes">
+<meta name="twitter:description" content="GW Observer 3.0.0 adds recorded character appearances, the Wardrobe, replay HUD updates, animation improvements and bug fixes.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  .story p:first-child::first-letter{ float:left; font-size:54px; line-height:.9; padding:6px 10px 0 0; color:var(--gold); font-weight:650 }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">3.0.0</span></h1>
+  <p class="lede">Update 3.0.0 adds recorded character appearances, a Wardrobe for previewing armour and saving looks, and an updated replay HUD. We also reviewed and significantly improved attribute calculations and damage attribution, which links the damage numbers above players to the skills that caused them. Other improvements cover animation timing, map lighting, combat information and replay controls.</p>
+
+  <div class="baseline">
+    
+    <p><strong>Recording compatibility:</strong> Character appearances require recordings made from <strong>20 September 2026</strong> onward. The effect bar requires recordings from <strong>7 October 2026</strong>. Older recordings continue to use profession models and benefit from the other improvements.</p>
+  </div>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.0.0/GWObserver.zip">Download 3.0.0</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+<div class="hero">
+  <figure class="replay-hero">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/replay-character-hero.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: A character casting with a glowing weapon on jade terrain beside a wooden bridge">
+        <img class="shot" fetchpriority="high" src="/assets/releases/3.0.0/replay-character-hero.png" alt="A character casting with a glowing weapon on jade terrain beside a wooden bridge">
+      </a>
+      <figcaption>Recorded character appearance, casting effects and ground shadows in the replay. <a href="/assets/releases/3.0.0/replay-character-hero.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+</div>
+
+<div class="wrap">
+
+
+
+  <nav class="toc">
+    <h2>In this release</h2>
+    <ol>
+      <li><a href="#characters">Character Appearances</a></li>
+      <li><a href="#wardrobe">The Wardrobe</a></li>
+      <li><a href="#hud">Replay HUD</a></li>
+      <li><a href="#numbers">Overhead Numbers</a></li>
+      <li><a href="#animation">Animation Timing</a></li>
+      <li><a href="#world">Light, Shadow &amp; World</a></li>
+      <li><a href="#morale">Team Morale Graph</a></li>
+      <li><a href="#ui">Quality of Life</a></li>
+      <li><a href="#limits">Known Limitations</a></li>
+      <li><a href="#fixes">Bug Fixes</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ CHARACTERS ============ -->
+
+  <section id="characters">
+    <h2>Major features</h2>
+    <div class="rule"></div>
+
+    <h3>Recorded Character Appearances</h3>
+    <p>Added support for recorded character appearances. Replays now show each player's face, hairstyle, hair colour, skin colour, height, armour, dyes and guild cape.</p>
+    <p>Weapons display their skins, dyes, glows and particle effects. Guild capes use the guild's colours and cloth animation.</p>
+    <p>Added animated effects for Elementalist headpieces.</p>
+
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/replay-character-appearances.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Players fighting on jade terrain, wearing different armour and guild capes">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/replay-character-appearances.png" alt="Players fighting on jade terrain, wearing different armour and guild capes">
+      </a>
+      <figcaption>Recorded characters in combat, with their armour, weapons and guild capes. <a href="/assets/releases/3.0.0/replay-character-appearances.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    
+
+    <h3>Character Panel Portrait</h3>
+    <p>Added a 3D character preview to the character panel, showing the player's appearance and active weapon in its combat stance. You can open the character in the Wardrobe directly from this panel.</p>
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/replay-character-panel.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Replay with a Ritualist character preview, equipment panel, skill bar and both party windows">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/replay-character-panel.png" alt="Replay with a Ritualist character preview, equipment panel, skill bar and both party windows">
+      </a>
+      <figcaption>The character panel alongside the followed player's HUD and both teams' party windows. <a href="/assets/releases/3.0.0/replay-character-panel.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ WARDROBE ============ -->
+
+  <section id="wardrobe" style="padding-top:56px">
+    <h3>The Wardrobe</h3>
+
+    <div>
+      <p>Added the Wardrobe, where you can preview armour, dyes, weapons and character appearances without owning the items in game. Open it from the top navigation bar or send a recorded character to it from a replay.</p>
+      
+      
+    </div>
+
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/wardrobe-character-library.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Wardrobe character library with a Monk preview against a stormy sea">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/wardrobe-character-library.png" alt="The Wardrobe character library with a Monk preview against a stormy sea">
+      </a>
+      <figcaption>The Wardrobe character library, with a selected character and saved looks. <a href="/assets/releases/3.0.0/wardrobe-character-library.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <p style="margin-top:26px">The Wardrobe includes the following options:</p>
+
+    <ul class="plain">
+      <li><strong>Create a character.</strong> All ten professions, both sexes, every face, hairstyle, hair colour and skin colour the game offers.</li>
+      <li><strong>Armour preview.</strong> Browse armour for all professions and choose a dye for each slot.</li>
+      <li><strong>Costumes and festival hats.</strong> All are included.</li>
+      <li><strong>Weapons</strong> with their glows, particles and animations, dyes, and favourites marked with a star.</li>
+      <li><strong>Guild cape designer.</strong> Choose an emblem, colours and trim, or generate a random combination.</li>
+      <li><strong>Search as you type</strong> across armour and weapons, and arrow key navigation through every gallery.</li>
+      <li><strong>Five scenes:</strong> Eye of the North, Nightfall, Factions and Prophecies, each with its own music and volume control, or an empty stage.</li>
+      <li><strong>Save and share looks.</strong> Save looks in a folder you choose in Settings. Export a look as a <strong>.gwlook file</strong> and send it to a friend, who can import it into their Wardrobe. You can import their looks in the same way.</li>
+      <li><strong>Photo mode <span class="key">P</span></strong> hides the interface and saves the character as a PNG.</li>
+    </ul>
+
+    <figure class="fig wide">
+      <img class="shot" loading="lazy" src="/assets/releases/3.0.0/wardrobe-armor-gallery.webp" alt="The Wardrobe armour gallery with dye selectors">
+      <figcaption>The armour gallery with a dye selector for each slot.</figcaption>
+    </figure>
+
+    <figure class="fig mid">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/wardrobe-photo.webp" alt="Photo mode: the character in the Eye of the North scene without any interface">
+        <figcaption>Photo mode: no interface, just the character and the scene, saved as a PNG.</figcaption>
+      </figure>
+  </section>
+
+  <!-- ============ HUD ============ -->
+
+  <section id="hud">
+    <h2>Replay interface</h2>
+    <div class="rule"></div>
+
+    <h3>The Followed Player's HUD</h3>
+    <p>Updated the followed player's HUD using Guild Wars textures and layout, with skill, health, energy and effect bars.</p>
+    <p><strong>The energy and effect bars are calculated estimates and may contain errors.</strong> They represent our best guess from the available match data. We aim to make this information as accurate and useful as possible, but it may differ from what the player saw in game.</p>
+    <ul class="plain">
+      <li><strong>Skill bar.</strong> Updated recharge, disabled and spent skill states. Disable effects from skills such as Power Block, Power Lock, Complicate, Distracting Shot and Diversion display a red indicator and identify their source. Skill tooltips show the calculated energy cost alongside the listed cost.</li>
+      <li><strong>Health bar</strong> in the game's frame, recoloured by poison, bleeding and degeneration hexes, with Deep Wound and the regeneration and degeneration arrows.</li>
+      <li><strong>Energy bar.</strong> Added an energy estimate with a confidence indicator, detailed below.</li>
+      <li><strong>Effect bar.</strong> The player's enchantments, hexes, conditions, shouts, chants, echoes, stances and spirits, grouped and framed like the game's effect monitor, with duration bars, the arrival pop and the blink before an effect ends. When an effect is removed, the icon of the skill that removed it appears over it for a moment. The flux, morale and shrine bonuses sit at the front.</li>
+    </ul>
+    <figure class="fig mid">
+      <img class="shot" loading="lazy" src="/assets/releases/3.0.0/focused-hud.webp" alt="The followed player's HUD: effect bar, energy bar, health bar and skill bar">
+      <figcaption>Following B A R B I E E E: effect bar, energy bar with its confidence lamp, health bar and skill bar, stacked as in game.</figcaption>
+    </figure>
+
+    <h3>Energy Bar</h3>
+    <p>Added an estimated energy bar. Energy is calculated from the start of the match using skill costs, natural and skill-based regeneration, and recorded gains and drains. Supported skills include Energy Surge, Mind Wrack, Shame, Purge Signet, Signet of Recall and many more. Overcast is shown in grey.</p>
+    <p>A <strong>green, orange or red</strong> indicator shows the confidence of the energy estimate. A shaded band shows the estimated range; hover over the indicator for details. Party windows also display an energy strip beneath each player.</p>
+
+    <h3>Cast Bars</h3>
+    <p>Updated cast bar colours to show the result of a cast:</p>
+    <ul class="plain">
+      <li><strong>Yellow</strong> when the cast completes.</li>
+      <li><strong>Purple</strong> when the cast is interrupted.</li>
+      <li><strong>Red</strong> when the cast is cancelled.</li>
+    </ul>
+    <p>Fixed cancelled casts briefly filling the bar before resetting. The skill icon now fades out with the cast bar.</p>
+
+    <h3>Party Windows</h3>
+    <p>Updated party windows with Guild Wars health bars, window frames and team colour gradients. Added an energy strip beneath each row, which can be toggled on or off.</p>
+    <figure class="fig narrow">
+      <img class="shot" loading="lazy" src="/assets/releases/3.0.0/party-windows.webp" alt="The reworked party windows with game-style health bars and energy strips">
+      <figcaption>Updated party windows with health bars and energy estimates.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ NUMBERS ============ -->
+
+  <section id="numbers" style="padding-top:56px">
+    <h3>Overhead Skill Icons and Numbers</h3>
+    <p>We spent a lot of time improving how damage and healing are linked to the skills that caused them, and how those numbers appear during combat.</p>
+    <p>Updated damage and healing numbers to match the movement, timing and alternating placement used in Guild Wars, with one number per hit. Improved the accuracy of the skill icons shown alongside them. Ranged attack skill icons now appear on impact, life stealing appears as healing, and map hazards such as Isle of Jade coral and the Imperial Isle acid trap have their own icons.</p>
+    <p>Added purple overhead numbers for <strong>energy gains and drains</strong>.</p>
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/overhead-numbers.png" target="_blank" rel="noopener" aria-label="Open image at full size: Damage and energy numbers with skill icons during a fight on jade terrain">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/overhead-numbers.png" alt="Damage and energy numbers with skill icons during a fight on jade terrain">
+      </a>
+      <figcaption>Overhead combat numbers with the associated skill icons. <a href="/assets/releases/3.0.0/overhead-numbers.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ ANIMATION ============ -->
+
+  <section id="animation">
+    <h2>Models &amp; animation</h2>
+    <div class="rule"></div>
+
+    <h3>Animation Timing</h3>
+    <p>Updated animation timing using playback data from Guild Wars.</p>
+    <ul class="plain">
+      <li><strong>Movement.</strong> Corrected running animations that played about 1.5&times; too slowly. Characters now switch between walking, running and fast running based on their movement speed.</li>
+      <li><strong>Spell casting.</strong> Corrected casting animations that played 2 to 6&times; too quickly. Animations now use their in-game timing and can continue after the cast completes.</li>
+      <li><strong>Attacks and combat stance.</strong> Corrected attack skill animations that played about 3&times; too slowly, overly fast bow and Frenzy attacks, and stretched stance animations between hits.</li>
+      <li><strong>Attack skills.</strong> Skills such as Hammer Bash now use their specific animation instead of a regular attack animation.</li>
+    </ul>
+
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/replay-combat-animations.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Players moving and casting in a rocky passage, with visible weapons, capes and shadows">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/replay-combat-animations.png" alt="Players moving and casting in a rocky passage, with visible weapons, capes and shadows">
+      </a>
+      <figcaption>Movement and combat poses during a replay. <a href="/assets/releases/3.0.0/replay-combat-animations.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <h3>Ritualist Weapon Spells</h3>
+    <p>Ritualist weapon spells now display the corresponding spirit weapon in place of the player's equipped weapon.</p>
+
+    <h3>Spirits, Rituals and Minions</h3>
+    <p>Added names, range rings and models for all 25 nature rituals. Corrected missing names and incorrect ranges for Winter, Winnowing, Conflagration, Greater Conflagration, Symbiosis, Frozen Soil, Pestilence, Brambles, Quicksand, Roaring Winds and Equinox. Added the three remaining Necromancer minion models.</p>
+  </section>
+
+  <!-- ============ WORLD ============ -->
+
+  <section id="world">
+    <h2>Light, shadow &amp; world</h2>
+    <div class="rule"></div>
+
+    <h3>Map Lighting and Shadows</h3>
+    <p>Updated maps to use Guild Wars lighting, fog and haze, with optional bloom. Added ground shadows for characters and separate character lighting to keep armour and dyes visible from different camera angles. These settings can be adjusted in Preferences.</p>
+
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/replay-map-lighting.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: A Ritualist and spirit beneath red wooden gates, with grass, bamboo and a coloured sky">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/replay-map-lighting.png" alt="A Ritualist and spirit beneath red wooden gates, with grass, bamboo and a coloured sky">
+      </a>
+      <figcaption>Map lighting and sky, with a recorded Ritualist and spirit in the scene. <a href="/assets/releases/3.0.0/replay-map-lighting.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <h3>Team Glow on NPCs, Spirits and Pets</h3>
+    <p>Added team-coloured outlines to guild lords, guards, pets, spirits and minions.</p>
+
+    <h3>Animated Particle Effects: &ldquo;I am the Boss!&rdquo;</h3>
+    <p>Added support for animated particle effects. The first feature using this support is the September flux, &ldquo;I am the Boss!&rdquo;, with its beam, ring and sound effects. The effect is triggered by recorded match data.</p>
+    <figure class="fig wide">
+      <a class="screenshot-link" href="/assets/releases/3.0.0/boss-flux.gif" target="_blank" rel="noopener" aria-label="Open image at full size: Animated beam and ring effects for the September flux, I am the Boss!">
+        <img class="shot" loading="lazy" src="/assets/releases/3.0.0/boss-flux.gif" alt="Animated beam and ring effects for the September flux, I am the Boss!">
+      </a>
+      <figcaption>The September flux, &ldquo;I am the Boss!&rdquo;, with animated particle effects. <a href="/assets/releases/3.0.0/boss-flux.gif" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <h3>Flags in Hand</h3>
+    <p>The flag now shows its cloth and team colour while a player carries it.</p>
+  </section>
+
+  <!-- ============ MORALE ============ -->
+
+  <section id="morale">
+    <h2>Combat &amp; stats</h2>
+    <div class="rule"></div>
+
+    <h3>Team Morale Graph</h3>
+    <p>Added a team morale graph to the morale panel, showing both teams up to the current replay position. Click or drag on the graph to seek through the match. Morale calculations now check recorded maximum health to exclude deaths and kills that did not affect morale.</p>
+    <figure class="fig narrow">
+      <img class="shot" loading="lazy" src="/assets/releases/3.0.0/morale-graph.webp" alt="The team morale chart over the course of a match">
+      <figcaption>Both teams' morale over the match. Click to seek.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ UI ============ -->
+
+  <section id="ui">
+    <h2>Quality of life</h2>
+    <div class="rule"></div>
+
+    <h3>Replay Speed Hotkeys <span class="key">Numpad + / &minus;</span></h3>
+    <p>Change the playback speed from the keyboard. The keys can be rebound.</p>
+
+    <h3>Skill Lasers by Team</h3>
+    <p>
+      Skill lasers can now be coloured by the caster's team, instead of ally and enemy.
+    </p>
+
+    <h3>Other Changes</h3>
+    <ul class="fixes">
+      <li>Updated dead player and NPC name labels to display at 75% of their team colour to improve readability.</li>
+      <li>Added overhead health bars to players in the 3D scene.</li>
+      <li>Added a team colour indicator beside guild names in the library.</li>
+      <li>Known equipment is now shown from the start of the replay.</li>
+      <li>Updated skill tooltips to account for Weakness, Celerity and Signet of Stamina.</li>
+      <li>Updated the application header and added the Eye of Janthir icon.</li>
+    </ul>
+  </section>
+
+  <!-- ============ LIMITS ============ -->
+
+  <section id="limits">
+    <h2>Known limitations</h2>
+    <div class="rule"></div>
+    <p>Some replay information is unavailable in observer recordings or is not yet modelled:</p>
+    <ul class="fixes">
+      <li>Adrenaline is not recorded, so adrenaline skills always appear charged.</li>
+      <li>Energy values are estimates. The confidence indicator shows the uncertainty of each estimate.</li>
+    </ul>
+  </section>
+
+  <!-- ============ FIXES ============ -->
+
+  <section id="fixes">
+    <h2>Bug fixes</h2>
+    <div class="rule"></div>
+    <ul class="fixes">
+      <li>Fixed reversed team colours on flags, morale displays, lord damage, shrines and loading cards.</li>
+      <li>Fixed vine bridges appearing partially built before a seed was dropped, and seeds growing the wrong bridge.</li>
+      <li>Fixed Korean, Japanese and Chinese characters not displaying correctly in replay player tags, party windows and guild names.</li>
+      <li>Fixed attribute estimates being lowered to accommodate Survivor Insignias. The solver now considers these insignias last.</li>
+      <li>Fixed untouched flags and bundles being assigned to the nearest player.</li>
+      <li>Fixed repair kits losing their association with the player carrying them.</li>
+      <li>Fixed unresolved vine seeds displaying as diamonds.</li>
+      <li>Fixed interrupted skills not receiving their full recharge and knocked-down casts failing to go on recharge.</li>
+      <li>Fixed deaths within five seconds of resurrection affecting morale. These deaths still count as kills.</li>
+      <li>Corrected historical skill IDs using casts recorded in the match.</li>
+      <li>Fixed incorrect summon levels.</li>
+      <li>Fixed guild capes overlapping map overlays in the library.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Thanks to everyone who has tested GW Observer and reported issues.</p>
+    <p>Back-end support, tool improvements and testing by Maverick.</p>
+    <p class="legal">GW Observer is an unofficial fan-made project not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
