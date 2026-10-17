@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const releaseMedia = document.getElementById('release-media');
   if (releaseMedia) {
     releaseMedia.classList.add('has-preview');
-    releaseMedia.dataset.gif = 'assets/releases/3.0.0/replay-character-hero.webp';
-    releaseMedia.dataset.title = 'A guild battle in 3.0.0';
+    releaseMedia.dataset.gif = 'assets/releases/3.5.0/skill-effects.webp';
+    releaseMedia.dataset.title = 'Skill effects in 3.5.0';
   }
 
   // ---- Mobile nav toggle ----
