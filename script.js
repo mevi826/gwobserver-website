@@ -235,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // loading after the height check above, so re-check when each arrives.
           body.querySelectorAll('img').forEach(function(img) {
             img.addEventListener('load', syncToggle);
+            if (img.getAttribute('width') === '24') return;  // inline skill icon
             img.addEventListener('click', function() {
               openPreview(img.alt || (titleEl ? titleEl.textContent : ''), img.src);
             });
