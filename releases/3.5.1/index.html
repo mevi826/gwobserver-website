@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 3.5.1 Release Notes</title>
+<meta name="description" content="GW Observer 3.5.1 reworks the follow camera, adds the Isle of Meditation miasma and the Weeping Stone spores, and improves health and energy estimates.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 3.5.1 Release Notes">
+<meta property="og:description" content="GW Observer 3.5.1 reworks the follow camera, adds the Isle of Meditation miasma and the Weeping Stone spores, and improves health and energy estimates.">
+<meta property="og:url" content="https://gwobserver.com/releases/3.5.1/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 3.5.1 Release Notes">
+<meta name="twitter:description" content="GW Observer 3.5.1 reworks the follow camera, adds the Isle of Meditation miasma and the Weeping Stone spores, and improves health and energy estimates.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+  .ico{ width:32px; height:32px; vertical-align:middle; margin-right:10px; border:1px solid var(--line); border-radius:3px }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">3.5.1</span></h1>
+  <p class="lede">Update 3.5.1 is a patch release. It brings a camera that behaves like the in-game camera, map effects on the Isle of Meditation and the Isle of the Weeping Stone, better health and energy estimates, and a set of rendering fixes.</p>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.5.1/GWObserver.zip">Download 3.5.1</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+
+<div class="wrap">
+
+  <!-- ============ WHAT'S NEW ============ -->
+
+  <section id="new">
+    <h2>What&rsquo;s new</h2>
+    <div class="rule"></div>
+
+    <h3>Camera</h3>
+    <p>Reworked camera control and transparency to behave as in game when the camera is focused on a player: it is no longer possible to pan vertically into the ground, and transparency is applied to props in the way so the character stays visible.</p>
+    <p>Free camera still allows you to move freely around the map and terrain.</p>
+
+    <h3>Guild Hall Maps</h3>
+    <p><img class="ico" src="../../assets/releases/3.5.1/miasma.jpg" alt="Miasma icon" width="32" height="32">Added Miasma texture on Isle of Meditation.</p>
+
+    <p><img class="ico" src="../../assets/releases/3.5.1/stone-spores.jpg" alt="Stone Spores icon" width="32" height="32">Added Stone Spores texture and effect on Isle of the Weeping Stone.</p>
+
+    <p>Added a gate closed/open indicator on Isle of Meditation (same as existing ones, e.g. Frozen Isle).</p>
+    <figure class="fig wide">
+      <a class="screenshot-link" href="../../assets/releases/3.5.1/meditation-gates.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Isle of Meditation with the gate locks and the gate indicators on the minimap">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.5.1/meditation-gates.webp" alt="The Isle of Meditation with the gate locks and the gate indicators on the minimap">
+      </a>
+      <figcaption>The Isle of Meditation gates, with their open/closed indicators on the minimap. <a href="../../assets/releases/3.5.1/meditation-gates.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <h3>Health and Energy Estimates</h3>
+    <p><img class="ico" src="../../assets/releases/3.5.1/vital-weapon.jpg" alt="Vital Weapon icon" width="32" height="32">Added Vital Weapon to the maximum health estimate (its bonus was read as extra armour before).</p>
+    <p><img class="ico" src="../../assets/releases/3.5.1/spirit-siphon.jpg" alt="Spirit Siphon icon" width="32" height="32">Added Spirit Siphon energy gain: recorded amount when available, otherwise estimated from the nearest spirit (explained in the energy lamp tooltip).</p>
+  </section>
+
+  <!-- ============ FIXES ============ -->
+
+  <section id="fixes">
+    <h2>Other fixes</h2>
+    <div class="rule"></div>
+    <ul class="fixes">
+      <li>Fixed the follow camera dropping a player who died for good late in a match.</li>
+      <li>Clicking a player on the map now only follows them, like clicking their row in the party window. Player info opens from the right-click menu.</li>
+      <li>Fixed the bamboo gate on Isle of Jade tearing apart when it opens.</li>
+      <li>Fixed white spots on stone props on Uncharted Isle, and the shine of the Isle of Solitude banners.</li>
+      <li>Fixed players standing in water being cut off at the waterline.</li>
+      <li>Fixed the water level on Isle of the Dead.</li>
+      <li>Fixed the teleporter rings on Isle of Jade, Isle of Solitude and Nomad&rsquo;s Isle hiding players standing inside them.</li>
+      <li>Fixed a carried flag sometimes showing the other team&rsquo;s colour.</li>
+      <li>Added Sprint, Rush and Frenzy effects on the character, and animated textures on a few skill effects.</li>
+    </ul>
+  </section>
+
+  <!-- ============ COMMUNITY ============ -->
+
+  <section id="community">
+    <h2>Community contributions</h2>
+    <div class="rule"></div>
+    <p>Merged PR #6 and #7, thanks to Arkalon!</p>
+  </section>
+
+  <footer>
+    <p>Thanks to everyone who has tested GW Observer and reported issues. The more people share suggestions and report bugs, the better we can make the tool.</p>
+    <p class="legal">GW Observer is an unofficial fan-made project not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
