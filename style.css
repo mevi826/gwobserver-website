@@ -255,11 +255,18 @@ a:hover { color: var(--gold-bright); }
 .prof-inner img:hover { opacity: 1; transform: scale(1.15); }
 
 /* ---- Iris (nav entry and band) ---- */
-.nav-new {
-  margin-left: 6px; padding: 1px 6px; border-radius: 999px;
-  background: var(--gold); color: var(--bg-main);
-  font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
-  vertical-align: 2px;
+/* New: gold, with a slow glow pulse */
+.nav-links a.nav-iris {
+  color: var(--gold); font-weight: 600;
+  animation: iris-glow 2.4s ease-in-out infinite;
+}
+.nav-links a.nav-iris:hover { color: var(--gold-bright); }
+@keyframes iris-glow {
+  0%, 100% { text-shadow: 0 0 0 rgba(232, 200, 96, 0); }
+  50% { text-shadow: 0 0 8px rgba(232, 200, 96, 0.85), 0 0 18px rgba(212, 160, 32, 0.45); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-links a.nav-iris { animation: none; text-shadow: 0 0 6px rgba(232, 200, 96, 0.6); }
 }
 .iris-band {
   border-bottom: 1px solid var(--border);
