@@ -254,6 +254,33 @@ a:hover { color: var(--gold-bright); }
 }
 .prof-inner img:hover { opacity: 1; transform: scale(1.15); }
 
+/* ---- Iris (nav entry and band) ---- */
+.nav-new {
+  margin-left: 6px; padding: 1px 6px; border-radius: 999px;
+  background: var(--gold); color: var(--bg-main);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  vertical-align: 2px;
+}
+.iris-band {
+  border-bottom: 1px solid var(--border);
+  background:
+    linear-gradient(90deg, rgba(212, 160, 32, 0.10), rgba(212, 160, 32, 0) 60%),
+    var(--bg-panel);
+  padding: 36px 0;
+}
+.iris-band-inner { display: flex; align-items: center; gap: 28px; }
+.iris-band-icon { flex-shrink: 0; width: 72px; height: 72px; }
+.iris-band-text { flex: 1; }
+.iris-band-text .eyebrow { margin-bottom: 6px; }
+.iris-band-text h2 { font-size: clamp(20px, 2.4vw, 26px); font-weight: 700; margin-bottom: 8px; }
+.iris-band-text p:last-child { color: var(--text-dim); font-size: 15px; line-height: 1.6; max-width: 640px; }
+.iris-band-actions { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+@media (max-width: 900px) {
+  .iris-band-inner { flex-direction: column; text-align: center; }
+  .iris-band-text p:last-child { margin: 0 auto; }
+  .iris-band-actions { justify-content: center; }
+}
+
 /* ---- Release Band ---- */
 .eyebrow {
   font-size: 12px; font-weight: 600;
