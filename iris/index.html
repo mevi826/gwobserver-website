@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iris for GWToolbox++</title>
+<meta name="description" content="Iris is a GWToolbox++ module that adds HUD panels to Guild Wars Observer Mode, using GW Observer recording data. No need to install GW Observer.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/eye_of_janthir_256.png" type="image/png">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Iris for GWToolbox++">
+<meta property="og:description" content="More insight, right inside Guild Wars. Iris adds HUD panels to Observer Mode, without needing to open GW Observer.">
+<meta property="og:url" content="https://gwobserver.com/iris/">
+<meta property="og:image" content="https://gwobserver.com/assets/iris/iris-hud.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Iris for GWToolbox++">
+<meta name="twitter:description" content="More insight, right inside Guild Wars. Iris adds HUD panels to Observer Mode, without needing to open GW Observer.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/iris/iris-hud.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+  .ico{ width:32px; height:32px; vertical-align:middle; margin-right:10px; border:1px solid var(--line); border-radius:3px }
+  .mast-brand{ display:flex; align-items:center; gap:18px }
+  .mast-brand img{ width:64px; height:64px; flex:none }
+  .tagline{ margin:14px 0 0; font-size:clamp(20px,2.6vw,26px); color:var(--gold); font-weight:500; letter-spacing:-.01em }
+  ol.steps{ margin:0 0 14px; padding:0; list-style:none; counter-reset:step }
+  ol.steps li{ counter-increment:step; position:relative; padding:8px 0 8px 40px; color:#d8d3cd }
+  ol.steps li::before{ content:counter(step); position:absolute; left:0; top:8px; width:26px; height:26px; border-radius:50%;
+    border:1px solid var(--gold-dim); color:var(--gold); font-size:13px; font-weight:650; display:flex; align-items:center; justify-content:center }
+  code{ font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.9em; color:var(--gold);
+    background:rgba(224,181,99,.08); border:1px solid rgba(224,181,99,.2); border-radius:4px; padding:1px 6px }
+  .cta{ margin:30px 0 0; display:flex; gap:12px; flex-wrap:wrap }
+  @media (max-width:560px){ header.mast{ padding:48px 16px 32px } .wrap{ padding:0 16px 72px } .hero{ padding:0 16px } }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">A module for GWToolbox++</p>
+  <div class="mast-brand">
+    <img src="../assets/eye_of_janthir_256.png" alt="" width="64" height="64">
+    <h1><span class="ver">Iris</span></h1>
+  </div>
+  <p class="tagline">More insight. Right inside Guild Wars.</p>
+  <p class="lede">Enjoy watching matches in Guild Wars Observer Mode? Iris adds HUD panels that help you follow the action, without needing to open GW Observer.</p>
+  <p class="lede">Whether you&rsquo;re settling in for a full match or dropping in for a quick watch, Iris brings useful match information into your in&#8209;game viewing experience.</p>
+
+  <div class="mast-actions" style="margin-left:0">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/Gwtoolbox-Iris/releases/latest/download/Iris.dll">Download Iris</a>
+    <a class="btn btn-outline" href="#install">Installation guide</a>
+  </div>
+</header>
+
+<figure class="hero">
+  <a class="screenshot-link" href="../assets/iris/iris-hud.jpg" target="_blank" rel="noopener" aria-label="Open screenshot at full size: a GvG match on the Isle of Jade watched in Observer Mode with the Iris panels">
+    <img class="shot" src="../assets/iris/iris-hud.webp" width="2560" height="1440" alt="A GvG match on the Isle of Jade watched in Observer Mode, with the Iris party panels, skill lasers, score chart and guild lord panel">
+  </a>
+  <figcaption>A match on the Isle of Jade in Observer Mode, with Iris party panels, skill lasers, the score chart and the guild lords. <a href="../assets/iris/iris-hud.jpg" target="_blank" rel="noopener">View full size</a></figcaption>
+</figure>
+
+<div class="wrap">
+
+  <section id="how">
+    <h2>How it works</h2>
+    <div class="rule"></div>
+    <p>GW Observer records matches. Iris uses data from those recordings and synchronizes it with the match you&rsquo;re observing inside Guild Wars.</p>
+    <p>When recording data is available for your match, Iris can display additional information about players, skills, energy and effects alongside the action.</p>
+
+    <div class="baseline" style="margin-top:28px">
+      <p><strong>A note about accuracy.</strong> Energy values and effects shown by Iris are calculated from match events, rather than directly recorded.</p>
+      <p>They may contain errors or differ from the actual game state. Treat them as a guide, rather than exact values.</p>
+    </div>
+  </section>
+
+  <section id="requirements">
+    <h2>What you need</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Guild Wars, watching a match in Observer Mode.</li>
+      <li>The latest version of <a href="https://www.gwtoolbox.com/" target="_blank" rel="noopener">GWToolbox++</a>.</li>
+      <li>The Iris module.</li>
+      <li>Available GW Observer recording data for the synchronized match information.</li>
+    </ul>
+    <p class="note">You do not need to install or run GW Observer.</p>
+  </section>
+
+  <section id="install">
+    <h2>Installation guide</h2>
+    <div class="rule"></div>
+    <p>Two parts: copy the file once, then load it once in GWToolbox++. After that Iris starts by itself every time.</p>
+    <ol class="steps">
+      <li>Make sure GWToolbox++ is up to date.</li>
+      <li>Close Guild Wars and download <code>Iris.dll</code> with the button below.</li>
+      <li>Put <code>Iris.dll</code> in the <code>plugins</code> folder of your GWToolbox++ settings folder: <code>Documents\GWToolboxpp\&lt;your computer name&gt;\plugins\</code>.</li>
+      <li>Start Guild Wars with GWToolbox++. Open the GWToolbox++ <strong>Settings</strong>, go to <strong>Plugins</strong>, and click <strong>Load</strong> next to <code>Iris.dll</code>. GWToolbox++ remembers it: you only do this once.</li>
+    </ol>
+    <figure class="fig narrow">
+      <img class="shot" src="../assets/iris/iris-plugins-loaded.png" width="827" height="749" alt="GWToolbox++ Settings, Plugins section, with Iris.dll loaded" loading="lazy">
+      <figcaption>Loaded: next to <code>Iris.dll</code> the button reads <strong>Unload</strong>.</figcaption>
+    </figure>
+
+    <h3 style="margin-top:30px">Using Iris</h3>
+    <ol class="steps">
+      <li>Open the <strong>Observe</strong> window in Guild Wars. Matches with an <strong>Eye of Janthir</strong> icon on the right have recording data, and Iris shows its HUD for them. Matches without the icon have no recording yet.</li>
+    </ol>
+    <figure class="fig">
+      <img class="shot" src="../assets/iris/iris-observe-list.png" width="1073" height="364" alt="The Observe window: matches with the Eye of Janthir icon have Iris data (green), the others do not (red)" loading="lazy">
+      <figcaption>Green: matches with the Eye of Janthir, where Iris has recording data. Red: no recording yet.</figcaption>
+    </figure>
+    <ol class="steps" start="2" style="counter-reset:step 1; margin-top:18px">
+      <li>Watch one of those matches. In the top-right corner, under Guild Wars&rsquo; own <strong>Auto Camera</strong> and <strong>Hide UI</strong>, tick <strong>Iris</strong> to open the IRIS Options window and choose which panels to show. Untick it, or close the window, to hide the options again; Iris keeps running.</li>
+    </ol>
+    <figure class="fig narrow" style="max-width:280px">
+      <img class="shot" src="../assets/iris/iris-toggle.png" width="274" height="117" alt="The Iris toggle under Auto Camera and Hide UI in Observer Mode" loading="lazy">
+      <figcaption>The Iris toggle opens the IRIS Options window.</figcaption>
+    </figure>
+    <div class="baseline" style="margin-top:24px">
+      <p><strong>Disclaimer.</strong> Plugins are not supported by ArenaNet, nor by the GWToolbox++ developers. Use Iris at your own risk.</p>
+    </div>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/MC92-hash/Gwtoolbox-Iris/releases/latest/download/Iris.dll">Download Iris</a>
+      <a class="btn btn-outline" href="https://github.com/MC92-hash/Gwtoolbox-Iris" target="_blank" rel="noopener">Iris on GitHub</a>
+    </div>
+  </section>
+
+  <section id="goal">
+    <h2>Our goal</h2>
+    <div class="rule"></div>
+    <div class="story">
+      <p>We built Iris for people who enjoy watching matches in game, but don&rsquo;t always have the time, or the desire, to open a replay in GW Observer. Our goal is simple: make in&#8209;game matches easier to follow, understand and enjoy.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Iris is made by the GW Observer team. Feedback and bug reports are welcome on our <a href="https://discord.gg/2M4KYxwdz7" target="_blank" rel="noopener">Discord</a>.</p>
+    <p class="legal">Iris and GW Observer are unofficial fan&#8209;made projects not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
