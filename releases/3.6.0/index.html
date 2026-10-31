@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 3.6.0 Release Notes</title>
+<meta name="description" content="GW Observer 3.6.0 focuses on stats and match analysis: builds, stats and a map view in the Match Library, a Breakdown window, a rebuilt Combat Log, the Piano Roll for spikes and a Highlights mode.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 3.6.0 Release Notes">
+<meta property="og:description" content="GW Observer 3.6.0 focuses on stats and match analysis: builds, stats and a map view in the Match Library, a Breakdown window, a rebuilt Combat Log, the Piano Roll for spikes and a Highlights mode.">
+<meta property="og:url" content="https://gwobserver.com/releases/3.6.0/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 3.6.0 Release Notes">
+<meta name="twitter:description" content="GW Observer 3.6.0 focuses on stats and match analysis: builds, stats and a map view in the Match Library, a Breakdown window, a rebuilt Combat Log, the Piano Roll for spikes and a Highlights mode.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+  .ico{ width:32px; height:32px; vertical-align:middle; margin-right:10px; border:1px solid var(--line); border-radius:3px }
+  .ico.sm{ width:22px; height:22px; margin:0 4px 0 2px; vertical-align:-5px }
+  .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  /* text marks: same colour as the box drawn on the screenshot */
+  .hl{ text-decoration-line:underline; text-decoration-style:dotted; text-decoration-thickness:2px; text-underline-offset:5px }
+  .hl-red{ text-decoration-color:#ff4d4f; text-shadow:0 0 12px rgba(255,77,79,.55) }
+  .hl-gold{ text-decoration-color:#ffc53d; text-shadow:0 0 12px rgba(255,197,61,.5) }
+  .hl-cyan{ text-decoration-color:#40c4ff; text-shadow:0 0 12px rgba(64,196,255,.55) }
+  .hl-green{ text-decoration-color:#52e07a; text-shadow:0 0 12px rgba(82,224,122,.5) }
+  .hl-magenta{ text-decoration-color:#ff6bd6; text-shadow:0 0 12px rgba(255,107,214,.55) }
+
+  .hl{ cursor:default; border-radius:3px; transition:background .2s, text-shadow .2s }
+  .hl.on{ color:#fff }
+  .hl-red.on{ background:rgba(255,77,79,.16); text-shadow:0 0 14px rgba(255,77,79,.9) }
+  .hl-gold.on{ background:rgba(255,197,61,.14); text-shadow:0 0 14px rgba(255,197,61,.9) }
+  .hl-cyan.on{ background:rgba(64,196,255,.16); text-shadow:0 0 14px rgba(64,196,255,.9) }
+  .hl-green.on{ background:rgba(82,224,122,.14); text-shadow:0 0 14px rgba(82,224,122,.9) }
+  .hl-orange{ text-decoration-color:#ff8a3d; text-shadow:0 0 12px rgba(255,138,61,.5) }
+  .hl-orange.on{ background:rgba(255,138,61,.16); text-shadow:0 0 14px rgba(255,138,61,.9) }
+  .hl-magenta.on{ background:rgba(255,107,214,.16); text-shadow:0 0 14px rgba(255,107,214,.9) }
+
+  /* boxes drawn over the screenshots */
+  .shotbox{ position:relative }
+  .box{ position:absolute; border:2px solid var(--c); border-radius:6px; pointer-events:none;
+    box-shadow:0 0 8px var(--g), inset 0 0 6px var(--g); transition:box-shadow .2s, border-width .2s, background .2s }
+  .box.on{ border-width:3px; background:var(--f); box-shadow:0 0 22px 4px var(--c), inset 0 0 14px var(--g) }
+  .c-red{ --c:#ff4d4f; --g:rgba(255,77,79,.6); --f:rgba(255,77,79,.10) }
+  .c-gold{ --c:#ffc53d; --g:rgba(255,197,61,.55); --f:rgba(255,197,61,.10) }
+  .c-cyan{ --c:#40c4ff; --g:rgba(64,196,255,.6); --f:rgba(64,196,255,.10) }
+  .c-green{ --c:#52e07a; --g:rgba(82,224,122,.55); --f:rgba(82,224,122,.10) }
+  .c-magenta{ --c:#ff6bd6; --g:rgba(255,107,214,.6); --f:rgba(255,107,214,.10) }
+  .c-orange{ --c:#ff8a3d; --g:rgba(255,138,61,.6); --f:rgba(255,138,61,.10) }
+  .box-label{ position:absolute; left:calc(100% + 8px); top:50%; transform:translateY(-50%); white-space:nowrap;
+    background:var(--c); color:#17140d; font-size:12px; font-weight:650; padding:2px 9px; border-radius:10px;
+    box-shadow:0 0 10px var(--g) }
+
+  /* portrait shot beside its text */
+  .side{ --w:min(var(--wide) - 56px, 100vw - 56px); width:var(--w); margin-left:calc((100% - var(--w)) / 2);
+    display:grid; grid-template-columns:minmax(0,1fr) 620px; gap:36px; align-items:start }
+  .side .fig{ margin:0 }
+  @media (max-width:980px){ .side{ grid-template-columns:1fr } }
+
+  /* skill rules */
+  .rules{ margin:14px 0 0; padding:0; list-style:none }
+  .rules li{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line-soft); font-size:15px; color:#d3cec8 }
+  .rules li img{ width:28px; height:28px; flex:none; border:1px solid var(--line); border-radius:3px; margin-top:1px }
+  .rules li b{ color:var(--text); font-weight:600 }
+  .rules li .was{ display:block; margin-top:2px; font-size:13.5px; color:var(--dim) }
+  p.was{ font-size:13.5px; color:var(--dim); margin:6px 0 0 }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px }
+  .chip{ display:inline-flex; align-items:center; gap:7px; padding:3px 11px 3px 3px; background:var(--surface);
+    border:1px solid var(--line-soft); border-radius:6px; font-size:14px; color:#d8d3cd }
+  .chip img{ width:24px; height:24px; border-radius:3px }
+  .rules.scores li{ align-items:baseline }
+  .rules + p{ margin-top:14px }
+  .pts{ flex:none; min-width:52px; text-align:center; padding:1px 8px; border-radius:6px; font-weight:650; font-size:14px;
+    font-variant-numeric:tabular-nums }
+  .pts.plus{ color:#52e07a; background:rgba(82,224,122,.1); border:1px solid rgba(82,224,122,.3) }
+  .pts.minus{ color:#ff6b6b; background:rgba(255,77,79,.1); border:1px solid rgba(255,77,79,.3) }
+  .pts.zero{ color:var(--muted, #a9a39b); background:rgba(255,255,255,.04); border:1px solid var(--line-soft) }
+  /* Aggressiveness: the layout of the Lord Damage Rules page, scoped to its section */
+  #aggressiveness{ --body:#d8d3cd; --cost:#d9776a; --cost-wash:rgba(217,119,106,.12); --verified-wash:rgba(127,176,105,.12);
+    --open:#8c8fa6; --open-wash:rgba(140,143,166,.13); --gold-wash:rgba(224,181,99,.09); --gold-edge:rgba(224,181,99,.28);
+    --mono:ui-monospace, SFMono-Regular, Consolas, monospace }
+  #aggressiveness > h3{ margin-top:48px }
+  #aggressiveness strong.win{ color:var(--gold); background:rgba(224,181,99,.12); padding:1px 6px; border-radius:4px }
+  #aggressiveness .agr-base{ max-width:none; margin:22px 0 0 }
+  #aggressiveness .sign{ font-family:var(--mono); font-weight:700; padding:0 2px }
+  #aggressiveness .sign.plus{ color:var(--verified) } #aggressiveness .sign.minus{ color:var(--cost) }
+  #aggressiveness .formula{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px; padding:20px 22px; margin:0 0 18px;
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:10px; font-size:17px }
+  #aggressiveness .formula .eq{ color:var(--muted); font-family:var(--mono) }
+  #aggressiveness .term{ display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:7px;
+    border:1px solid var(--line); background:var(--surface-2); white-space:nowrap; max-width:100% }
+  #aggressiveness .term.minus{ white-space:normal }
+  #aggressiveness .term img{ width:22px; height:22px; border-radius:3px }
+  #aggressiveness .term .n{ font-family:var(--mono); font-weight:700 }
+  #aggressiveness .term.plus .n{ color:var(--verified) } #aggressiveness .term.minus .n{ color:var(--cost) }
+  #aggressiveness .term.total{ border-color:var(--gold-edge); background:var(--gold-wash); color:var(--gold); font-weight:650 }
+  #aggressiveness .worked{ padding:18px 22px; border-radius:10px; border:1px solid var(--line-soft); background:var(--surface) }
+  #aggressiveness .worked h3{ margin:0 0 4px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:650 }
+  #aggressiveness .worked .sub{ margin:0 0 12px; font-size:14.5px; color:var(--muted) }
+  #aggressiveness .sum{ width:100%; border-collapse:collapse; font-size:15px; font-variant-numeric:tabular-nums }
+  #aggressiveness .sum td{ padding:8px 0; border-top:1px solid var(--line-soft); vertical-align:middle; color:var(--body) }
+  #aggressiveness .sum td:first-child{ width:34px }
+  #aggressiveness .sum td img{ width:24px; height:24px; border-radius:3px; display:block }
+  #aggressiveness .sum td.v{ text-align:right; font-family:var(--mono); font-weight:600; white-space:nowrap; padding-left:14px }
+  #aggressiveness .sum tr.tot td{ border-top:1px solid var(--gold-edge); color:var(--gold); font-weight:650 }
+  #aggressiveness .v.plus{ color:var(--verified) } #aggressiveness .v.minus{ color:var(--cost) } #aggressiveness .v.zero{ color:var(--dim) }
+  #aggressiveness .agr-rules{ display:grid; gap:18px }
+  #aggressiveness .r{ padding:20px 22px 18px; background:var(--surface); border:1px solid var(--line-soft); border-radius:10px; min-width:0 }
+  #aggressiveness .r-head{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px; margin:0 0 10px }
+  #aggressiveness .r-head > img{ width:32px; height:32px; border-radius:4px; flex:none }
+  #aggressiveness .r h3{ margin:0; font-size:21px; line-height:1.25; letter-spacing:-.01em; font-weight:620; text-wrap:balance; flex:1 1 220px; min-width:0 }
+  #aggressiveness .val{ font-family:var(--mono); font-size:14px; font-weight:700; padding:4px 10px; border-radius:6px; white-space:nowrap; border:1px solid }
+  #aggressiveness .val.plus{ color:var(--verified); background:var(--verified-wash); border-color:rgba(127,176,105,.35) }
+  #aggressiveness .val.minus{ color:var(--cost); background:var(--cost-wash); border-color:rgba(217,119,106,.35) }
+  #aggressiveness .val.zero{ color:var(--muted); background:var(--surface-2); border-color:var(--line) }
+  #aggressiveness .pill{ font-size:11px; font-weight:650; letter-spacing:.12em; text-transform:uppercase; padding:3px 8px; border-radius:20px; white-space:nowrap }
+  #aggressiveness .pill.confirmed{ color:var(--verified); background:var(--verified-wash) }
+  #aggressiveness .pill.measured{ color:var(--gold); background:var(--gold-wash) }
+  #aggressiveness .r > p{ font-size:15.5px; color:var(--body) }
+  #aggressiveness ul.ex{ margin:12px 0 0; padding:0; list-style:none }
+  #aggressiveness ul.ex li{ display:flex; align-items:center; gap:12px; padding:9px 0; border-top:1px solid var(--line-soft); font-size:15px; color:var(--body) }
+  #aggressiveness ul.ex li .icons{ display:flex; gap:4px; flex:none }
+  #aggressiveness ul.ex li .icons img{ width:28px; height:28px; border-radius:3px; display:block }
+  #aggressiveness ul.ex li .t{ flex:1 1 auto; min-width:0 }
+  #aggressiveness ul.ex li .v{ flex:none; font-family:var(--mono); font-weight:700; font-size:14px; font-variant-numeric:tabular-nums; text-align:right; color:var(--dim) }
+  #aggressiveness ul.ex li .v.plus{ color:var(--verified) } #aggressiveness ul.ex li .v.minus{ color:var(--cost) }
+  #aggressiveness ul.ex li .v .plus{ color:var(--verified) } #aggressiveness ul.ex li .v .minus{ color:var(--cost) } #aggressiveness ul.ex li .v .zero{ color:var(--dim) }
+  #aggressiveness .why{ margin:12px 0 0; font-size:14px; color:var(--dim) }
+  #aggressiveness .why b{ color:var(--muted); font-weight:600 }
+  #aggressiveness .card.open{ border-top:2px solid var(--open) }
+  #aggressiveness .card.open h4{ color:var(--open) }
+  #aggressiveness .wide-card{ margin-top:18px }
+  #aggressiveness .card ol.test{ margin:10px 0; padding-left:22px; color:var(--body); font-size:14.5px }
+  @media (max-width:520px){
+    #aggressiveness .r{ padding:16px 16px 14px }
+    #aggressiveness ul.ex li{ flex-wrap:wrap }
+    #aggressiveness ul.ex li .t{ flex-basis:calc(100% - 80px) }
+  }
+  h4.sub{ margin:30px 0 4px; font-size:17px; font-weight:620; color:var(--text) }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">3.6.0</span></h1>
+  <p class="lede">Halloween time! This update focuses on stats and match analysis. You can now check builds, stats and the map from the Match Library, watch highlights, and look closely at what happened during a spike.</p>
+
+  <div class="baseline">
+    <p>We want these tools to help guilds review their matches. Tell us what you miss, what is hard to understand, or which numbers look wrong.</p>
+  </div>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.6.0/GWObserver.zip">Download 3.6.0</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc" aria-label="Contents">
+    <h2>In this update</h2>
+    <ol>
+      <li><a href="#aggressiveness">Aggressiveness</a></li>
+      <li><a href="#library">Match Library</a></li>
+      <li><a href="#stats">Stats</a></li>
+      <li><a href="#breakdown">Breakdown</a></li>
+      <li><a href="#combat-log">Combat Log</a></li>
+      <li><a href="#piano-roll">Piano Roll</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#other">Other changes</a></li>
+      <li><a href="#halloween">Halloween</a></li>
+      <li><a href="#fixes">Fixes</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ AGGRESSIVENESS ============ -->
+
+  <section id="aggressiveness">
+    <h2>Aggressiveness</h2>
+    <div class="rule"></div>
+    <p>Aggressiveness replaces Lord Damage. We completely reviewed the Aggressiveness calculation, based on match history and rules discovered by the community. It shows <span class="hl hl-gold" data-box="aggressiveness.score" tabindex="0">each team&rsquo;s live score</span> for the 28:00 lord damage tiebreak and <span class="hl hl-cyan" data-box="aggressiveness.cause" tabindex="0">what contributes to it</span>.</p>
+    <p>If neither Guild Lord dies, a GvG ends at 28:00 and <strong class="win">the team with the higher score wins</strong>. The game calls it aggressiveness. The server never shows the score, only the winner, so every rule below was tested against real results: a rule stays only if it picks the right winner in more matches than the other ideas.</p>
+    <div class="baseline agr-base">
+      <p>We ran our Aggressiveness model on all <strong>161 recorded matches that ended at 28:00</strong> since March 21, 2026. It found the right winner for <strong>160</strong> of them. This is our best model so far: every other version we tested (Entourage damage counted in full or not at all, a 10-second Entourage, 30 per block, healing taken off the score, the number of pit NPCs) picks the wrong winner in more of these matches.</p>
+      <p><strong>One score per team.</strong> A <span class="sign plus">+</span> adds points to the team that did it. A <span class="sign minus">&minus;</span> takes points off that same team. Nothing is ever taken from the other team.</p>
+    </div>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/aggressiveness.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Aggressiveness panel with each team's score and its causes">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/aggressiveness.webp" alt="The Aggressiveness panel with each team's score and its causes">
+      </a>
+        <span class="box c-gold" data-box="aggressiveness.score" style="left:calc(19.010% - 5px);top:calc(18.241% - 5px);width:calc(5.156% + 10px);height:calc(1.852% + 10px)"></span>
+        <span class="box c-cyan" data-box="aggressiveness.cause" style="left:calc(19.010% - 5px);top:calc(20.741% - 5px);width:calc(3.073% + 10px);height:calc(2.037% + 10px)"></span>
+      </div>
+      <figcaption>Each team's live tiebreak score, with what counts for it. <a href="../../assets/releases/3.6.0/aggressiveness.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <h3>How the score works</h3>
+
+    <div class="formula" role="img" aria-label="Score equals damage on the enemy lord, plus 20 percent of the damage dealt while his Entourage is up, plus 30 per blind miss and 20 per blocked attack, minus 50 per enchantment or weapon spell cast on your own lord, 300 while its Entourage is up">
+      <span class="term total">Your score</span><span class="eq">=</span>
+      <span class="term plus"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt=""><span>Damage on the enemy lord</span></span><span class="eq">+</span>
+      <span class="term plus"><span class="n">20%</span><span>of damage under Entourage</span><img src="../../assets/releases/3.6.0/aggr/entourage.jpg" alt="Entourage"></span><span class="eq">+</span>
+      <span class="term plus"><span class="n">30</span><span>per</span><img src="../../assets/releases/3.6.0/aggr/blind.jpg" alt="Blind"><span>blind miss</span></span><span class="eq">+</span>
+      <span class="term plus"><span class="n">20</span><span>per</span><img src="../../assets/releases/3.6.0/aggr/protectors_defense.jpg" alt="Protector's Defense"><span>block</span></span><span class="eq">&minus;</span>
+      <span class="term minus"><span class="n">50</span><span>per</span><img src="../../assets/releases/3.6.0/aggr/enchanted.png" alt="Enchantment"><span>enchant or</span><img src="../../assets/releases/3.6.0/aggr/weapon_spell.png" alt="Weapon spell"><span>weapon spell on your own lord</span></span><span class="eq">or</span><span class="term minus"><span class="n">300</span><span>while its Entourage</span><img src="../../assets/releases/3.6.0/aggr/entourage.jpg" alt="Entourage"><span>is up</span></span>
+    </div>
+
+    <div class="worked">
+      <h3>Worked example</h3>
+      <p class="sub">Red attacks Blue's lord for the whole match. This is Red's score; Blue's is counted the same way, on Red's lord.</p>
+      <table class="sum">
+        <tr><td><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt=""></td><td>Red's hits on Blue's lord, outside Entourage</td><td class="v plus">+1,700</td></tr>
+        <tr><td><img src="../../assets/releases/3.6.0/aggr/entourage.jpg" alt=""></td><td>300 more damage while Blue's lord had Entourage up, counted at 20%</td><td class="v plus">+60</td></tr>
+        <tr><td><img src="../../assets/releases/3.6.0/aggr/protectors_defense.jpg" alt=""></td><td>5 Red attacks blocked by Blue's Protector's Defense</td><td class="v plus">+100</td></tr>
+        <tr><td><img src="../../assets/releases/3.6.0/aggr/guardian.jpg" alt=""></td><td>2 Guardians Red's monks cast on Red's own lord after Red's pit fell (no Entourage, so 50 each)</td><td class="v minus">&minus;100</td></tr>
+        <tr><td><img src="../../assets/releases/3.6.0/aggr/life_draining.jpg" alt=""></td><td>Life stolen from Blue's lord</td><td class="v zero">0</td></tr>
+        <tr class="tot"><td></td><td>Red's score</td><td class="v">1,760</td></tr>
+      </table>
+    </div>
+
+    <h3>What scores for you</h3>
+    <div class="agr-rules">
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="">
+          <h3>Damage on the enemy Guild Lord</h3>
+          <span class="val plus">+1 per point</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <p>Every point of damage your team deals to the enemy lord adds one point: normal hits, critical hits and armour-ignoring damage, from the first minute to the last. Damage his Amulet of Protection heals right back still counts.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="Lightning Strike"></span><span class="t">Lightning Strike hits the enemy lord for 54</span><span class="v plus">+54</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/savage_shot.jpg" alt="Savage Shot"></span><span class="t">A ranger's arrow lands for 38, then a 52 critical</span><span class="v plus">+90</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/hundred_blades.jpg" alt="Hundred Blades"></span><span class="t">A warrior's Hundred Blades hits the lord for 22</span><span class="v plus">+22</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/amulet.jpg" alt="Amulet of Protection"></span><span class="t">A 300-damage spike early in the match: his Amulet of Protection lets only part of it through each second and heals the rest back. The whole spike still counts</span><span class="v plus">+300</span></li>
+        </ul>
+        <p class="why"><b>Why:</b> official rule (2008 update); holds in every recorded 28:00 match.</p>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/entourage.jpg" alt="">
+          <h3>Damage while the enemy lord has Entourage up</h3>
+          <span class="val plus">+20% of it</span><span class="pill measured">Measured</span>
+        </div>
+        <p><strong>Entourage</strong> is the Guild Lord's own 15-second shield: he takes at most 30 damage per hit and 30 less each second. He can only cast it while his pit NPCs outnumber the attackers in the pit; pets, spirits and minions don't count as attackers. Damage that still gets through counts for only a fifth.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="Lightning Strike"></span><span class="t">The same Lightning Strike lands for 30 under Entourage</span><span class="v plus">+6</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/blue_lord.png" alt="Guild Lord"></span><span class="t">Kill or pull pit NPCs until your attackers outnumber them: Entourage stops and hits count in full again</span><span class="v plus">full value</span></li>
+        </ul>
+        <p class="why"><b>Why 20%:</b> counting this damage at 20% predicts the right winner in 160 of the 161 recorded 28:00 matches. Counting it in full predicts the wrong winner in 3 of them, and not counting it at all in 2.</p>
+        <p class="why"><b>Why 15 seconds and not 10:</b> community testing found that Entourage lasts 10 seconds, not the 15 its description says. The recordings can't see the shield itself, only each time the lord casts it: about every 10.5 seconds, which matches its 10-second recharge. Treating each cast as covering 15 seconds keeps the right winner in 160 of 161 matches. Treating it as covering 10 seconds predicts the wrong winner in 3 or 4 matches, whatever share is used. So either the reduced scoring outlasts the shield, or the 10 seconds seen in testing was the recast time.</p>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/blind.jpg" alt="">
+          <h3>Your attack misses or is blocked</h3>
+          <span class="val plus">+30 blind &middot; +20 block</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <p>An attack on the enemy lord that misses under blind scores 30 for the <strong>attacking team</strong>, and one that is blocked scores 20. The team that blocked loses nothing for the block itself. ArenaNet counts defences stacked on a lord as aggression by the other team, so turtling your lord can't win the tiebreak.</p>
+        <p>Blocking still helps the defender against big hits: a blocked 60-damage attack gives the attacker 20 instead of 60. What can cost the defender is <em>how</em> they block: Guardian cast on their own lord is an enchantment on him, so it costs them &minus;50 per cast.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/blinding_flash.jpg" alt="Blinding Flash"><img src="../../assets/releases/3.6.0/aggr/blind.jpg" alt="Blind"></span><span class="t">Your warrior is Blinded by Blinding Flash and misses the enemy lord</span><span class="v"><span class="plus">you +30</span></span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/protectors_defense.jpg" alt="Protector's Defense"></span><span class="t">Their monk's Protector's Defense (a stance on the monk) blocks your 60-damage hit</span><span class="v"><span class="plus">you +20</span> &middot; <span class="zero">them 0</span></span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/guardian.jpg" alt="Guardian"></span><span class="t">Guardian cast on their lord blocks it</span><span class="v"><span class="plus">you +20</span> &middot; <span class="minus">them &minus;50 per Guardian</span></span></li>
+        </ul>
+        <p class="why"><b>Why:</b> in a controlled community test, one blind miss tied with 30 damage. A blocked attack scores 20, which fits the recordings; 30 or more per block predicts the wrong winner in more matches.</p>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/morale_boost.png" alt="">
+          <h3>The enemy lord's maximum Health</h3>
+          <span class="val zero">No effect on the score</span><span class="pill measured">Measured</span>
+        </div>
+        <p>The lord's maximum Health is 1,680, plus 1% for each morale boost his team has earned (up to 1,848), minus 100 while he is Deep Wounded. This does not change anyone's score: a 54-damage hit counts 54, whatever his maximum. Morale boosts only make your lord harder to kill.</p>
+        <p>We need it to read the hits correctly: the recording gives each hit as a share of the lord's Health, not in points. With the wrong maximum, every hit on a boosted lord would be read up to 10% too low.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/morale_boost.png" alt="Morale boost"></span><span class="t">Blue earned 5 morale boosts: their lord has 1,764 Health. A 54-damage hit is recorded as 3.1% of it, and still counts 54</span><span class="v zero">1,764 HP</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/deep_wound.jpg" alt="Deep Wound"></span><span class="t">The lord is Deep Wounded: 100 less maximum Health while it lasts</span><span class="v zero">&minus;100 HP</span></li>
+        </ul>
+        <p class="why"><b>Why:</b> measured on 96,000 health readings of Guild Lords.</p>
+      </article>
+    </div>
+
+    <h3>What costs you</h3>
+    <div class="agr-rules">
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/enchanted.png" alt="">
+          <h3>Enchanting your own lord</h3>
+          <span class="val minus">&minus;50 &middot; &minus;300 under Entourage</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <p>Every enchantment your players cast on your own Guild Lord takes 50 points off your score, and <strong>300</strong> if it lands while his Entourage is up: while his pit NPCs are alive and outnumber the enemy players in the pit. Once that can no longer happen (pit dead, or enough enemies inside) it's back to 50.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/guardian.jpg" alt="Guardian"></span><span class="t">Guardian on your own lord after your pit is dead (each attack it blocks still gives the enemy +20)</span><span class="v minus">&minus;50</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/life_sheath.jpg" alt="Life Sheath"></span><span class="t">Life Sheath on your own lord while his Entourage is up</span><span class="v minus">&minus;300</span></li>
+        </ul>
+        <p class="why"><b>Why:</b> controlled community tests. With a live pit, 300 damage plus one Vigorous Spirit or Patient Spirit on the dealer's own lord tied with a team that did nothing, and two spirits needed 600. With the pit dead, 50 damage plus one Patient Spirit tied.</p>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/weapon_spell.png" alt="">
+          <h3>Weapon spells on your own lord</h3>
+          <span class="val minus">&minus;50 &middot; &minus;300 under Entourage</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <p>Ritualist weapon spells count like enchantments.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/spirit_light_weapon.jpg" alt="Spirit Light Weapon"></span><span class="t">Spirit Light Weapon on your own lord</span><span class="v minus">&minus;50</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/weapon_of_warding.jpg" alt="Weapon of Warding"></span><span class="t">Weapon of Warding on your own lord while his Entourage is up</span><span class="v minus">&minus;300</span></li>
+        </ul>
+      </article>
+
+    </div>
+
+    <h3>What doesn&rsquo;t count</h3>
+    <div class="agr-rules">
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/life_draining.jpg" alt="">
+          <h3>Life steal</h3>
+          <span class="val zero">0</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/angorodons_gaze.jpg" alt="Angorodon's Gaze"><img src="../../assets/releases/3.6.0/aggr/vampiric_gaze.jpg" alt="Vampiric Gaze"></span><span class="t">Angorodon's Gaze or Vampiric Gaze steals 40 Health from the enemy lord</span><span class="v zero">0</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/life_draining.jpg" alt="Life Draining"></span><span class="t">The stolen part of a vampiric weapon's hit (the hit itself still counts)</span><span class="v zero">0</span></li>
+        </ul>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/bleeding.jpg" alt="">
+          <h3>Degeneration</h3>
+          <span class="val zero">0</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/bleeding.jpg" alt="Bleeding"><img src="../../assets/releases/3.6.0/aggr/poison.jpg" alt="Poison"></span><span class="t">Bleeding or Poison ticking on the enemy lord (a hex that deals real damage each second, like Illusion of Pain, does count for that damage)</span><span class="v zero">0</span></li>
+        </ul>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/healing_burst.jpg" alt="">
+          <h3>The enemy healing his lord</h3>
+          <span class="val zero">No effect</span><span class="pill measured">Measured</span>
+        </div>
+        <p>Healing never lowers your score. The damage you dealt still counts even if it is healed right back.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/healing_burst.jpg" alt="Healing Burst"><img src="../../assets/releases/3.6.0/aggr/word_of_healing.jpg" alt="Word of Healing"></span><span class="t">Their monk heals the lord for 120 right after your 120-damage spike</span><span class="v plus">your +120 stays</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/amulet.jpg" alt="Amulet of Protection"></span><span class="t">His Amulet of Protection heals back what goes over its cap (25 damage per second at the start, rising to 300 by 12:00)</span><span class="v plus">your damage stays</span></li>
+        </ul>
+        <p class="why"><b>Why:</b> subtracting healing from the score predicts the wrong winner in 2 more matches.</p>
+      </article>
+
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/blue_lord.png" alt="">
+          <h3>How many pit NPCs are alive</h3>
+          <span class="val zero">No direct effect</span><span class="pill measured">Measured</span>
+        </div>
+        <p>The Bodyguard, Knights and Archers only matter by letting their lord cast Entourage (more NPCs alive than attackers in the pit). Through Entourage they decide whether an enchantment on your own lord costs 50 or 300, but their number doesn't scale anything: one team won after 6 Guardians on its own lord with 4 pit NPCs alive and no Entourage.</p>
+      </article>
+    </div>
+
+    <h3>The Bodyguard&rsquo;s Health</h3>
+    <div class="agr-rules">
+      <article class="r">
+        <div class="r-head">
+          <img src="../../assets/releases/3.6.0/aggr/bodyguard.png" alt="">
+          <h3>The Bodyguard has 521 Health, not 480</h3>
+          <span class="val zero">521 HP</span><span class="pill confirmed">Confirmed</span>
+        </div>
+        <p>The wiki gives the Bodyguard 480 Health, like the Knights, Footmen and Archers. He actually has <strong>521</strong>, and 421 while Deep Wounded. The other pit NPCs do have 480.</p>
+        <ul class="ex">
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/bodyguard.png" alt="Bodyguard"><img src="../../assets/releases/3.6.0/aggr/vampiric_gaze.jpg" alt="Vampiric Gaze"></span><span class="t">Controlled test: 10 Vampiric Gaze at Blood Magic 12 steal 52 each, 520 in all. The Bodyguard survives the tenth with Health to spare; a spear attack has to finish him</span><span class="v zero">521 HP</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/deep_wound.jpg" alt="Deep Wound"></span><span class="t">Deep Wounded, he drops to 421 (Deep Wound takes 20%, at most 100)</span><span class="v minus">421 HP</span></li>
+        </ul>
+        <p class="why"><b>Why:</b> the game sends each hit as a share of the target's maximum Health. On the Bodyguard, every 52-point steal of the test read 0.099808, which is exactly 52 &divide; 521 (52 &divide; 480 would be 0.108333). The same holds for all 3,403 hits and heals on Bodyguards in 54 recorded matches: every one is a whole number of Health out of 521, and none out of 480.</p>
+        <p class="why"><b>Why it matters here:</b> killing the Bodyguard is part of breaking a lord's pit, and so his Entourage. Plan for 521 damage, plus whatever he regenerates while you work on him: in the test he got back about 13 Health between casts.</p>
+      </article>
+    </div>
+
+    <h3>How sure we are</h3>
+    <div class="trust">
+      <div class="card verified">
+        <h4>Confirmed</h4>
+        <p class="sub">ArenaNet's own rules, and the recordings agree.</p>
+        <ul>
+          <li><b>+1 per point of damage on the enemy lord</b><span>2008 update; whole match, all hit types</span></li>
+          <li><b>&minus;50 per enchantment or weapon spell on your own lord, &minus;300 under Entourage</b><span>2008 update; community controlled tests</span></li>
+          <li><b>+30 per blind miss</b><span>Official wiki; a community test tied one blind miss with 30 damage</span></li>
+          <li><b>Life steal and degeneration count 0</b><span>Official wiki, Aggressiveness page</span></li>
+          <li><b>The Bodyguard has 521 Health, not the wiki's 480</b><span>Controlled Vampiric Gaze test, and 3,403 recorded hits</span></li>
+        </ul>
+      </div>
+      <div class="card inferred">
+        <h4>Measured</h4>
+        <p class="sub">The 2010 update named these without numbers; the numbers come from recorded winners.</p>
+        <ul>
+          <li><b>Damage under Entourage counts 20%</b><span>15 to 25% fits; 0% and 100% don't</span></li>
+          <li><b>+20 per blocked attack</b><span>Fits the recordings; 30 and up doesn't</span></li>
+          <li><b>Lord Health: +1% per morale boost, &minus;100 Deep Wounded</b><span>96,000 health readings</span></li>
+          <li><b>Healing and the NPC count change nothing</b><span>Each alternative predicts the wrong winner in more matches</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card open wide-card">
+      <h4>Still open</h4>
+      <ul>
+        <li><b>Is it the running Entourage, or the NPC head count, that makes it &minus;300?</b><span>The tests had both true or both false. To split them: let enemy players walk into your pit until they outnumber your living pit NPCs, then enchant your own lord within a few seconds, while his last Entourage is still running. &minus;300 means the running shield decides; &minus;50 means the head count does.</span></li>
+        <li><b>Flux damage on a lord</b><span>For example Minion Apocalypse: the recordings can't tell whether it counts.</span></li>
+        <li><b>One recorded match</b><span>No rule explains it: the winner did less damage.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ MATCH LIBRARY ============ -->
+
+  <section id="library">
+    <h2>Match Library</h2>
+    <div class="rule"></div>
+    <p>Match Details now has three tabs: <strong>Overview</strong>, <strong>Stats</strong> and <strong>Map</strong>. You don&rsquo;t need to open the replay to use them. If the match is only in the cloud, it downloads and loads in the background.</p>
+
+    <h3>Overview</h3>
+    <p>Hover a player&rsquo;s name or profession icons to <span class="hl hl-cyan" data-box="library-overview.card" tabindex="0">see their build and attributes</span>. Click the profession icon to keep the build open. You can copy one template or <span class="hl hl-gold" data-box="library-overview.copy" tabindex="0">all eight builds from a team</span>. Copied templates now include the attribute points we found, and we fixed some templates that Guild Wars refused to load.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/library-overview.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Match Details Overview with a player's build card open">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/library-overview.webp" alt="Match Details Overview with a player's build card open">
+      </a>
+        <span class="box c-cyan" data-box="library-overview.card" style="left:calc(15.000% - 5px);top:calc(56.167% - 5px);width:calc(16.615% + 10px);height:calc(35.333% + 10px)"></span>
+        <span class="box c-gold" data-box="library-overview.copy" style="left:calc(39.792% - 5px);top:calc(20.000% - 5px);width:calc(0.833% + 10px);height:calc(2.667% + 10px)"></span>
+      </div>
+      <figcaption>Hover a player to see their build and attributes. Copy one template or the whole team. <a href="../../assets/releases/3.6.0/library-overview.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <h3>Map</h3>
+    <p>Follow the match from top view, with <span class="hl hl-cyan" data-box="library-map.skillbars" tabindex="0">skill bars for both teams</span>. You can zoom in, move around, and turn player names and trails on.</p>
+    <p>The timeline shows team health, deaths, flag captures and morale boosts. <span class="hl hl-gold" data-box="library-map.selection" tabindex="0">Drag over a fight to select it</span> and check its stats.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/library-map.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Match Details Map tab with both teams' skill bars and the timeline">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/library-map.webp" alt="Match Details Map tab with both teams' skill bars and the timeline">
+      </a>
+        <span class="box c-gold" data-box="library-map.selection" style="left:calc(82.708% - 5px);top:calc(86.296% - 5px);width:calc(8.333% + 10px);height:calc(10.185% + 10px)"></span>
+        <span class="box c-cyan" data-box="library-map.skillbars" style="left:calc(11.875% - 5px);top:calc(12.685% - 5px);width:calc(17.448% + 10px);height:calc(31.481% + 10px)"></span>
+        <span class="box c-cyan" data-box="library-map.skillbars" style="left:calc(78.125% - 5px);top:calc(12.685% - 5px);width:calc(17.448% + 10px);height:calc(31.481% + 10px)"></span>
+      </div>
+      <figcaption>The Map tab, with the timeline at the bottom. Drag over a fight to select it. <a href="../../assets/releases/3.6.0/library-map.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ STATS ============ -->
+
+  <section id="stats">
+    <h2>Stats</h2>
+    <div class="rule"></div>
+    <p>Stats are available in the Library and in the replay. Each row is a player, and <span class="hl hl-cyan" data-box="stats-table.panel" tabindex="0">you choose which stats to show</span>.</p>
+    <p>There are around 90 stats, including damage, healing, interrupts, knockdowns, fake casts and reaction times. You can sort by any column, show totals or values per minute, and <span class="hl hl-green" data-box="stats-table.star" tabindex="0">save your favourites</span>. Hover a stat to see what it means.</p>
+    <p><span class="hl hl-gold" data-box="stats-table.time" tabindex="0">Look at the full match, select one fight, or step through key moments</span> you would like to analyse. <span class="hl hl-magenta" data-box="stats-table.handles" tabindex="0">Move the handles on the timeline</span> to choose exactly the part of the match you want.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/stats-table.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Stats table with the stats panel on the left">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/stats-table.webp" alt="The Stats table with the stats panel on the left">
+      </a>
+        <span class="box c-cyan" data-box="stats-table.panel" style="left:calc(1.042% - 5px);top:calc(14.444% - 5px);width:calc(16.667% + 10px);height:calc(70.926% + 10px)"></span>
+        <span class="box c-green" data-box="stats-table.star" style="left:calc(1.146% - 5px);top:calc(34.722% - 5px);width:calc(0.833% + 10px);height:calc(1.481% + 10px)"></span>
+        <span class="box c-gold" data-box="stats-table.time" style="left:calc(13.750% - 5px);top:calc(10.648% - 5px);width:calc(25.052% + 10px);height:calc(2.315% + 10px)"></span>
+        <span class="box c-magenta" data-box="stats-table.handles" style="left:calc(82.448% - 5px);top:calc(86.296% - 5px);width:calc(0.625% + 10px);height:calc(10.463% + 10px)"></span>
+        <span class="box c-magenta" data-box="stats-table.handles" style="left:calc(90.625% - 5px);top:calc(86.296% - 5px);width:calc(0.625% + 10px);height:calc(10.463% + 10px)"></span>
+      </div>
+      <figcaption>Pick your stats on the left, star your favourites, and choose the time on top or with the timeline handles. <a href="../../assets/releases/3.6.0/stats-table.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <p>When a replay is open, <span class="hl hl-gold" data-box="stats-synced.uptonow" tabindex="0">the Library stats follow its current time</span>. <span class="hl hl-cyan" data-box="stats-synced.playhead" tabindex="0">Clicking the Library timeline also moves the replay</span>.</p>
+    <p>The idea is to be able to check the statistics and the replay on two different screens. If you have only one, don&rsquo;t worry, the Stats panel is also accessible in the Replay window. We thought it was less convenient to look at it in the replay, due to all the panels already there.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/stats-synced.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Library stats next to an open replay, following its current time">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/stats-synced.webp" alt="Library stats next to an open replay, following its current time">
+      </a>
+        <span class="box c-gold" data-box="stats-synced.uptonow" style="left:calc(29.625% - 5px);top:calc(10.648% - 5px);width:calc(2.587% + 10px);height:calc(2.315% + 10px)"></span>
+        <span class="box c-cyan" data-box="stats-synced.playhead" style="left:calc(53.299% - 5px);top:calc(85.926% - 5px);width:calc(0.388% + 10px);height:calc(10.741% + 10px)"></span>
+      </div>
+      <figcaption>The Library stats follow the open replay. Clicking the Library timeline moves the replay. <a href="../../assets/releases/3.6.0/stats-synced.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ BREAKDOWN ============ -->
+
+  <section id="breakdown">
+    <h2>Breakdown</h2>
+    <div class="rule"></div>
+    <p>The Damage &amp; Healing window is now called <strong>Breakdown</strong>.</p>
+    <p>Click a damage, healing, prevention or interrupt number in Stats to see the details: <span class="hl hl-gold" data-box="breakdown.skills" tabindex="0">which skills</span>, <span class="hl hl-cyan" data-box="breakdown.targets" tabindex="0">on which targets</span>, and what was interrupted. Breakdown uses the same time range you selected in Stats.</p>
+    <ul class="plain">
+      <li>Pet, spirit and minion damage now counts for its owner.</li>
+      <li>Neutral damage, such as map effects or flux (coral, acid traps, miasma, catapults...), has its own totals.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/breakdown.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Breakdown window on one player, with each skill and its targets">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/breakdown.webp" alt="The Breakdown window on one player, with each skill and its targets">
+      </a>
+        <span class="box c-gold" data-box="breakdown.skills" style="left:calc(3.101% - 5px);top:calc(49.182% - 5px);width:calc(93.411% + 10px);height:calc(34.254% + 10px)"></span>
+        <span class="box c-cyan" data-box="breakdown.targets" style="left:calc(3.101% - 5px);top:calc(85.481% - 5px);width:calc(93.411% + 10px);height:calc(11.759% + 10px)"></span>
+      </div>
+      <figcaption>Breakdown of one player: each skill, on which targets. <a href="../../assets/releases/3.6.0/breakdown.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ COMBAT LOG ============ -->
+
+  <section id="combat-log">
+    <h2>Combat Log</h2>
+    <div class="rule"></div>
+    <div class="side">
+      <div>
+    <p>The Combat Log has been rebuilt as it was outdated. It was originally a debugging tool and never got the attention it deserved. Some colour coding and missing stats were creating confusion.</p>
+    <p><span class="hl hl-red" data-box="combat-log.interrupt" tabindex="0">Interrupts now show who caused them and with which skill</span>. Knockdowns show their cause too. A cast stopped by a knockdown counts as an interrupt, like on the cast bars.</p>
+    <p>Cancelled casts appear in grey. <span class="hl hl-gold" data-box="combat-log.fake" tabindex="0">Successful fake casts appear in gold</span>. <span class="hl hl-green" data-box="combat-log.heal" tabindex="0">Hits and heals affecting several targets are grouped into one row that you can open</span> (e.g. <img class="ico sm" src="../../assets/releases/3.6.0/healing-burst.jpg" alt="" width="22" height="22">Healing Burst).</p>
+    <p>You can filter by event type, team or skill, and resize the columns.</p>
+      </div>
+    <figure class="fig">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/combat-log.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The rebuilt Combat Log with an interrupt, a fake cast and a grouped heal">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/combat-log.webp" alt="The rebuilt Combat Log with an interrupt, a fake cast and a grouped heal">
+      </a>
+        <span class="box c-red" data-box="combat-log.interrupt" style="left:calc(4.148% - 5px);top:calc(73.089% - 5px);width:calc(93.386% + 10px);height:calc(1.885% + 10px)"></span>
+        <span class="box c-gold" data-box="combat-log.fake" style="left:calc(4.148% - 5px);top:calc(93.822% - 5px);width:calc(93.386% + 10px);height:calc(1.885% + 10px)"></span>
+        <span class="box c-green" data-box="combat-log.heal" style="left:calc(4.148% - 5px);top:calc(15.497% - 5px);width:calc(93.386% + 10px);height:calc(13.403% + 10px)"></span>
+      </div>
+      <figcaption>An interrupt with its cause, a fake cast in gold, and a heal on several targets grouped in one row. <a href="../../assets/releases/3.6.0/combat-log.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    </div>
+  </section>
+
+  <!-- ============ PIANO ROLL ============ -->
+
+  <section id="piano-roll">
+    <h2>Piano Roll</h2>
+    <div class="rule"></div>
+    <div class="story">
+      <p>Another existing panel, widely reworked. The target is to show the succession of skills during the fight.</p>
+    </div>
+    <p style="margin-top:18px">The Piano Roll shows players&rsquo; casts next to each other on a timeline. Use it to check the timing of a spike and see how the Monks reacted.</p>
+    <p><span class="hl hl-red" data-box="piano-roll.spikebar" tabindex="0">A bar at the top marks every detected spike</span>: three or more enemy damage skills hitting one player within 1.5 seconds is considered a spike. <span class="hl hl-gold" data-box="piano-roll.card" tabindex="0">Select a spike to see each hit, total damage, lowest health</span> and <span class="hl hl-cyan" data-box="piano-roll.monk" tabindex="0">each Monk&rsquo;s response</span>. You can also see <span class="hl hl-green" data-box="piano-roll.answer" tabindex="0">how much the protection skills helped</span> (e.g. <img class="ico sm" src="../../assets/releases/3.6.0/spirit-bond.jpg" alt="" width="22" height="22">Spirit Bond).</p>
+    <p>Select several players with <span class="key">Ctrl</span>+click to compare their casts, casts received, or both. <span class="hl hl-orange" data-box="piano-roll.find" tabindex="0">Use &ldquo;Find a skill&rdquo; to look for a specific skill</span>: its casts get a gold frame on the roll, and the arrows step through its uses. Zoom in/out with the mouse wheel.</p>
+    <p>In the example below (Crew vs Men, mAT semi-final), four hits land on Il Sync Il in 0.27 seconds. <span class="hl hl-magenta" data-box="piano-roll.late" tabindex="0"><img class="ico sm" src="../../assets/releases/3.6.0/spirit-bond.jpg" alt="" width="22" height="22">Spirit Bond and <img class="ico sm" src="../../assets/releases/3.6.0/protective-spirit.jpg" alt="" width="22" height="22">Protective Spirit came late</span>: they landed after all the damage arrived, so they could not stop this spike. On the roll you see it at once: their arrows reach the target after the hits.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/piano-roll.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Piano Roll zoomed on a spike, with the spike card and the Monk cards">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/piano-roll.webp" alt="The Piano Roll zoomed on a spike, with the spike card and the Monk cards">
+      </a>
+        <span class="box c-red" data-box="piano-roll.spikebar" style="left:calc(9.531% - 5px);top:calc(4.444% - 5px);width:calc(89.688% + 10px);height:calc(5.000% + 10px)"></span>
+        <span class="box c-gold" data-box="piano-roll.card" style="left:calc(83.750% - 5px);top:calc(18.056% - 5px);width:calc(15.000% + 10px);height:calc(62.778% + 10px)"></span>
+        <span class="box c-cyan" data-box="piano-roll.monk" style="left:calc(62.917% - 5px);top:calc(84.259% - 5px);width:calc(11.875% + 10px);height:calc(7.407% + 10px)"></span>
+        <span class="box c-green" data-box="piano-roll.answer" style="left:calc(83.958% - 5px);top:calc(63.796% - 5px);width:calc(14.792% + 10px);height:calc(5.833% + 10px)"></span>
+        <span class="box c-magenta" data-box="piano-roll.late" style="left:calc(46.406% - 5px);top:calc(70.370% - 5px);width:calc(1.094% + 10px);height:calc(1.944% + 10px)"></span>
+        <span class="box c-magenta" data-box="piano-roll.late" style="left:calc(48.073% - 5px);top:calc(63.241% - 5px);width:calc(1.146% + 10px);height:calc(2.037% + 10px)"></span>
+        <span class="box c-orange" data-box="piano-roll.find" style="left:calc(3.750% - 5px);top:calc(12.593% - 5px);width:calc(10.417% + 10px);height:calc(1.759% + 10px)"></span>
+      </div>
+      <figcaption>Crew vs Men, mAT semi-final: four hits on Il Sync Il in 0.27 s. Spirit Bond and Protective Spirit came after all the damage arrived. <a href="../../assets/releases/3.6.0/piano-roll.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ HIGHLIGHTS ============ -->
+
+  <section id="highlights">
+    <h2>Highlights</h2>
+    <div class="rule"></div>
+    <h3>Highlights mode <span class="key">J</span></h3>
+    <p>New panel for those who want to only see the important events of a match. Press <span class="key">J</span> or <span class="hl hl-gold" data-box="highlights.button" tabindex="0">click the Highlights button</span> to watch deaths, spikes, interrupt pressure and flag returns.</p>
+    <p>The replay slows down during the action and speeds up between moments, or skips straight to the next one. The camera follows the target. If two moments happen in different places at the same time, <span class="hl hl-cyan" data-box="highlights.split" tabindex="0">the screen splits in two</span>.</p>
+    <p>You can still move the camera yourself. Use <span class="key">Page Up</span> / <span class="key">Page Down</span> to jump between moments, and export one highlight or all of them as a GIF.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/highlights.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Highlights mode in split screen, with the moment list">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/highlights.webp" alt="Highlights mode in split screen, with the moment list">
+      </a>
+        <span class="box c-gold" data-box="highlights.button" style="left:calc(84.375% - 5px);top:calc(96.481% - 5px);width:calc(5.208% + 10px);height:calc(2.407% + 10px)"></span>
+        <span class="box c-cyan" data-box="highlights.split" style="left:calc(49.740% - 5px);top:calc(2.593% - 5px);width:calc(0.573% + 10px);height:calc(90.185% + 10px)"></span>
+      </div>
+      <figcaption>Two moments at the same time: the screen splits in two. <a href="../../assets/releases/3.6.0/highlights.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ OTHER ============ -->
+
+  <section id="other">
+    <h2>Other changes</h2>
+    <div class="rule"></div>
+    <h3>Replay</h3>
+    <ul class="plain">
+      <li>Party windows can now <span class="hl hl-gold" data-box="party-cast-strip.morale" tabindex="0">show morale and effects beside each player</span>. <span class="hl hl-red" data-box="party-cast-strip.button" tabindex="0">Click the sparkles button in the party window&rsquo;s title bar</span> to turn it on. The Guild Lord and Bodyguards always stay visible under Allies.</li>
+      <li><span class="hl hl-cyan" data-box="party-cast-strip.caststrip" tabindex="0">Cast Strip shows the followed player&rsquo;s casts and incoming casts beside the skill bar</span>. Enable it in Panels &gt; Cast Strip.</li>
+      <li>The followed player&rsquo;s damage now appears in yellow above their targets, like healing already did.</li>
+      <li>Party window: a dead player now shows 0 / their maximum Health (e.g. 0/530) instead of an empty Health text.</li>
+      <li><span class="key">Up</span> and <span class="key">Down</span> arrows move the replay by 30 seconds.</li>
+      <li>Characters now leave footprints on the terrain (only on the High graphics setting).</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/party-cast-strip.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Party window with the morale and effects strip, and the Cast Strip beside the skill bar">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/party-cast-strip.webp" alt="Party window with the morale and effects strip, and the Cast Strip beside the skill bar">
+      </a>
+        <span class="box c-red" data-box="party-cast-strip.button" style="left:calc(14.531% - 5px);top:calc(31.296% - 5px);width:calc(0.990% + 10px);height:calc(2.037% + 10px)"><span class="box-label">Show morale & effects</span></span>
+        <span class="box c-gold" data-box="party-cast-strip.morale" style="left:calc(20.000% - 5px);top:calc(34.444% - 5px);width:calc(4.062% + 10px);height:calc(25.741% + 10px)"></span>
+        <span class="box c-gold" data-box="party-cast-strip.morale" style="left:calc(73.698% - 5px);top:calc(34.444% - 5px);width:calc(6.250% + 10px);height:calc(25.741% + 10px)"></span>
+        <span class="box c-cyan" data-box="party-cast-strip.caststrip" style="left:calc(62.292% - 5px);top:calc(79.259% - 5px);width:calc(23.802% + 10px);height:calc(14.444% + 10px)"></span>
+      </div>
+      <figcaption>Morale and effects beside the party window, and the Cast Strip beside the skill bar. <a href="../../assets/releases/3.6.0/party-cast-strip.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ HALLOWEEN ============ -->
+
+  <section id="halloween">
+    <h2>Halloween</h2>
+    <div class="rule"></div>
+    <p>GvG NPCs now wear their Halloween disguises in matches played during the event, from October 18 to November 2.</p>
+    <p>We also added a Halloween launch screen for this event.</p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.0/halloween.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: GvG NPCs in their Halloween disguise in a replay">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.0/halloween.webp" alt="GvG NPCs in their Halloween disguise in a replay">
+      </a>
+
+      </div>
+      <figcaption>The Guild Lord and his guards in their Halloween disguise. <a href="../../assets/releases/3.6.0/halloween.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ============ FIXES ============ -->
+
+  <section id="fixes">
+    <h2>Fixes</h2>
+    <div class="rule"></div>
+    <p>This update includes many fixes to health, energy and attribute estimates. Here are the skills whose rules changed.</p>
+
+    <h4 class="sub">Energy</h4>
+    <ul class="rules">
+      <li><img src="../../assets/releases/3.6.0/skills/star-burst.jpg" alt="" width="28" height="28"><span><b>Star Burst</b>: gives 2 Energy for each foe it hits.<span class="was">Before: no Energy was given back.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/price-of-pride.jpg" alt="" width="28" height="28"><span><b>Price of Pride</b>: drains Energy only when its target uses an elite skill.<span class="was">Before: the Energy loss was taken every time the hex landed.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/song-of-power.jpg" alt="" width="28" height="28"><span><b>Song of Power</b>: gives Energy regeneration to every ally in earshot until their next skill.<span class="was">Before: only the Paragon got it, for the full duration.</span></span></li>
+    </ul>
+    <p style="margin-top:14px">Energy gains checked against the skill descriptions (PvP versions). These skills now give the caster their Energy: a fixed amount, or an amount per ally nearby, per condition, per foe hit, per critical hit...</p>
+    <p class="was">Before: their Energy gain was not counted at all (Blessed Signet always gave its maximum), so these players showed too little Energy.</p>
+    <div class="chips"><span class="chip"><img src="../../assets/releases/3.6.0/skills/zealous-benediction.jpg" alt="" width="24" height="24">Zealous Benediction</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/caretaker-s-charge.jpg" alt="" width="24" height="24">Caretaker's Charge</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/soothing-memories.jpg" alt="" width="24" height="24">Soothing Memories</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/clamor-of-souls.jpg" alt="" width="24" height="24">Clamor of Souls</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/renewing-smash.jpg" alt="" width="24" height="24">Renewing Smash</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/leader-s-zeal.jpg" alt="" width="24" height="24">Leader's Zeal</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/blessed-signet.jpg" alt="" width="24" height="24">Blessed Signet</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/victory-is-mine.jpg" alt="" width="24" height="24">"Victory Is Mine!"</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/zealous-sweep.jpg" alt="" width="24" height="24">Zealous Sweep</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/energy-drain.jpg" alt="" width="24" height="24">Energy Drain</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/critical-eye.jpg" alt="" width="24" height="24">Critical Eye</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/warrior-s-endurance.jpg" alt="" width="24" height="24">Warrior's Endurance</span></div>
+    <p style="margin-top:14px">A gain with a condition (on hit, on a hexed foe, below 50% Health...) now counts only when the condition was really met, and a gain meant for allies no longer goes to the caster.</p>
+    <p class="was">Before: it was given on every cast.</p>
+    <p style="margin-top:14px">Skills that make other skills cost less Energy (for example Soul Twisting for Binding Rituals, Divine Spirit for Monk spells) now apply their discount:</p>
+    <p class="was">Before: the discount was ignored, so the next skills were counted at full cost.</p>
+    <div class="chips"><span class="chip"><img src="../../assets/releases/3.6.0/skills/soul-twisting.jpg" alt="" width="24" height="24">Soul Twisting</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/divine-spirit.jpg" alt="" width="24" height="24">Divine Spirit</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/cultist-s-fervor.jpg" alt="" width="24" height="24">Cultist's Fervor</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/way-of-the-empty-palm.jpg" alt="" width="24" height="24">Way of the Empty Palm</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/jaundiced-gaze.jpg" alt="" width="24" height="24">Jaundiced Gaze</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/renewing-memories.jpg" alt="" width="24" height="24">Renewing Memories</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/air-of-enchantment.jpg" alt="" width="24" height="24">Air of Enchantment</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/energizing-chorus.jpg" alt="" width="24" height="24">Energizing Chorus</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/energizing-wind.jpg" alt="" width="24" height="24">Energizing Wind</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/roaring-winds.jpg" alt="" width="24" height="24">Roaring Winds</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/primal-echoes.jpg" alt="" width="24" height="24">Primal Echoes</span></div>
+
+    <h4 class="sub">Effects</h4>
+    <ul class="rules">
+      <li><img src="../../assets/releases/3.6.0/skills/angelic-bond.jpg" alt="" width="28" height="28"><span><b>Angelic Bond</b>: now on every ally in earshot, and ends on all of them when it saves someone.<span class="was">Before: shown on the Paragon only, for its full 10 seconds.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/brace-yourself.jpg" alt="" width="28" height="28"><span><b>"Brace Yourself!"</b>: shows on the right ally and ends when it is triggered. Its damage is now counted too.<span class="was">Before: shown only when it stopped a knockdown (about 1 cast in 40), and its damage had no skill icon.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/grapple.jpg" alt="" width="28" height="28"><span><b>Grapple</b>: ends all the user&rsquo;s stances.<span class="was">Before: stances like Frenzy or Primal Rage sometimes stayed on.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/shame.jpg" alt="" width="28" height="28"><span><b>Shame</b>: ignores spells without a target and cancelled spells.<span class="was">Before: Shield Guardian, Divine Healing or a cancelled spell triggered the Energy loss.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/mystic-corruption.jpg" alt="" width="28" height="28"><span><b>Mystic Corruption</b>: Disease duration doubled when the caster is enchanted, as in the PvP description.<span class="was">Before: the Disease showed only half of its real time.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/peace-and-harmony.jpg" alt="" width="28" height="28"><span><b>Peace and Harmony</b>: 1 to 3 seconds, as in the PvP description.<span class="was">Before: it could show for up to 20 seconds.</span></span></li>
+    </ul>
+    <p style="margin-top:14px">Effect end fixed to follow the PvP descriptions (ends on hit, on next skill, on renewal...):</p>
+    <p class="was">Before: they stayed on for their full duration.</p>
+    <div class="chips"><span class="chip"><img src="../../assets/releases/3.6.0/skills/soul-twisting.jpg" alt="" width="24" height="24">Soul Twisting</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/spirit-bond.jpg" alt="" width="24" height="24">Spirit Bond</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/enraging-charge.jpg" alt="" width="24" height="24">Enraging Charge</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/charging-strike.jpg" alt="" width="24" height="24">Charging Strike</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/keystone-signet.jpg" alt="" width="24" height="24">Keystone Signet</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/escape.jpg" alt="" width="24" height="24">Escape</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/glyph-of-sacrifice.jpg" alt="" width="24" height="24">Glyph of Sacrifice</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/kinetic-armor.jpg" alt="" width="24" height="24">Kinetic Armor</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/lyssa-s-aura.jpg" alt="" width="24" height="24">Lyssa's Aura</span></div>
+
+    <h4 class="sub">Attributes and Health</h4>
+    <ul class="rules">
+      <li><img src="../../assets/releases/3.6.0/skills/to-the-limit.jpg" alt="" width="28" height="28"><span><b>"To the Limit!"</b>: added to the maximum Health estimate, and used to read Tactics.<span class="was">Before: its extra Health was taken as armour runes, so some players showed wrong maximum Health.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/mending-touch.jpg" alt="" width="28" height="28"><span><b>Mending Touch</b>: read for each heal that lands, so it no longer inflates Divine Favor.<span class="was">Before: its heals could read as Divine Favor 8 on a Monk with none.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/star-burst.jpg" alt="" width="28" height="28"><span><b>Star Burst</b>: Fire Magic read from the length of its Burning.<span class="was">Before: Star Burst did not help to read Fire Magic.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/angelic-bond.jpg" alt="" width="28" height="28"><span><b>Angelic Bond</b>: its save heal is used to read Leadership.<span class="was">Before: not used.</span></span></li>
+    </ul>
+    <div class="chips"><span class="chip"><img src="../../assets/releases/3.6.0/skills/symbol-of-wrath.jpg" alt="" width="24" height="24">Symbol of Wrath</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/balthazar-s-aura.jpg" alt="" width="24" height="24">Balthazar's Aura</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/ray-of-judgment.jpg" alt="" width="24" height="24">Ray of Judgment</span><span class="chip"><img src="../../assets/releases/3.6.0/skills/kirin-s-wrath.jpg" alt="" width="24" height="24">Kirin's Wrath</span></div>
+    <p>These Smiting skills are now read cast by cast, which fixes the Smiting Prayers, Protection Prayers and Divine Favor of Smiting Monks.</p>
+    <p class="was">Before: they were read from one merged line that often held another aura&rsquo;s damage.</p>
+    <ul class="fixes">
+      <li>Bodyguard maximum Health is 521, not 480.</li>
+      <li>The Guild Lord&rsquo;s maximum Health goes up with his team&rsquo;s morale boosts.</li>
+      <li>Fixed wrong damage numbers after a weapon swap or under Deep Wound (e.g. Word of Censure, Energy Burn).</li>
+      <li>An attribute a player&rsquo;s professions cannot have is read as 0 (e.g. a Sprint on a Ranger/Warrior lasts 8 seconds).</li>
+    </ul>
+
+    <h4 class="sub">Damage numbers</h4>
+    <ul class="rules">
+      <li><img src="../../assets/releases/3.6.0/skills/fear-me.jpg" alt="" width="28" height="28"><span><b>"Fear Me!"</b>: no longer takes damage numbers that were not its own.<span class="was">Before: the Warrior&rsquo;s own hits at the same moment could show the &ldquo;Fear Me!&rdquo; icon.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/power-leak.jpg" alt="" width="28" height="28"><span><b>Power Leak</b>: no longer takes damage numbers that were not its own.<span class="was">Before: the Mesmer&rsquo;s other damage at the same moment could show the Power Leak icon.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/grenth-s-aura.jpg" alt="" width="28" height="28"><span><b>Grenth's Aura</b>: Health steal now named, at the solved attribute rank.<span class="was">Before: the steal had no skill icon.</span></span></li>
+      <li><img src="../../assets/releases/3.6.0/skills/avatar-of-grenth.jpg" alt="" width="28" height="28"><span><b>Avatar of Grenth</b>: Health steal now named, at the solved attribute rank.<span class="was">Before: the steal had no skill icon.</span></span></li>
+    </ul>
+
+    <h4 class="sub">Other fixes</h4>
+    <ul class="fixes">
+      <li>Fixed spirits and minions sometimes not appearing.</li>
+      <li>Spiked Coral is now named correctly in the Combat Log.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Thanks to everyone who tested the update and reported problems. Keep sending us your feedback!</p>
+    <p class="legal">GW Observer is an unofficial fan project, not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Hovering a marked phrase lights up its box on the screenshot, and the other way round.
+  document.querySelectorAll('[data-box]').forEach(function (el) {
+    var key = el.getAttribute('data-box');
+    function set(on) {
+      document.querySelectorAll('[data-box="' + key + '"]').forEach(function (m) { m.classList.toggle('on', on); });
+    }
+    el.addEventListener('mouseenter', function () { set(true); });
+    el.addEventListener('mouseleave', function () { set(false); });
+    el.addEventListener('focus', function () { set(true); });
+    el.addEventListener('blur', function () { set(false); });
+  });
+</script>
+</body>
+</html>
