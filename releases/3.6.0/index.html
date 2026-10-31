@@ -586,11 +586,11 @@
       <p class="sub">Red attacks Blue's lord for the whole match. This is Red's score; Blue's is counted the same way, on Red's lord.</p>
       <table class="sum">
         <tr><td><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt=""></td><td>Red's hits on Blue's lord, outside Entourage</td><td class="v plus">+1,700</td></tr>
-        <tr><td><img src="../../assets/releases/3.6.0/aggr/entourage.jpg" alt=""></td><td>300 more damage while Blue's lord had Entourage up, counted at 20%</td><td class="v plus">+60</td></tr>
+        <tr><td><img src="../../assets/releases/3.6.0/aggr/entourage.jpg" alt=""></td><td>50 damage that got through Blue's lord's Entourage (most hits did 0), counted at 20%</td><td class="v plus">+10</td></tr>
         <tr><td><img src="../../assets/releases/3.6.0/aggr/protectors_defense.jpg" alt=""></td><td>5 Red attacks blocked by Blue's Protector's Defense</td><td class="v plus">+100</td></tr>
         <tr><td><img src="../../assets/releases/3.6.0/aggr/guardian.jpg" alt=""></td><td>2 Guardians Red's monks cast on Red's own lord after Red's pit fell (no Entourage, so 50 each)</td><td class="v minus">&minus;100</td></tr>
         <tr><td><img src="../../assets/releases/3.6.0/aggr/life_draining.jpg" alt=""></td><td>Life stolen from Blue's lord</td><td class="v zero">0</td></tr>
-        <tr class="tot"><td></td><td>Red's score</td><td class="v">1,760</td></tr>
+        <tr class="tot"><td></td><td>Red's score</td><td class="v">1,710</td></tr>
       </table>
     </div>
 
@@ -619,13 +619,13 @@
           <h3>Damage while the enemy lord has Entourage up</h3>
           <span class="val plus">+20% of it</span><span class="pill measured">Measured</span>
         </div>
-        <p><strong>Entourage</strong> is the Guild Lord's own 15-second shield: he takes at most 30 damage per hit and 30 less each second. He can only cast it while his pit NPCs outnumber the attackers in the pit; pets, spirits and minions don't count as attackers. Damage that still gets through counts for only a fifth.</p>
+        <p><strong>Entourage</strong> is the Guild Lord's own shield. He can only cast it while his pit NPCs outnumber the attackers in the pit; pets, spirits and minions don't count as attackers. In our 165 recordings it lasts about 10.5 seconds: three hits out of four on him do <strong>0 damage</strong>, and the ones that land do about 30 at most. Armour-ignoring damage still gets through. Hitting a lord behind his Entourage is not a way to farm the score.</p>
         <ul class="ex">
-          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="Lightning Strike"></span><span class="t">The same Lightning Strike lands for 30 under Entourage</span><span class="v plus">+6</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="Lightning Strike"></span><span class="t">A Lightning Strike that gets through for 30 under Entourage (most hits do 0)</span><span class="v plus">+6</span></li>
           <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/blue_lord.png" alt="Guild Lord"></span><span class="t">Kill or pull pit NPCs until your attackers outnumber them: Entourage stops and hits count in full again</span><span class="v plus">full value</span></li>
         </ul>
-        <p class="why"><b>Why 20%:</b> counting this damage at 20% predicts the right winner in 160 of the 161 recorded 28:00 matches. Counting it in full predicts the wrong winner in 3 of them, and not counting it at all in 2.</p>
-        <p class="why"><b>Why 15 seconds and not 10:</b> community testing found that Entourage lasts 10 seconds, not the 15 its description says. The recordings can't see the shield itself, only each time the lord casts it: about every 10.5 seconds, which matches its 10-second recharge. Treating each cast as covering 15 seconds keeps the right winner in 160 of 161 matches. Treating it as covering 10 seconds predicts the wrong winner in 3 or 4 matches, whatever share is used. So either the reduced scoring outlasts the shield, or the 10 seconds seen in testing was the recast time.</p>
+        <p class="why"><b>Why 20%:</b> counting the little damage that gets through at 20% predicts the right winner in 160 of the 161 recorded 28:00 matches. Counting it in full predicts the wrong winner in 3 of them, and not counting it at all in 2. Only one or two matches separate these choices, so this is the least certain rule of the model.</p>
+        <p class="why"><b>Why 15 seconds:</b> community testing found that Entourage lasts 10 seconds, not the 15 its description says, and the recordings agree: hits go back to full damage about 11 seconds after each cast. Yet scoring each cast over 15 seconds keeps the right winner in 160 of 161 matches, while 10 or 11 seconds gets 2 to 4 wrong. So either the reduced scoring outlasts the shield, or the model is making up for something else. An in-game test would settle it.</p>
       </article>
 
       <article class="r">
@@ -777,7 +777,7 @@
         <h4>Measured</h4>
         <p class="sub">The 2010 update named these without numbers; the numbers come from recorded winners.</p>
         <ul>
-          <li><b>Damage under Entourage counts 20%</b><span>15 to 25% fits; 0% and 100% don't</span></li>
+          <li><b>Damage under Entourage counts 20%</b><span>15 to 25% fits best; 0% and 100% miss 1 or 2 more matches</span></li>
           <li><b>+20 per blocked attack</b><span>Fits the recordings; 30 and up doesn't</span></li>
           <li><b>Lord Health: +1% per morale boost, &minus;100 Deep Wounded</b><span>96,000 health readings</span></li>
           <li><b>Healing and the NPC count change nothing</b><span>Each alternative predicts the wrong winner in more matches</span></li>
