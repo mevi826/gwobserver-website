@@ -475,6 +475,11 @@
   #aggressiveness .sum td img{ width:24px; height:24px; border-radius:3px; display:block }
   #aggressiveness .sum td.v{ text-align:right; font-family:var(--mono); font-weight:600; white-space:nowrap; padding-left:14px }
   #aggressiveness .sum tr.tot td{ border-top:1px solid var(--gold-edge); color:var(--gold); font-weight:650 }
+  #aggressiveness .hits{ width:100%; border-collapse:collapse; font-size:14px; margin:14px 0 2px; font-variant-numeric:tabular-nums }
+  #aggressiveness .hits td{ padding:7px 10px 7px 0; border-top:1px solid var(--line-soft); color:var(--body); text-align:right; white-space:nowrap }
+  #aggressiveness .hits td:first-child{ text-align:left; width:auto; color:var(--dim) }
+  #aggressiveness .hits tr:last-child td{ color:var(--dim) }
+  #aggressiveness .hits td.v{ font-family:var(--mono); font-weight:600 }
   #aggressiveness .v.plus{ color:var(--verified) } #aggressiveness .v.minus{ color:var(--cost) } #aggressiveness .v.zero{ color:var(--dim) }
   #aggressiveness .agr-rules{ display:grid; gap:18px }
   #aggressiveness .r{ padding:20px 22px 18px; background:var(--surface); border:1px solid var(--line-soft); border-radius:10px; min-width:0 }
@@ -619,11 +624,13 @@
           <h3>Damage while the enemy lord has Entourage up</h3>
           <span class="val plus">+20% of it</span><span class="pill measured">Measured</span>
         </div>
-        <p><strong>Entourage</strong> is the Guild Lord's own shield. He can only cast it while his pit NPCs outnumber the attackers in the pit; pets, spirits and minions don't count as attackers. In our 165 recordings it lasts about 10.5 seconds: three hits out of four on him do <strong>0 damage</strong>, and the ones that land do about 30 at most. Armour-ignoring damage still gets through. Hitting a lord behind his Entourage is not a way to farm the score.</p>
+        <p><strong>Entourage</strong> is the Guild Lord's own shield, lasting about 10.5 seconds. He can only cast it while his pit NPCs outnumber the attackers in the pit; pets, spirits and minions don't count as attackers. The 2010 update that added it says each hit is <strong>capped at 30</strong> damage and the lord <strong>absorbs 30 damage every second</strong>, and our 165 recordings fit that: one attacker hitting him alone does 0, and only the hits beyond the first in the same second get through, at 30 each. Three hits out of four on a shielded lord do <strong>0 damage</strong>. Armour-ignoring damage still lands. So hitting a lord behind his Entourage is not a way to farm the score: it takes a real spike, with several players landing in the same second.</p><table class="hits"><tr><td>Hits on the lord in the same second</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5+</td></tr><tr><td>Damage that lands, measured</td><td class="v zero">0</td><td class="v plus">20</td><td class="v plus">40</td><td class="v plus">70</td><td class="v plus">120</td></tr><tr><td>Expected: 30 each, minus 30 absorbed</td><td>0</td><td>30</td><td>60</td><td>90</td><td>120</td></tr></table>
         <ul class="ex">
-          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="Lightning Strike"></span><span class="t">A Lightning Strike that gets through for 30 under Entourage (most hits do 0)</span><span class="v plus">+6</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/lightning_strike.jpg" alt="Lightning Strike"></span><span class="t">A Lightning Strike alone on a shielded lord: absorbed</span><span class="v zero">0</span></li>
+          <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/hundred_blades.jpg" alt="Spike"></span><span class="t">Three hits of 60 in the same second: each is capped at 30 and 30 is absorbed, so 60 lands</span><span class="v plus">+12</span></li>
           <li><span class="icons"><img src="../../assets/releases/3.6.0/aggr/blue_lord.png" alt="Guild Lord"></span><span class="t">Kill or pull pit NPCs until your attackers outnumber them: Entourage stops and hits count in full again</span><span class="v plus">full value</span></li>
         </ul>
+        <p class="why"><b>In the game:</b> an Elementalist firing at a shielded lord mostly sees 0. In the recordings Lightning Strike does 0 in 88% of its hits under Entourage (59 on average without it), Teinai's Wind 85%, Immolate 75%. No hit over 32 was ever recorded on a shielded lord. The number of pit NPCs alive and the time on the match clock change nothing: only the shield does.</p>
         <p class="why"><b>Why 20%:</b> counting the little damage that gets through at 20% predicts the right winner in 160 of the 161 recorded 28:00 matches. Counting it in full predicts the wrong winner in 3 of them, and not counting it at all in 2. Only one or two matches separate these choices, so this is the least certain rule of the model.</p>
         <p class="why"><b>Why 15 seconds:</b> community testing found that Entourage lasts 10 seconds, not the 15 its description says, and the recordings agree: hits go back to full damage about 11 seconds after each cast. Yet scoring each cast over 15 seconds keeps the right winner in 160 of 161 matches, while 10 or 11 seconds gets 2 to 4 wrong. So either the reduced scoring outlasts the shield, or the model is making up for something else. An in-game test would settle it.</p>
       </article>
