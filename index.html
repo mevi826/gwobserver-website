@@ -151,89 +151,85 @@
     </div>
   </section>
 
-  <!-- What's New in 3.5.0 -->
+  <!-- What's New in 3.6.0 -->
   <section id="whats-new" class="section section-alt">
     <div class="container">
       <div class="section-head">
-        <h2>What&rsquo;s New in <span class="gold">3.5.0</span></h2>
-        <p>Bringing skill effects into replays has been a goal since we started GW Observer. It turned out to be the hardest part of the reverse engineering, and we&rsquo;re glad you can finally try it yourselves.</p>
-      </div>
-
-      <div class="baseline">
-        <p>Skill landing effects and lasting visuals (hexes, enchantments, conditions) need recordings made from <strong>7 October 2026</strong> onward.</p>
-        <p>Older recordings still get projectiles, healing and damage bursts, cast and area effects, and sounds.</p>
+        <h2>What&rsquo;s New in <span class="gold">3.6.0</span></h2>
+        <p>Until now GW Observer was mostly a way to watch a match again. With 3.6.0 we want to help you understand it: who stood out, where a fight was lost, and what went wrong on that one spike.</p>
       </div>
 
       <div class="release-feature stack">
         <div class="release-feature-text">
-          <h3>Skill Effects</h3>
-          <p>Projectiles, casting effects, healing bursts, hexes, enchantments, conditions, wards and wells now appear during replays. Each category can be toggled in Preferences.</p>
+          <h3>Aggressiveness</h3>
+          <p>Lord Damage is now Aggressiveness: each team&rsquo;s live score for the 28:00 tiebreak, with everything that counts for it. We reviewed every rule against match history and the community&rsquo;s tests. On the 161 recorded matches that ended at 28:00, it found the right winner 160 times.</p>
         </div>
-        <figure class="release-feature-media has-preview" data-gif="assets/releases/3.5.0/skill-effects-fight.gif" data-title="Skill Effects">
-          <img src="assets/releases/3.5.0/skill-effects.webp" width="2560" height="1369" loading="lazy" alt="A GvG fight on the Isle of Jade with skill effects on both teams">
-          <figcaption>Click to watch the effects in motion.</figcaption>
+        <figure class="release-feature-media has-preview" data-gif="assets/releases/3.6.0/aggressiveness.webp" data-title="Aggressiveness">
+          <img src="assets/releases/3.6.0/aggressiveness.webp" width="1920" height="1080" loading="lazy" alt="The Aggressiveness panel with each team's tiebreak score and its causes">
+          <figcaption>Each team&rsquo;s live tiebreak score, with what counts for it.</figcaption>
         </figure>
       </div>
 
       <div class="release-feature stack">
         <div class="release-feature-text">
-          <h3>GIF Export <kbd class="inline">Alt+X</kbd></h3>
-          <p>Use the new Clip button to capture and share part of a replay. Move and resize the capture window, and change the frame rate and output size so the GIF fits within Discord&rsquo;s 10 MB limit, or remove the limit to export much bigger GIFs.</p>
+          <h3>Stats in the Library</h3>
+          <p>Around 90 stats per player, from damage and healing to interrupt hit rate, fake casts and reaction times, without opening the replay. Pick one fight or a key moment on the timeline. With a replay open, the Library stats follow it, so you can watch on one screen and read the numbers on the other.</p>
         </div>
-        <figure class="release-feature-media has-preview" data-gif="assets/releases/3.5.0/gif-export.webp" data-title="GIF Export">
-          <img src="assets/releases/3.5.0/gif-export.webp" width="2560" height="1369" loading="lazy" alt="The Create GIF clip panel with a capture box over the replay">
-          <figcaption>The GIF clip editor, with the match tag and the file size meter.</figcaption>
+        <figure class="release-feature-media has-preview" data-gif="assets/releases/3.6.0/stats-table.webp" data-title="Stats in the Library">
+          <img src="assets/releases/3.6.0/stats-table.webp" width="1920" height="1080" loading="lazy" alt="The Stats table with one row per player and the stats panel on the left">
+          <figcaption>Pick your stats, star your favourites, and choose the time on the timeline.</figcaption>
         </figure>
       </div>
 
       <div class="release-feature stack">
         <div class="release-feature-text">
-          <h3>Split Camera</h3>
-          <p>Simpler player selection and an optional HUD for the watched player.</p>
+          <h3>Piano Roll</h3>
+          <p>Every cast of every player on one timeline. Each spike is marked at the top: select it to see every hit, the lowest Health, each Monk&rsquo;s reaction and what their prots really saved.</p>
         </div>
-        <figure class="release-feature-media has-preview" data-gif="assets/releases/3.5.0/split-camera.webp" data-title="Split Camera">
-          <img src="assets/releases/3.5.0/split-camera.webp" width="2560" height="1369" loading="lazy" alt="The split camera window following a player, with that player's HUD along its bottom">
-          <figcaption>The split camera with the watched player&rsquo;s HUD.</figcaption>
+        <figure class="release-feature-media has-preview" data-gif="assets/releases/3.6.0/piano-roll.webp" data-title="Piano Roll">
+          <img src="assets/releases/3.6.0/piano-roll.webp" width="1920" height="1080" loading="lazy" alt="The Piano Roll zoomed on a spike, with the spike card and the Monk cards">
+          <figcaption>A spike where the prots landed after all the damage.</figcaption>
         </figure>
       </div>
 
       <div class="grid grid-3 mt">
 
         <div class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg></div>
-          <h3>Game Sounds</h3>
-          <p>Almost half of the recorded sounds were previously silent. Replays now play them, along with more attack, impact and skill sounds.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-          <h3>Damage &amp; Healing Attribution</h3>
-          <p>Heavily reworked rules link damage and healing to the players and skills behind them, for the overhead numbers and skill icons. Vampiric attacks show the game&rsquo;s Life Draining icon.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-          <h3>Skill Bar</h3>
-          <p>Added support for Echo, Arcane Echo, Arcane Thievery, Arcane Larceny, Simple Thievery and Keystone Signet, with fixes to skill disables and effect tracking.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></div>
-          <h3>Guild Hall Henchmen</h3>
-          <p>Henchmen now appear in the party window and are rendered in 3D with their models.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div>
-          <h3>Catapult Danger Zone</h3>
-          <p>On Warrior&rsquo;s Isle, a catapult indicator shows where the projectile will land.</p>
-        </div>
-        <div class="card">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
-          <h3>Estimation Rules</h3>
-          <p>36 new effect bar rules, 54 attribute estimation rules and 15 energy estimation rules, for better coverage of niche builds too.</p>
+          <h3>Breakdown</h3>
+          <p>The Damage &amp; Healing window, renamed. Click a number in Stats to see which skills, on which targets. Pet, spirit and minion damage now counts for its owner.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <h3>Combat Log</h3>
+          <p>Rebuilt from zero. Interrupts and knockdowns say who caused them, fake casts show in gold, and hits on several targets are one row you can open.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3l14 9-14 9V3z"/></svg></div>
+          <h3>Highlights <kbd class="inline">J</kbd></h3>
+          <p>Watch only the key moments: deaths, spikes, interrupt pressure and flag returns. The screen splits when two happen at once.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><path d="M8 2v16M16 6v16"/></svg></div>
+          <h3>Match Library</h3>
+          <p>Match Details now has Overview, Stats and Map tabs. Hover a player for their build and attributes, and copy all eight templates of a team.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
+          <h3>Party Window &amp; Cast Strip</h3>
+          <p>Morale and effects beside each player, and a Cast Strip with the followed player&rsquo;s casts and the ones coming at them.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 016 6c0 4-3 5-3 8H9c0-3-3-4-3-8a6 6 0 016-6z"/><path d="M9 21h6"/></svg></div>
+          <h3>Halloween</h3>
+          <p>GvG NPCs wear their Halloween disguises in matches played during the event, with a Halloween launch screen.</p>
         </div>
 
       </div>
 
       <div class="section-cta">
-        <a href="releases/3.5.0/" class="btn btn-outline">Read the full 3.5.0 release notes</a>
+        <a href="releases/3.6.0/" class="btn btn-primary">Read the full 3.6.0 release notes</a>
+        <a href="releases/3.5.0/" class="btn btn-outline">3.5.0: skill effects, sounds and GIF export</a>
       </div>
     </div>
   </section>
@@ -329,7 +325,7 @@
         <div class="card card-glass has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/gifs/piano_roll.gif">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19V6l12-3v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="15" r="3"/></svg></div>
           <h3>Piano Roll / Skill Timeline</h3>
-          <p>Skill usage timeline per agent, laid out like a music score. Zoomable from 5s to 60s windows. See exact cast sequences, timing gaps, and coordination across the team.</p>
+          <p>Every cast of every player on one timeline, laid out like a music score. Every spike is marked: see each hit, the lowest Health, each Monk&rsquo;s reaction and what their prots saved. Compare several players and find any skill.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
@@ -343,19 +339,19 @@
         <div class="card card-glass">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/></svg></div>
           <h3>Combat Log</h3>
-          <p>Filterable log covering damage, heals, skills, interrupts, cancels, deaths, blocks, and basic attacks. Skill name autocomplete, player filter, and time sync on row click.</p>
+          <p>The play-by-play: every number with its skill, every interrupt and knockdown with who caused it, cancels in grey and successful fake casts in gold. Filter by event, team or skill; click a row to jump there.</p>
         </div>
 
         <div class="card card-glass">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8M8 13h6"/></svg></div>
-          <h3>Damage / Heal Meter</h3>
-          <p>Track cumulative damage and healing for every player and NPC up to the current timestamp. Shown as absolute values and team percentage on the party window.</p>
+          <h3>Stats &amp; Breakdown</h3>
+          <p>Around 90 stats per player in the Library and the replay, over the whole match, one fight or a key moment. Click a damage, healing or interrupt number for the Breakdown: which skills, on which targets.</p>
         </div>
 
         <div class="card card-glass has-preview" data-gif="https://raw.githubusercontent.com/MC92-hash/GuildWarsObserver/master/docs/gifs/morale_event_timeline.gif">
           <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
-          <h3>Morale &amp; Lord Damage</h3>
-          <p>Track morale boosts with per-team timers (120s duration). Lord damage panel shows attacker breakdown, damage percentage, per-hit timeline, and phase counting. A morale graph charts each team&rsquo;s morale over the match; click it to seek.</p>
+          <h3>Morale &amp; Aggressiveness</h3>
+          <p>Track morale boosts with per-team timers (120s duration), and a morale graph you can click to seek. The Aggressiveness panel gives each team&rsquo;s live score for the 28:00 tiebreak, with every cause and each attacker&rsquo;s share.</p>
           <span class="preview-badge">Click to preview</span>
         </div>
 
