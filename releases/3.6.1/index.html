@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 3.6.1 Release Notes</title>
+<meta name="description" content="GW Observer 3.6.1 reworks the follow camera, adds the Isle of Meditation miasma and the Weeping Stone spores, and improves health and energy estimates.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 3.6.1 Release Notes">
+<meta property="og:description" content="GW Observer 3.6.1 reworks the follow camera, adds the Isle of Meditation miasma and the Weeping Stone spores, and improves health and energy estimates.">
+<meta property="og:url" content="https://gwobserver.com/releases/3.6.1/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 3.6.1 Release Notes">
+<meta name="twitter:description" content="GW Observer 3.6.1 reworks the follow camera, adds the Isle of Meditation miasma and the Weeping Stone spores, and improves health and energy estimates.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+  .ico{ width:32px; height:32px; vertical-align:middle; margin-right:10px; border:1px solid var(--line); border-radius:3px }
+  .ico.sm{ width:22px; height:22px; margin:0 4px 0 2px; vertical-align:-5px }
+  .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  /* text marks: same colour as the box drawn on the screenshot */
+  .hl{ text-decoration-line:underline; text-decoration-style:dotted; text-decoration-thickness:2px; text-underline-offset:5px }
+  .hl-red{ text-decoration-color:#ff4d4f; text-shadow:0 0 12px rgba(255,77,79,.55) }
+  .hl-gold{ text-decoration-color:#ffc53d; text-shadow:0 0 12px rgba(255,197,61,.5) }
+  .hl-cyan{ text-decoration-color:#40c4ff; text-shadow:0 0 12px rgba(64,196,255,.55) }
+  .hl-green{ text-decoration-color:#52e07a; text-shadow:0 0 12px rgba(82,224,122,.5) }
+  .hl-magenta{ text-decoration-color:#ff6bd6; text-shadow:0 0 12px rgba(255,107,214,.55) }
+
+  .hl{ cursor:default; border-radius:3px; transition:background .2s, text-shadow .2s }
+  .hl.on{ color:#fff }
+  .hl-red.on{ background:rgba(255,77,79,.16); text-shadow:0 0 14px rgba(255,77,79,.9) }
+  .hl-gold.on{ background:rgba(255,197,61,.14); text-shadow:0 0 14px rgba(255,197,61,.9) }
+  .hl-cyan.on{ background:rgba(64,196,255,.16); text-shadow:0 0 14px rgba(64,196,255,.9) }
+  .hl-green.on{ background:rgba(82,224,122,.14); text-shadow:0 0 14px rgba(82,224,122,.9) }
+  .hl-orange{ text-decoration-color:#ff8a3d; text-shadow:0 0 12px rgba(255,138,61,.5) }
+  .hl-orange.on{ background:rgba(255,138,61,.16); text-shadow:0 0 14px rgba(255,138,61,.9) }
+  .hl-magenta.on{ background:rgba(255,107,214,.16); text-shadow:0 0 14px rgba(255,107,214,.9) }
+
+  /* boxes drawn over the screenshots */
+  .shotbox{ position:relative }
+  .box{ position:absolute; border:2px solid var(--c); border-radius:6px; pointer-events:none;
+    box-shadow:0 0 8px var(--g), inset 0 0 6px var(--g); transition:box-shadow .2s, border-width .2s, background .2s }
+  .box.on{ border-width:3px; background:var(--f); box-shadow:0 0 22px 4px var(--c), inset 0 0 14px var(--g) }
+  .c-red{ --c:#ff4d4f; --g:rgba(255,77,79,.6); --f:rgba(255,77,79,.10) }
+  .c-gold{ --c:#ffc53d; --g:rgba(255,197,61,.55); --f:rgba(255,197,61,.10) }
+  .c-cyan{ --c:#40c4ff; --g:rgba(64,196,255,.6); --f:rgba(64,196,255,.10) }
+  .c-green{ --c:#52e07a; --g:rgba(82,224,122,.55); --f:rgba(82,224,122,.10) }
+  .c-magenta{ --c:#ff6bd6; --g:rgba(255,107,214,.6); --f:rgba(255,107,214,.10) }
+  .c-orange{ --c:#ff8a3d; --g:rgba(255,138,61,.6); --f:rgba(255,138,61,.10) }
+  .box-label{ position:absolute; left:calc(100% + 8px); top:50%; transform:translateY(-50%); white-space:nowrap;
+    background:var(--c); color:#17140d; font-size:12px; font-weight:650; padding:2px 9px; border-radius:10px;
+    box-shadow:0 0 10px var(--g) }
+
+  /* portrait shot beside its text */
+  .side{ --w:min(var(--wide) - 56px, 100vw - 56px); width:var(--w); margin-left:calc((100% - var(--w)) / 2);
+    display:grid; grid-template-columns:minmax(0,1fr) 620px; gap:36px; align-items:start }
+  .side .fig{ margin:0 }
+  @media (max-width:980px){ .side{ grid-template-columns:1fr } }
+
+  /* skill rules */
+  .rules{ margin:14px 0 0; padding:0; list-style:none }
+  .rules li{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line-soft); font-size:15px; color:#d3cec8 }
+  .rules li img{ width:28px; height:28px; flex:none; border:1px solid var(--line); border-radius:3px; margin-top:1px }
+  .rules li b{ color:var(--text); font-weight:600 }
+  .rules li .was{ display:block; margin-top:2px; font-size:13.5px; color:var(--dim) }
+  p.was{ font-size:13.5px; color:var(--dim); margin:6px 0 0 }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px }
+  .chip{ display:inline-flex; align-items:center; gap:7px; padding:3px 11px 3px 3px; background:var(--surface);
+    border:1px solid var(--line-soft); border-radius:6px; font-size:14px; color:#d8d3cd }
+  .chip img{ width:24px; height:24px; border-radius:3px }
+  .rules.scores li{ align-items:baseline }
+  .rules + p{ margin-top:14px }
+  .pts{ flex:none; min-width:52px; text-align:center; padding:1px 8px; border-radius:6px; font-weight:650; font-size:14px;
+    font-variant-numeric:tabular-nums }
+  .pts.plus{ color:#52e07a; background:rgba(82,224,122,.1); border:1px solid rgba(82,224,122,.3) }
+  .pts.minus{ color:#ff6b6b; background:rgba(255,77,79,.1); border:1px solid rgba(255,77,79,.3) }
+  .pts.zero{ color:var(--muted, #a9a39b); background:rgba(255,255,255,.04); border:1px solid var(--line-soft) }
+    --open:#8c8fa6; --open-wash:rgba(140,143,166,.13); --gold-wash:rgba(224,181,99,.09); --gold-edge:rgba(224,181,99,.28);
+    --mono:ui-monospace, SFMono-Regular, Consolas, monospace }
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:10px; font-size:17px }
+    border:1px solid var(--line); background:var(--surface-2); white-space:nowrap; max-width:100% }
+  @media (max-width:520px){
+  }
+  .fig.small{ max-width:420px }
+  .fig.medium{ max-width:720px }
+  .fig + p, .fig + ul, .fig + .fig{ margin-top:26px }
+  h4.sub{ margin:30px 0 4px; font-size:17px; font-weight:620; color:var(--text) }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">3.6.1</span></h1>
+  <p class="lede">This update brings adrenaline to the skill bars, smoother character animations and Quicksand on Nomad&rsquo;s Isle. It also improves health and energy estimates and fixes a few replay display issues.</p>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.6.1/GWObserver.zip">Download 3.6.1</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc" aria-label="Contents">
+    <h2>In this update</h2>
+    <ol>
+      <li><a href="#adrenaline">Adrenaline</a></li>
+      <li><a href="#animations">Character animations</a></li>
+      <li><a href="#nomads-isle">Nomad&rsquo;s Isle</a></li>
+      <li><a href="#estimates">Health and energy estimates</a></li>
+      <li><a href="#fixes">Fixes</a></li>
+    </ol>
+  </nav>
+
+  <section id="adrenaline">
+    <h2>Adrenaline</h2>
+    <div class="rule"></div>
+    <p>Adrenaline now appears on <span class="hl hl-gold" data-box="adrenaline.bar" tabindex="0">the followed player&rsquo;s skill bar</span> and in <span class="hl hl-cyan" data-box="adrenaline.panel" tabindex="0">the player info panel</span>. Like in game, flames fill an adrenaline skill&rsquo;s icon as it charges and disappear when it is used. <span class="hl hl-green" data-box="adrenaline.tip" tabindex="0">Hover a skill to see its adrenaline.</span></p>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/adrenaline.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: A replay following a player, with adrenaline flames on the skill bar and in the player info panel">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/adrenaline.webp" alt="A replay following a player, with adrenaline flames on the skill bar and in the player info panel">
+      </a>
+        <span class="box c-gold" data-box="adrenaline.bar" style="left:calc(22.714% - 5px);top:calc(90.147% - 5px);width:calc(3.786% + 10px);height:calc(7.794% + 10px)"></span>
+        <span class="box c-gold" data-box="adrenaline.bar" style="left:calc(30.286% - 5px);top:calc(90.147% - 5px);width:calc(3.786% + 10px);height:calc(7.794% + 10px)"></span>
+        <span class="box c-gold" data-box="adrenaline.bar" style="left:calc(37.857% - 5px);top:calc(90.147% - 5px);width:calc(3.786% + 10px);height:calc(7.794% + 10px)"></span>
+        <span class="box c-gold" data-box="adrenaline.bar" style="left:calc(45.429% - 5px);top:calc(90.147% - 5px);width:calc(3.786% + 10px);height:calc(7.794% + 10px)"></span>
+        <span class="box c-cyan" data-box="adrenaline.panel" style="left:calc(63.000% - 5px);top:calc(28.235% - 5px);width:calc(2.643% + 10px);height:calc(5.441% + 10px)"></span>
+        <span class="box c-cyan" data-box="adrenaline.panel" style="left:calc(69.000% - 5px);top:calc(28.235% - 5px);width:calc(2.643% + 10px);height:calc(5.441% + 10px)"></span>
+        <span class="box c-cyan" data-box="adrenaline.panel" style="left:calc(75.000% - 5px);top:calc(28.235% - 5px);width:calc(2.643% + 10px);height:calc(5.441% + 10px)"></span>
+        <span class="box c-cyan" data-box="adrenaline.panel" style="left:calc(81.000% - 5px);top:calc(28.235% - 5px);width:calc(2.643% + 10px);height:calc(5.441% + 10px)"></span>
+        <span class="box c-green" data-box="adrenaline.tip" style="left:calc(73.429% - 5px);top:calc(59.118% - 5px);width:calc(19.786% + 10px);height:calc(2.206% + 10px)"></span>
+      </div>
+      <figcaption>Adrenaline on the followed player&rsquo;s skill bar and in the player info panel. <a href="../../assets/releases/3.6.1/adrenaline.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <figure class="fig medium">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/adrenaline-bar.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Close-up of a skill bar as an adrenaline skill charges">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/adrenaline-bar.webp" alt="Close-up of a skill bar as an adrenaline skill charges">
+      </a>
+        <span class="box c-gold" data-box="adrenaline-bar.charging" style="left:calc(26.126% - 5px);top:calc(2.250% - 5px);width:calc(11.937% + 10px);height:calc(26.500% + 10px)"></span>
+        <span class="box c-gold" data-box="adrenaline-bar.charging" style="left:calc(26.126% - 5px);top:calc(36.250% - 5px);width:calc(11.937% + 10px);height:calc(26.500% + 10px)"></span>
+        <span class="box c-gold" data-box="adrenaline-bar.charging" style="left:calc(26.126% - 5px);top:calc(70.250% - 5px);width:calc(11.937% + 10px);height:calc(26.500% + 10px)"></span>
+      </div>
+      <figcaption><span class="hl hl-gold" data-box="adrenaline-bar.charging" tabindex="0">Flames fill the icon</span> as the skill charges. <a href="../../assets/releases/3.6.1/adrenaline-bar.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <p>Recordings do not include adrenaline, so we estimate it from hits dealt and received, skill uses, deaths, time out of combat, and skills that give or remove adrenaline. In tests on 92 recent matches, the estimate showed enough adrenaline for more than 99% of adrenaline skill uses.</p>
+  </section>
+
+  <section id="animations">
+    <h2>Character animations</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Characters now move smoothly from one animation to the next. Repeating animations also no longer jump when they restart. This is on by default; you can turn it off with <span class="hl hl-gold" data-box="blending-toggle.toggle" tabindex="0">&ldquo;Smooth animation blending&rdquo;</span> beside Model Scale.</li>
+      <li>Characters now flinch when hit, with a stronger reaction on critical hits. The reaction plays over their current animation, like in game.</li>
+    </ul>
+    <figure class="fig small">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/blending-toggle.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Smooth animation blending checkbox beside Model Scale">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/blending-toggle.webp" alt="The Smooth animation blending checkbox beside Model Scale">
+      </a>
+        <span class="box c-gold" data-box="blending-toggle.toggle" style="left:calc(1.905% - 5px);top:calc(67.949% - 5px);width:calc(43.333% + 10px);height:calc(26.923% + 10px)"></span>
+      </div>
+      <figcaption>The setting beside Model Scale. <a href="../../assets/releases/3.6.1/blending-toggle.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <section id="nomads-isle">
+    <h2>Nomad&rsquo;s Isle</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Added <img class="ico sm" src="../../assets/releases/3.6.1/quicksand.jpg" alt="" width="22" height="22">Quicksand to the replay. Its icon appears on the effect bars <span class="hl hl-cyan" data-box="quicksand.party" tabindex="0">in the party windows</span> and <span class="hl hl-gold" data-box="quicksand.self" tabindex="0">for the selected player</span> while they stand in it.</li>
+      <li>Quicksand now costs players 1 Energy per skill or attack, or 2 for an attack skill, like in game. Energy losses also appear as <span class="hl hl-red" data-box="quicksand.minus" tabindex="0">-1 numbers above the character</span>.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/quicksand.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: A player standing in Quicksand on Nomad's Isle, with its icon on the effect bars and a -1 Energy number above the character">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/quicksand.webp" alt="A player standing in Quicksand on Nomad's Isle, with its icon on the effect bars and a -1 Energy number above the character">
+      </a>
+        <span class="box c-cyan" data-box="quicksand.party" style="left:calc(29.504% - 5px);top:calc(25.714% - 5px);width:calc(1.818% + 10px);height:calc(3.143% + 10px)"></span>
+        <span class="box c-gold" data-box="quicksand.self" style="left:calc(58.843% - 5px);top:calc(77.571% - 5px);width:calc(4.050% + 10px);height:calc(7.000% + 10px)"></span>
+        <span class="box c-red" data-box="quicksand.minus" style="left:calc(76.033% - 5px);top:calc(20.571% - 5px);width:calc(1.570% + 10px);height:calc(2.714% + 10px)"></span>
+      </div>
+      <figcaption>Quicksand on Nomad&rsquo;s Isle: the icon on the effect bars and the Energy loss above the character. <a href="../../assets/releases/3.6.1/quicksand.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="plain">
+      <li>Added <span class="hl hl-gold" data-box="quicksand-stats.columns" tabindex="0">&ldquo;Energy lost to Quicksand&rdquo; and &ldquo;Time in Quicksand&rdquo;</span> to the Match Library stats.</li>
+    </ul>
+    <figure class="fig">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/quicksand-stats.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Match Library stats with the Energy lost to Quicksand and Time in Quicksand columns">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/quicksand-stats.webp" alt="The Match Library stats with the Energy lost to Quicksand and Time in Quicksand columns">
+      </a>
+        <span class="box c-gold" data-box="quicksand-stats.columns" style="left:calc(74.233% - 5px);top:calc(0.577% - 5px);width:calc(24.785% + 10px);height:calc(98.462% + 10px)"></span>
+      </div>
+      <figcaption>The two new stats in the Match Library. The table shows them under the short names &ldquo;En quicksand&rdquo; and &ldquo;In quicksand&rdquo;. <a href="../../assets/releases/3.6.1/quicksand-stats.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <section id="estimates">
+    <h2>Health and energy estimates</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Health numbers now match in <span class="hl hl-cyan" data-box="health-match.party" tabindex="0">the party window</span>, <span class="hl hl-gold" data-box="health-match.info" tabindex="0">the player info panel</span> and <span class="hl hl-green" data-box="health-match.bar" tabindex="0">the health bar above the skill bar</span>. Rounding could previously make them differ by 1 (e.g. 4/550 in one window and 5/550 in another). Living players no longer show 0 Health.</li>
+    </ul>
+    <figure class="fig medium">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/health-match.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The same player's Health in the party window, the player info panel and the health bar above the skill bar">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/health-match.webp" alt="The same player's Health in the party window, the player info panel and the health bar above the skill bar">
+      </a>
+        <span class="box c-cyan" data-box="health-match.party" style="left:calc(60.323% - 5px);top:calc(8.108% - 5px);width:calc(7.527% + 10px);height:calc(10.135% + 10px)"></span>
+        <span class="box c-gold" data-box="health-match.info" style="left:calc(14.946% - 5px);top:calc(56.419% - 5px);width:calc(8.817% + 10px);height:calc(10.135% + 10px)"></span>
+        <span class="box c-green" data-box="health-match.bar" style="left:calc(49.140% - 5px);top:calc(86.486% - 5px);width:calc(1.290% + 10px);height:calc(8.108% + 10px)"></span>
+      </div>
+      <figcaption>The same Health number in all three places. <a href="../../assets/releases/3.6.1/health-match.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="rules">
+      <li><img src="../../assets/releases/3.6.1/ranger.png" alt="" width="28" height="28"><span><b>Rangers</b>: improved Ranger energy estimates when Expertise is unknown. The replay now estimates the rank from the skills the Ranger was able to use.</span></li>
+      <li><img src="../../assets/releases/3.6.1/all-in.jpg" alt="" width="28" height="28"><span><b>All In (November flux)</b>: its +3 Health regeneration now helps confirm whether it is active, so the icon is rarely shown semi-transparent. A Mesmer using skills stolen with <img class="ico sm" src="../../assets/releases/3.6.1/arcane-thievery.jpg" alt="" width="22" height="22">Arcane Thievery no longer incorrectly loses the icon.</span></li>
+    </ul>
+  </section>
+
+  <section id="fixes">
+    <h2>Fixes</h2>
+    <div class="rule"></div>
+    <ul class="rules">
+      <li><img src="../../assets/releases/3.6.1/healers-covenant.jpg" alt="" width="28" height="28"><span><b>Healer&rsquo;s Covenant</b> now appears on the effect bar and is included in the energy estimate even if it was cast before the recording started. Recordings can start a few seconds late, and it was previously missed until the player cast it again.</span></li>
+    </ul>
+    <figure class="fig">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.1/covenant.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Healer's Covenant on the effect bar in the first seconds of the recording">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.1/covenant.webp" alt="Healer's Covenant on the effect bar in the first seconds of the recording">
+      </a>
+        <span class="box c-gold" data-box="covenant.icon" style="left:calc(65.917% - 5px);top:calc(5.306% - 5px);width:calc(4.083% + 10px);height:calc(20.000% + 10px)"></span>
+      </div>
+      <figcaption><span class="hl hl-gold" data-box="covenant.icon" tabindex="0">Healer&rsquo;s Covenant on the effect bar</span> from the first seconds of the recording. <a href="../../assets/releases/3.6.1/covenant.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="plain">
+      <li>Fixed damage, healing and energy numbers flickering above other characters when following a player with the camera zoomed in. The numbers now keep their original position and size instead of jumping between two spots.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Thanks to everyone who tested the update and reported problems. Keep sending us your feedback!</p>
+    <p class="legal">GW Observer is an unofficial fan project, not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Hovering a marked phrase lights up its box on the screenshot, and the other way round.
+  document.querySelectorAll('[data-box]').forEach(function (el) {
+    var key = el.getAttribute('data-box');
+    function set(on) {
+      document.querySelectorAll('[data-box="' + key + '"]').forEach(function (m) { m.classList.toggle('on', on); });
+    }
+    el.addEventListener('mouseenter', function () { set(true); });
+    el.addEventListener('mouseleave', function () { set(false); });
+    el.addEventListener('focus', function () { set(true); });
+    el.addEventListener('blur', function () { set(false); });
+  });
+</script>
+</body>
+</html>

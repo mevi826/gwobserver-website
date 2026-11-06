@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const releaseMedia = document.getElementById('release-media');
   if (releaseMedia) {
     releaseMedia.classList.add('has-preview');
-    releaseMedia.dataset.gif = 'assets/releases/3.5.0/skill-effects.webp';
-    releaseMedia.dataset.title = 'Skill effects in 3.5.0';
+    releaseMedia.dataset.gif = 'assets/releases/3.6.1/adrenaline.webp';
+    releaseMedia.dataset.title = 'Adrenaline in 3.6.1';
   }
 
   // ---- Mobile nav toggle ----
