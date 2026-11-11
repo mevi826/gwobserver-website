@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 3.6.2 Release Notes</title>
+<meta name="description" content="GW Observer 3.6.2 adds a Meta tab that shows how skills are used across recorded matches, keeps the Energy cost of cancelled skills and fixes a few Library and replay issues.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 3.6.2 Release Notes">
+<meta property="og:description" content="GW Observer 3.6.2 adds a Meta tab that shows how skills are used across recorded matches, keeps the Energy cost of cancelled skills and fixes a few Library and replay issues.">
+<meta property="og:url" content="https://gwobserver.com/releases/3.6.2/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 3.6.2 Release Notes">
+<meta name="twitter:description" content="GW Observer 3.6.2 adds a Meta tab that shows how skills are used across recorded matches, keeps the Energy cost of cancelled skills and fixes a few Library and replay issues.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+  .ico{ width:32px; height:32px; vertical-align:middle; margin-right:10px; border:1px solid var(--line); border-radius:3px }
+  .ico.sm{ width:22px; height:22px; margin:0 4px 0 2px; vertical-align:-5px }
+  .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  /* text marks: same colour as the box drawn on the screenshot */
+  .hl{ text-decoration-line:underline; text-decoration-style:dotted; text-decoration-thickness:2px; text-underline-offset:5px }
+  .hl-red{ text-decoration-color:#ff4d4f; text-shadow:0 0 12px rgba(255,77,79,.55) }
+  .hl-gold{ text-decoration-color:#ffc53d; text-shadow:0 0 12px rgba(255,197,61,.5) }
+  .hl-cyan{ text-decoration-color:#40c4ff; text-shadow:0 0 12px rgba(64,196,255,.55) }
+  .hl-green{ text-decoration-color:#52e07a; text-shadow:0 0 12px rgba(82,224,122,.5) }
+  .hl-magenta{ text-decoration-color:#ff6bd6; text-shadow:0 0 12px rgba(255,107,214,.55) }
+
+  .hl{ cursor:default; border-radius:3px; transition:background .2s, text-shadow .2s }
+  .hl.on{ color:#fff }
+  .hl-red.on{ background:rgba(255,77,79,.16); text-shadow:0 0 14px rgba(255,77,79,.9) }
+  .hl-gold.on{ background:rgba(255,197,61,.14); text-shadow:0 0 14px rgba(255,197,61,.9) }
+  .hl-cyan.on{ background:rgba(64,196,255,.16); text-shadow:0 0 14px rgba(64,196,255,.9) }
+  .hl-green.on{ background:rgba(82,224,122,.14); text-shadow:0 0 14px rgba(82,224,122,.9) }
+  .hl-orange{ text-decoration-color:#ff8a3d; text-shadow:0 0 12px rgba(255,138,61,.5) }
+  .hl-orange.on{ background:rgba(255,138,61,.16); text-shadow:0 0 14px rgba(255,138,61,.9) }
+  .hl-magenta.on{ background:rgba(255,107,214,.16); text-shadow:0 0 14px rgba(255,107,214,.9) }
+
+  /* boxes drawn over the screenshots */
+  .shotbox{ position:relative }
+  .box{ position:absolute; border:2px solid var(--c); border-radius:6px; pointer-events:none;
+    box-shadow:0 0 8px var(--g), inset 0 0 6px var(--g); transition:box-shadow .2s, border-width .2s, background .2s }
+  .box.on{ border-width:3px; background:var(--f); box-shadow:0 0 22px 4px var(--c), inset 0 0 14px var(--g) }
+  .c-red{ --c:#ff4d4f; --g:rgba(255,77,79,.6); --f:rgba(255,77,79,.10) }
+  .c-gold{ --c:#ffc53d; --g:rgba(255,197,61,.55); --f:rgba(255,197,61,.10) }
+  .c-cyan{ --c:#40c4ff; --g:rgba(64,196,255,.6); --f:rgba(64,196,255,.10) }
+  .c-green{ --c:#52e07a; --g:rgba(82,224,122,.55); --f:rgba(82,224,122,.10) }
+  .c-magenta{ --c:#ff6bd6; --g:rgba(255,107,214,.6); --f:rgba(255,107,214,.10) }
+  .c-orange{ --c:#ff8a3d; --g:rgba(255,138,61,.6); --f:rgba(255,138,61,.10) }
+  .box-label{ position:absolute; left:calc(100% + 8px); top:50%; transform:translateY(-50%); white-space:nowrap;
+    background:var(--c); color:#17140d; font-size:12px; font-weight:650; padding:2px 9px; border-radius:10px;
+    box-shadow:0 0 10px var(--g) }
+
+  /* portrait shot beside its text */
+  .side{ --w:min(var(--wide) - 56px, 100vw - 56px); width:var(--w); margin-left:calc((100% - var(--w)) / 2);
+    display:grid; grid-template-columns:minmax(0,1fr) 620px; gap:36px; align-items:start }
+  .side .fig{ margin:0 }
+  @media (max-width:980px){ .side{ grid-template-columns:1fr } }
+
+  /* skill rules */
+  .rules{ margin:14px 0 0; padding:0; list-style:none }
+  .rules li{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line-soft); font-size:15px; color:#d3cec8 }
+  .rules li img{ width:28px; height:28px; flex:none; border:1px solid var(--line); border-radius:3px; margin-top:1px }
+  .rules li b{ color:var(--text); font-weight:600 }
+  .rules li .was{ display:block; margin-top:2px; font-size:13.5px; color:var(--dim) }
+  p.was{ font-size:13.5px; color:var(--dim); margin:6px 0 0 }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px }
+  .chip{ display:inline-flex; align-items:center; gap:7px; padding:3px 11px 3px 3px; background:var(--surface);
+    border:1px solid var(--line-soft); border-radius:6px; font-size:14px; color:#d8d3cd }
+  .chip img{ width:24px; height:24px; border-radius:3px }
+  .rules.scores li{ align-items:baseline }
+  .rules + p{ margin-top:14px }
+  .pts{ flex:none; min-width:52px; text-align:center; padding:1px 8px; border-radius:6px; font-weight:650; font-size:14px;
+    font-variant-numeric:tabular-nums }
+  .pts.plus{ color:#52e07a; background:rgba(82,224,122,.1); border:1px solid rgba(82,224,122,.3) }
+  .pts.minus{ color:#ff6b6b; background:rgba(255,77,79,.1); border:1px solid rgba(255,77,79,.3) }
+  .pts.zero{ color:var(--muted, #a9a39b); background:rgba(255,255,255,.04); border:1px solid var(--line-soft) }
+    --open:#8c8fa6; --open-wash:rgba(140,143,166,.13); --gold-wash:rgba(224,181,99,.09); --gold-edge:rgba(224,181,99,.28);
+    --mono:ui-monospace, SFMono-Regular, Consolas, monospace }
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:10px; font-size:17px }
+    border:1px solid var(--line); background:var(--surface-2); white-space:nowrap; max-width:100% }
+  @media (max-width:520px){
+  }
+  .fig.small{ max-width:420px }
+  .fig.medium{ max-width:720px }
+  .fig + p, .fig + ul, .fig + .fig{ margin-top:26px }
+  h4.sub{ margin:30px 0 4px; font-size:17px; font-weight:620; color:var(--text) }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">3.6.2</span></h1>
+  <p class="lede">This update adds a Meta tab that shows how skills are used across recorded matches. It also corrects the energy cost of cancelled skills and fixes a few Library and replay issues.</p>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.6.2/GWObserver.zip">Download 3.6.2</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc" aria-label="Contents">
+    <h2>In this update</h2>
+    <ol>
+      <li><a href="#meta">Meta</a></li>
+      <li><a href="#energy">Energy estimates</a></li>
+      <li><a href="#fixes">Other changes</a></li>
+    </ol>
+  </nav>
+
+  <section id="meta">
+    <h2>Meta</h2>
+    <div class="rule"></div>
+    <p>A new <strong>Meta</strong> tab shows how skills are used across every recorded match.</p>
+
+    <h3>The skill map</h3>
+    <ul class="plain">
+      <li>Explore <span class="hl hl-gold" data-box="meta-map.map" tabindex="0">a 3D map of every skill</span>, grouped by profession.
+        <ul>
+          <li><strong>High icon</strong>: teams with this skill often won.</li>
+          <li><strong>Big icon</strong>: many players used this skill.</li>
+        </ul>
+      </li>
+      <li>Hold the right mouse button and drag to turn the view, and use the wheel to zoom.</li>
+      <li>Find a skill by <span class="hl hl-cyan" data-box="meta-map.search" tabindex="0">typing its name, or press the arrow beside the search field</span> to browse every recorded skill, as in the Library.</li>
+      <li>Use <span class="hl hl-red" data-box="meta-map.period" tabindex="0">the &ldquo;All recorded matches&rdquo; list</span> to choose a period:
+        <ul>
+          <li><strong>All recorded matches</strong>: every match.</li>
+          <li><strong>A month</strong>: only the matches of that month.</li>
+          <li><strong>A balance era</strong>: only the matches between two balance updates.</li>
+        </ul>
+      </li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.2/meta-map.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Meta tab: a 3D map of every skill, with one island per profession">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.2/meta-map.webp" alt="The Meta tab: a 3D map of every skill, with one island per profession">
+      </a>
+        <span class="box c-gold" data-box="meta-map.map" style="left:calc(20.445% - 5px);top:calc(23.216% - 5px);width:calc(50.812% + 10px);height:calc(61.721% + 10px)"></span>
+        <span class="box c-cyan" data-box="meta-map.search" style="left:calc(0.962% - 5px);top:calc(10.646% - 5px);width:calc(13.830% + 10px);height:calc(3.171% + 10px)"></span>
+        <span class="box c-red" data-box="meta-map.period" style="left:calc(0.962% - 5px);top:calc(16.421% - 5px);width:calc(13.830% + 10px);height:calc(3.171% + 10px)"></span>
+      </div>
+      <figcaption>Every skill on one map, grouped by profession. <a href="../../assets/releases/3.6.2/meta-map.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <h3>A skill up close</h3>
+    <p>Click a skill on the map, or pick it in the table, to see:</p>
+    <ul class="plain">
+      <li><span class="hl hl-gold" data-box="meta-skill.partners" tabindex="0">the skills usually on the same bar</span>, linked on the map and <span class="hl hl-cyan" data-box="meta-skill.same" tabindex="0">listed beside it</span>;</li>
+      <li><span class="hl hl-green" data-box="meta-skill.trend" tabindex="0">its usage over time</span> and <span class="hl hl-orange" data-box="meta-skill.history" tabindex="0">its balance history</span>;</li>
+      <li><span class="hl hl-magenta" data-box="meta-skill.bars" tabindex="0">the most played bars</span> with it. Open any listed match directly in the replay.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.2/meta-skill.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: Guardian selected on the Meta map, with lines to the skills played with it and its details on the right">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.2/meta-skill.webp" alt="Guardian selected on the Meta map, with lines to the skills played with it and its details on the right">
+      </a>
+        <span class="box c-gold" data-box="meta-skill.partners" style="left:calc(47.805% - 5px);top:calc(24.009% - 5px);width:calc(9.621% + 10px);height:calc(22.424% + 10px)"></span>
+        <span class="box c-cyan" data-box="meta-skill.same" style="left:calc(77.450% - 5px);top:calc(30.351% - 5px);width:calc(18.521% + 10px);height:calc(10.193% + 10px)"></span>
+        <span class="box c-green" data-box="meta-skill.trend" style="left:calc(77.450% - 5px);top:calc(41.903% - 5px);width:calc(20.325% + 10px);height:calc(25.142% + 10px)"></span>
+        <span class="box c-orange" data-box="meta-skill.history" style="left:calc(77.450% - 5px);top:calc(68.290% - 5px);width:calc(20.325% + 10px);height:calc(7.361% + 10px)"></span>
+        <span class="box c-magenta" data-box="meta-skill.bars" style="left:calc(76.789% - 5px);top:calc(79.275% - 5px);width:calc(21.587% + 10px);height:calc(19.479% + 10px)"></span>
+      </div>
+      <figcaption>Guardian selected: the skills played with it, its usage over time and the most played bars. <a href="../../assets/releases/3.6.2/meta-skill.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <h3>Fluxes, time-lapse and balance updates</h3>
+    <ul class="plain">
+      <li><span class="hl hl-gold" data-box="meta-flux.filter" tabindex="0">Filter by flux</span> to see how it changes the meta, <span class="hl hl-cyan" data-box="meta-flux.movers" tabindex="0">compared with the other fluxes</span>.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.2/meta-flux.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Meta map filtered on the All In flux, with the skills that rose and fell compared with the other fluxes">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.2/meta-flux.webp" alt="The Meta map filtered on the All In flux, with the skills that rose and fell compared with the other fluxes">
+      </a>
+        <span class="box c-gold" data-box="meta-flux.filter" style="left:calc(0.962% - 5px);top:calc(20.612% - 5px);width:calc(13.830% + 10px);height:calc(3.171% + 10px)"></span>
+        <span class="box c-cyan" data-box="meta-flux.movers" style="left:calc(77.450% - 5px);top:calc(34.541% - 5px);width:calc(20.325% + 10px);height:calc(15.515% + 10px)"></span>
+      </div>
+      <figcaption>The meta during All In, and the skills that rose or fell against the other fluxes. <a href="../../assets/releases/3.6.2/meta-flux.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <ul class="plain">
+      <li>Press <span class="hl hl-cyan" data-box="meta-timelapse.button" tabindex="0">Time-lapse</span> to watch the map change month by month, with <span class="hl hl-gold" data-box="meta-timelapse.bar" tabindex="0">balance patches marked along the way</span>.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.2/meta-timelapse.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Meta time-lapse playing April 2026, with balance patches marked on the timeline">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.2/meta-timelapse.webp" alt="The Meta time-lapse playing April 2026, with balance patches marked on the timeline">
+      </a>
+        <span class="box c-cyan" data-box="meta-timelapse.button" style="left:calc(36.320% - 5px);top:calc(9.740% - 5px);width:calc(5.532% + 10px);height:calc(3.737% + 10px)"></span>
+        <span class="box c-gold" data-box="meta-timelapse.bar" style="left:calc(16.236% - 5px);top:calc(81.880% - 5px);width:calc(59.110% + 10px);height:calc(8.494% + 10px)"></span>
+      </div>
+      <figcaption>The time-lapse on April 2026. <a href="../../assets/releases/3.6.2/meta-timelapse.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <ul class="plain">
+      <li><span class="hl hl-gold" data-box="meta-patch.era" tabindex="0">Select a balance update</span> to see <span class="hl hl-cyan" data-box="meta-patch.report" tabindex="0">what it changed and which skills actually rose or fell afterwards</span>.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.2/meta-patch.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Meta tab on the 24 June 2026 balance update, listing the skills it changed and how their usage moved">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.2/meta-patch.webp" alt="The Meta tab on the 24 June 2026 balance update, listing the skills it changed and how their usage moved">
+      </a>
+        <span class="box c-gold" data-box="meta-patch.era" style="left:calc(0.962% - 5px);top:calc(16.421% - 5px);width:calc(13.830% + 10px);height:calc(3.171% + 10px)"></span>
+        <span class="box c-cyan" data-box="meta-patch.report" style="left:calc(77.450% - 5px);top:calc(26.614% - 5px);width:calc(20.325% + 10px);height:calc(69.649% + 10px)"></span>
+      </div>
+      <figcaption>The 24 June 2026 balance update: the skills it changed, and the skills that moved most without being changed. <a href="../../assets/releases/3.6.2/meta-patch.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <h3>The table</h3>
+    <ul class="plain">
+      <li>Switch to <span class="hl hl-gold" data-box="meta-table.tab" tabindex="0">the table</span>. For each skill it shows:
+        <ul>
+          <li><strong><span class="hl hl-cyan" data-box="meta-table.players" tabindex="0">Players</span></strong>: the percentage of players who used the skill.</li>
+          <li><strong><span class="hl hl-orange" data-box="meta-table.trend" tabindex="0">Usage trend</span></strong>: how its use changed over time.</li>
+          <li><strong><span class="hl hl-magenta" data-box="meta-table.wins" tabindex="0">Team wins</span></strong>: how often teams with this skill won.</li>
+          <li><strong>Team games</strong>: how many matches this win rate comes from.</li>
+        </ul>
+      </li>
+      <li>Filter by period, balance update or profession. <span class="hl hl-green" data-box="meta-table.rare" tabindex="0">Show rare skills</span> adds the skills used on only a few bars.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.2/meta-table.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Meta table with the Players, Usage trend and Team wins columns for each skill">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.2/meta-table.webp" alt="The Meta table with the Players, Usage trend and Team wins columns for each skill">
+      </a>
+        <span class="box c-gold" data-box="meta-table.tab" style="left:calc(26.158% - 5px);top:calc(9.740% - 5px);width:calc(4.811% + 10px);height:calc(3.737% + 10px)"></span>
+        <span class="box c-cyan" data-box="meta-table.players" style="left:calc(44.979% - 5px);top:calc(15.289% - 5px);width:calc(4.690% + 10px);height:calc(83.239% + 10px)"></span>
+        <span class="box c-orange" data-box="meta-table.trend" style="left:calc(50.391% - 5px);top:calc(15.289% - 5px);width:calc(5.893% + 10px);height:calc(83.239% + 10px)"></span>
+        <span class="box c-magenta" data-box="meta-table.wins" style="left:calc(59.531% - 5px);top:calc(15.289% - 5px);width:calc(4.931% + 10px);height:calc(83.239% + 10px)"></span>
+        <span class="box c-green" data-box="meta-table.rare" style="left:calc(0.962% - 5px);top:calc(68.969% - 5px);width:calc(13.830% + 10px);height:calc(3.171% + 10px)"></span>
+      </div>
+      <figcaption>Each skill with its players, usage trend and team wins. <a href="../../assets/releases/3.6.2/meta-table.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+
+    <p class="note">Win rates only count matches where one team used the skill and the other didn&rsquo;t. They don&rsquo;t measure how strong a skill is. Skills mostly used after a death, such as Resurrection Signet, carry a warning.</p>
+  </section>
+
+  <section id="energy">
+    <h2>Energy estimates</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Fixed cancelled skills giving their Energy back. A cancelled skill now keeps its cost, like an interrupted one, and &ldquo;Energy spent&rdquo; includes it. Henchmen now also pay for cancelled and interrupted skills.</li>
+      <li>Added &ldquo;Energy lost to cancelled casts&rdquo; to the Match Library stats.</li>
+    </ul>
+  </section>
+
+  <section id="fixes">
+    <h2>Other changes</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Selecting a match in the Library no longer downloads it. The Overview tab only reads matches already on your computer, so attributes appear once the match is downloaded. The Stats and Map tabs and Replay still download it.</li>
+      <li>The replay now remembers your volume, mute and Sound FX panel settings between matches and after you restart the app.</li>
+      <li>In the Piano Roll, you can now hide the spike card and the Monk cards. Click the thin bar beside the spike card or above the Monk cards. The roll then uses the free space, and the app remembers your choice.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Thanks to everyone who tested the update and reported problems. Keep sending us your feedback!</p>
+    <p class="legal">GW Observer is an unofficial fan project, not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Hovering a marked phrase lights up its box on the screenshot, and the other way round.
+  document.querySelectorAll('[data-box]').forEach(function (el) {
+    var key = el.getAttribute('data-box');
+    function set(on) {
+      document.querySelectorAll('[data-box="' + key + '"]').forEach(function (m) { m.classList.toggle('on', on); });
+    }
+    el.addEventListener('mouseenter', function () { set(true); });
+    el.addEventListener('mouseleave', function () { set(false); });
+    el.addEventListener('focus', function () { set(true); });
+    el.addEventListener('blur', function () { set(false); });
+  });
+</script>
+</body>
+</html>
