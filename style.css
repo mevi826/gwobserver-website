@@ -682,6 +682,11 @@ kbd.inline {
   width: 24px; height: 24px; margin: 0 6px 2px 0;
   border-radius: 3px; cursor: default;
 }
+.changelog-summary {
+  color: var(--text-dim); font-size: 14.5px; line-height: 1.7; margin-bottom: 18px;
+}
+.changelog-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.changelog-links .btn-sm { padding: 8px 16px; font-size: 13.5px; }
 .changelog-toggle {
   display: inline-block; margin-top: 10px;
   background: none; border: none; cursor: pointer;

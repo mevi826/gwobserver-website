@@ -156,18 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
-  // ---- Changelog from GitHub Releases ----
-  function renderMarkdown(text) {
-    try {
-      if (typeof marked !== 'undefined' && marked.parse) return marked.parse(text);
-    } catch (e) { /* fall through */ }
-    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>');
-  }
-
   // ---- Keep the download buttons on the real latest release ----
-  // Piggybacks on the changelog fetch below, so it costs no extra API call
-  // (unauthenticated GitHub allows only 60 requests an hour per IP). If the
-  // fetch fails the hardcoded links in index.html still stand.
+  // One API call per page view (unauthenticated GitHub allows only 60 requests
+  // an hour per IP). If the fetch fails the hardcoded links in index.html still
+  // stand. The changelog itself is static HTML so it never depends on this call.
   // Pre-releases count: 2.0.0 is published as one, and skipping it here would
   // quietly rewrite every button back to 1.2.7 on a page that advertises 2.0.0.
   function syncDownloadLinks(releases) {
@@ -181,76 +173,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const changelogContainer = document.getElementById('changelog-entries');
-  if (changelogContainer) {
-    fetch('https://api.github.com/repos/MC92-hash/GuildWarsObserver/releases?per_page=10')
-      .then(function(res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      })
-      .then(function(releases) {
-        syncDownloadLinks(releases);
+  fetch('https://api.github.com/repos/MC92-hash/GuildWarsObserver/releases?per_page=5')
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(syncDownloadLinks)
+    .catch(function() { /* keep the hardcoded links */ });
 
-        // Filter out pre-release versions before v1.1.0
-        releases = (releases || []).filter(function(r) {
-          var v = r.tag_name.replace(/^v/, '').split('.').map(Number);
-          return v[0] > 1 || (v[0] === 1 && v[1] >= 1);
-        });
-        if (!releases.length) {
-          changelogContainer.innerHTML = '<p class="changelog-empty">No releases found.</p>';
-          return;
-        }
-
-        var html = '';
-        for (var i = 0; i < releases.length; i++) {
-          var release = releases[i];
-          var date = new Date(release.published_at).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'long', day: 'numeric'
-          });
-          var body = release.body ? renderMarkdown(release.body) : '<p>No release notes.</p>';
-          var title = release.name || release.tag_name;
-
-          html += '<article class="changelog-entry fade-in">'
-            + '<div class="changelog-header">'
-            + '<span class="changelog-version">' + release.tag_name + '</span>'
-            + '<span class="changelog-date">' + date + '</span>'
-            + '</div>'
-            + '<h3 class="changelog-title">' + title + '</h3>'
-            + '<div class="changelog-body">' + body + '</div>'
-            + '<button class="changelog-toggle">Show more</button>'
-            + '</article>';
-        }
-        changelogContainer.innerHTML = html;
-
-        // Hide toggle for short entries, add click handler
-        changelogContainer.querySelectorAll('.changelog-entry').forEach(function(el) {
-          var body = el.querySelector('.changelog-body');
-          var toggle = el.querySelector('.changelog-toggle');
-          var titleEl = el.querySelector('.changelog-title');
-          function syncToggle() {
-            toggle.style.display = body.scrollHeight > 200 ? '' : 'none';
-          }
-          syncToggle();
-          // Release screenshots open full size in the lightbox. They also finish
-          // loading after the height check above, so re-check when each arrives.
-          body.querySelectorAll('img').forEach(function(img) {
-            img.addEventListener('load', syncToggle);
-            if (img.getAttribute('width') === '24') return;  // inline skill icon
-            img.addEventListener('click', function() {
-              openPreview(img.alt || (titleEl ? titleEl.textContent : ''), img.src);
-            });
-          });
-          toggle.addEventListener('click', function() {
-            var expanded = body.classList.toggle('expanded');
-            toggle.textContent = expanded ? 'Show less' : 'Show more';
-          });
-          observer.observe(el);
-        });
-      })
-      .catch(function(err) {
-        changelogContainer.innerHTML = '<p class="changelog-empty">Could not load changelog. <a href="https://github.com/MC92-hash/GuildWarsObserver/releases" target="_blank">View on GitHub</a></p>';
-      });
-  }
+  document.querySelectorAll('.changelog-entry').forEach(function(el) {
+    el.classList.add('fade-in');
+    observer.observe(el);
+  });
 
   // Add fade-in CSS dynamically
   const style = document.createElement('style');
