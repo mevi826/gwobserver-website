@@ -3,165 +3,214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GW Observer match</title>
+  <title>Shared match · GW Observer</title>
   <meta name="description" content="A shared Guild Wars GvG match moment. Opens in GW Observer.">
   <meta name="robots" content="noindex">
 
   <!-- Static on purpose: GitHub Pages can't build a card per match. -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="GW Observer match">
-  <meta property="og:description" content="A shared GvG match moment. Click to open it in GW Observer.">
+  <meta property="og:title" content="Shared GvG match · GW Observer">
+  <meta property="og:description" content="Someone shared a moment from a GvG match. Click to watch it in GW Observer.">
   <meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
   <meta property="og:site_name" content="GW Observer">
-  <meta name="theme-color" content="#D4A020">
+  <meta name="theme-color" content="#c8a24a">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
 
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="style.css?v=iris1">
+  <link rel="icon" type="image/png" href="assets/eye_of_janthir_256.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { min-height: 100vh; display: flex; flex-direction: column; }
-    .watch-bg { position: fixed; inset: 0; z-index: -1; background: var(--bg-main) center / cover no-repeat; }
-    .watch-bg::after {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(19,24,32,.70) 0%, rgba(19,24,32,.88) 60%, var(--bg-main) 100%);
+    /* Watchtower's public-page tokens (gw-observer-orchestrator _scout_theme.html). */
+    :root {
+      --ground: #14110f;
+      --surface-1: rgba(24, 24, 27, 0.55);
+      --surface-2: rgba(24, 24, 27, 0.20);
+      --surface-raised: rgba(39, 39, 42, 0.40);
+      --border-soft: rgba(63, 63, 70, 0.45);
+      --border-strong: rgba(82, 82, 91, 0.65);
+      --accent: #c8a24a;
+      --accent-hover: #e0bd6a;
+      --accent-soft: rgba(200, 162, 74, 0.10);
+      --accent-glow: rgba(200, 162, 74, 0.22);
+      --parchment: #e9dfc9;
+      --ink-strong: #f5eedc;
+      --dim: #8b8578;
+      --blue: #6f9fd8;
+      --red: #cf7a6b;
+      --inner-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+      --shadow-card: 0 4px 24px -8px rgba(0, 0, 0, 0.5);
     }
-    .watch-top { padding: 18px 16px; max-width: 760px; width: 100%; margin: 0 auto; }
-    .watch-top a { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 600; }
-    .watch-top img { width: 28px; height: 28px; }
-    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .watch-wrap { width: 100%; max-width: 760px; text-align: center; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ground); color: var(--parchment);
+      font-family: 'Outfit', system-ui, sans-serif; min-height: 100vh;
+      display: flex; flex-direction: column; -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0 0 auto 0; height: 360px;
+      background: radial-gradient(60% 100% at 50% 0%, rgba(200,162,74,0.09), transparent 70%);
+      pointer-events: none;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
 
-    .watch-kicker {
-      display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
-      background: rgba(14,20,26,.85); border: 1px solid var(--border-gold);
-      color: var(--gold-bright); font-size: .95rem; font-weight: 600;
+    /* ---- Top bar ---- */
+    .top {
+      position: relative; width: 100%; max-width: 760px; margin: 0 auto;
+      padding: 18px 16px 0; display: flex; align-items: center; justify-content: space-between;
     }
-    .watch-kicker svg { width: 16px; height: 16px; }
-    .watch-kicker .kicker-time { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; margin-left: -4px; }
-    .watch-actions { margin-top: 28px !important; }
-    .watch-sub { margin-top: 10px; color: var(--text-dim); font-size: .95rem; }
-    .watch-title { margin-top: 6px; font-size: clamp(1.25rem, 4.2vw, 2rem); font-weight: 700; color: #EADFC0; overflow-wrap: anywhere; }
-    .watch-title .dot { color: var(--text-dim); margin: 0 .35em; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink-strong); text-decoration: none; font-weight: 600; font-size: 1.05rem; }
+    .brand img { width: 30px; height: 30px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px;
+      border-radius: 999px; font-size: .78rem; font-weight: 500; white-space: nowrap;
+      color: var(--accent); border: 1px solid var(--accent-glow); background: var(--accent-soft);
+    }
+    .badge svg { width: 13px; height: 13px; }
 
-    /* ---- Team cards, as on the app's loading screen ---- */
-    .teams { margin-top: 28px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; }
-    .teams .vs { color: var(--text-dim); letter-spacing: .2em; font-size: .9rem; }
-    .team {
-      position: relative; display: flex; gap: 12px; align-items: center; text-align: left;
-      padding: 12px 14px; min-height: 120px; border-radius: 6px; overflow: hidden;
-      background: rgba(14,20,26,.88); border-top: 4px solid var(--c);
-      box-shadow: 0 10px 40px rgba(0,0,0,.45);
-    }
-    .team::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--tint), transparent 70%); pointer-events: none; }
-    .team.blue { --c: #1E78E0; --tint: rgba(30,120,224,.22); --name: #6FB4FF; }
-    .team.red  { --c: #D02828; --tint: rgba(208,40,40,.22); --name: #FF7A7A; flex-direction: row-reverse; text-align: right; }
-    .banner { position: relative; flex: none; width: 56px; height: 112px; }
-    .banner img { width: 100%; height: 100%; object-fit: contain; display: block; }
-    .banner .plain {
-      width: 100%; height: 100%; background: var(--c);
-      clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
-      opacity: .85;
-    }
-    .team-info { position: relative; min-width: 0; flex: 1; }
-    .team-name { color: var(--name); font-size: 1.05rem; font-weight: 500; overflow-wrap: anywhere; }
-    .team-name .tag { color: var(--text-dim); font-size: .85em; margin-left: .35em; }
-    .ws-stat { font-size: .7rem; color: var(--text-dim); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
-    .ws-stat b { color: var(--gold-bright); font-size: .85rem; font-weight: 600; letter-spacing: 0; margin: 0 .3em; }
-    .profs { margin-top: 8px; display: flex; gap: 2px; flex-wrap: wrap; }
-    .team.red .profs { justify-content: flex-end; }
-    .profs img { width: 20px; height: 20px; }
-
-    .watch-moment {
-      display: inline-flex; flex-direction: column; align-items: center; margin-top: 26px;
-      padding: 10px 28px; border-radius: var(--radius-lg);
-      background: rgba(14,20,26,.85); border: 1px solid var(--border-gold);
-    }
-    .watch-moment[hidden] { display: none; }
-    .watch-moment .lbl { color: var(--text-dim); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
-    .watch-moment .time { color: var(--gold-bright); font-size: 2.4rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
-    .watch-actions { margin-top: 20px; }
-    .watch-open {
-      display: inline-block; width: 100%; max-width: 320px; padding: 14px 20px;
-      background: var(--gold); color: #131820; font-weight: 700; font-size: 1.05rem;
-      border-radius: var(--radius); text-decoration: none; transition: background .15s;
-    }
-    .watch-open:hover { background: var(--gold-bright); }
-    .watch-help {
-      margin: 24px auto 0; max-width: 520px; padding: 14px 18px; text-align: left;
-      background: rgba(14,20,26,.75); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      color: var(--text-dim); font-size: .92rem;
-    }
-    .watch-help p + p { margin-top: 10px; }
-    .watch-help a { color: var(--gold-bright); }
-    .watch-help strong { color: var(--text); font-weight: 600; }
-    .watch-copy {
-      background: none; border: 1px solid var(--border); color: var(--text);
-      padding: 2px 10px; border-radius: var(--radius); font: inherit; font-size: .85rem; cursor: pointer;
-    }
-    .watch-copy:hover { border-color: var(--gold-dim); }
-    .watch-mobile { display: none; margin-top: 22px; color: var(--text-dim); }
-    .is-mobile .watch-actions, .is-mobile .watch-help { display: none; }
-    .is-mobile .watch-mobile { display: block; }
-
-    @media (max-width: 640px) {
-      .teams { grid-template-columns: 1fr; }
-      .team.red { flex-direction: row; text-align: left; }
-      .team.red .profs { justify-content: flex-start; }
+    /* Centred on the screen: the browser's "Open GW Observer?" box drops in at the top and must not hide the card. */
+    main {
+      position: relative; flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 22px 16px 40px;
+      display: flex; flex-direction: column; justify-content: center;
     }
 
-    .watch-error { max-width: 520px; margin: 0 auto; padding: 28px 24px; background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); }
-    .watch-error h1 { font-size: 1.4rem; margin-bottom: 8px; }
-    .watch-error p { color: var(--text-dim); }
-    .watch-error a { color: var(--gold-bright); }
+    /* ---- The card ---- */
+    .card {
+      background: linear-gradient(180deg, var(--surface-1), var(--surface-2));
+      border: 1px solid var(--border-soft); border-radius: 14px; overflow: hidden;
+      box-shadow: var(--inner-highlight), var(--shadow-card);
+    }
+    .hero { position: relative; height: 170px; background: #1c1814 center 40% / cover no-repeat; }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(20,17,15,.35) 0%, rgba(20,17,15,.55) 55%, rgba(20,17,15,.96) 100%);
+    }
+    .hero-text { position: absolute; left: 22px; right: 22px; bottom: 16px; z-index: 1; }
+    .eyebrow { font-size: .6875rem; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); font-weight: 600; }
+    .hero .eyebrow { color: #c9bfa8; }
+    .moment { display: flex; align-items: baseline; gap: 12px; margin-top: 2px; flex-wrap: wrap; }
+    .moment .time { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 2.6rem; color: var(--accent-hover); line-height: 1.05; }
+    .moment .what { color: var(--parchment); font-size: 1rem; }
+
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 22px 0; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px;
+      font-size: .82rem; border: 1px solid var(--border-soft); background: var(--surface-raised); color: var(--parchment);
+    }
+    .chip.mono { font-size: .76rem; }
+
+    /* ---- The two guilds ---- */
+    .sides { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: stretch; padding: 16px 22px 4px; }
+    .vs { align-self: center; font-family: 'JetBrains Mono', monospace; color: var(--dim); font-size: .75rem; letter-spacing: .14em; }
+    .side {
+      display: flex; gap: 12px; align-items: center; min-width: 0; padding: 12px;
+      background: rgba(24,24,27,.35); border: 1px solid var(--border-soft); border-radius: 10px;
+      border-top: 2px solid var(--team);
+    }
+    .side.blue { --team: var(--blue); }
+    .side.red  { --team: var(--red); flex-direction: row-reverse; text-align: right; }
+    .cape { flex: none; width: 46px; height: 92px; }
+    .cape img { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
+    .cape .plain { width: 100%; height: 100%; background: var(--team); opacity: .75; clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%); }
+    .info { min-width: 0; flex: 1; }
+    .gname { font-size: 1.02rem; font-weight: 600; color: var(--ink-strong); overflow-wrap: anywhere; line-height: 1.25; }
+    .gtag { font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: var(--team); margin-top: 2px; }
+    .stats { display: flex; gap: 12px; margin-top: 6px; font-size: .72rem; color: var(--dim); text-transform: uppercase; letter-spacing: .08em; }
+    .side.red .stats { justify-content: flex-end; }
+    .stats b { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--parchment); letter-spacing: 0; text-transform: none; margin-left: 4px; font-size: .8rem; }
+    .profs { display: flex; gap: 2px; margin-top: 8px; flex-wrap: wrap; }
+    .side.red .profs { justify-content: flex-end; }
+    .profs img { width: 18px; height: 18px; opacity: .92; }
+
+    /* ---- Actions ---- */
+    .actions { padding: 18px 22px 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .open {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; max-width: 360px; padding: 12px 18px; border-radius: 10px;
+      background: var(--accent); color: #1a150d; font-weight: 600; font-size: 1rem; text-decoration: none;
+      box-shadow: 0 6px 24px -8px var(--accent-glow); transition: background .12s;
+    }
+    .open:hover { background: var(--accent-hover); }
+    .open svg { width: 16px; height: 16px; }
+
+    .help { margin-top: 14px; display: grid; gap: 10px; color: var(--dim); font-size: .88rem; }
+    .help .row { display: flex; gap: 10px; align-items: baseline; }
+    .help strong { color: var(--parchment); font-weight: 500; }
+    .help a { color: var(--accent); text-decoration: none; }
+    .help a:hover { color: var(--accent-hover); }
+    .copy {
+      background: var(--surface-raised); border: 1px solid var(--border-soft); color: var(--parchment);
+      padding: 2px 10px; border-radius: 999px; font: inherit; font-size: .8rem; cursor: pointer; margin-left: 4px;
+    }
+    .copy:hover { border-color: var(--accent-glow); color: var(--accent); }
+    .mobile-note { display: none; color: var(--dim); text-align: center; font-size: .9rem; }
+    .is-mobile .open, .is-mobile .help { display: none; }
+    .is-mobile .mobile-note { display: block; }
+
+    .error { padding: 28px 22px; }
+    .error h1 { font-size: 1.35rem; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+    .error p { color: var(--dim); }
+    .error a { color: var(--accent); }
+
+    @media (max-width: 620px) {
+      .sides { grid-template-columns: 1fr; }
+      .vs { justify-self: center; }
+      .side.red { flex-direction: row; text-align: left; }
+      .side.red .stats, .side.red .profs { justify-content: flex-start; }
+      .moment .time { font-size: 2.1rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="watch-bg" id="watch-bg"></div>
-
-  <header class="watch-top">
-    <a href="./"><img src="assets/icon2.ico" alt=""><span>GW Observer</span></a>
+  <header class="top">
+    <a class="brand" href="./"><img src="assets/eye_of_janthir_256.png" alt=""><span>GW Observer</span></a>
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Shared match
+    </span>
   </header>
 
   <main>
-    <div class="watch-wrap" id="watch-wrap">
-      <div class="watch-kicker">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        Someone shared a moment from this match
+    <div class="card" id="card">
+      <div class="hero" id="hero">
+        <div class="hero-text">
+          <div class="eyebrow" id="hero-eyebrow">Someone shared a moment</div>
+          <div class="moment" id="moment"></div>
+        </div>
       </div>
-      <div class="watch-title" id="watch-title" style="margin-top:16px">GvG match</div>
 
-      <div class="teams">
-        <div class="team blue" id="team1"></div>
+      <div class="meta" id="meta"></div>
+
+      <div class="sides">
+        <div class="side blue" id="team1"></div>
         <div class="vs">VS</div>
-        <div class="team red" id="team2"></div>
+        <div class="side red" id="team2"></div>
       </div>
 
-
-      <div class="watch-actions">
-        <a class="watch-open" id="watch-open" href="#">Open in GW Observer</a>
+      <div class="actions">
+        <a class="open" id="open" href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <span id="open-label">Open in GW Observer</span>
+        </a>
+        <div class="help">
+          <div class="row"><span><strong>Don't have GW Observer?</strong>
+            <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.6.2/GWObserver.zip" data-download>Download it</a>,
+            open it once, then click the link again.</span></div>
+          <div class="row"><span><strong>Nothing happened?</strong> Copy the link, open GW Observer and press Ctrl+V in the Library.
+            <button class="copy" id="copy" type="button">Copy link</button></span></div>
+        </div>
+        <div class="mobile-note">GW Observer runs on Windows. Open this link on your PC to watch the match.</div>
       </div>
-
-      <div class="watch-help">
-        <p><strong>Don't have GW Observer?</strong>
-          <a href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.6.2/GWObserver.zip" data-download>Download it</a>,
-          open it once, then click the link again.</p>
-        <p><strong>Nothing happened?</strong> Copy the link and paste it in the GW Observer Library search.
-          <button class="watch-copy" id="watch-copy" type="button">Copy link</button></p>
-      </div>
-
-      <div class="watch-mobile">GW Observer runs on Windows. Open this link on your PC to watch the match.</div>
     </div>
   </main>
 
   <script>
   (function () {
-    var params = new URLSearchParams(location.search);
+    // A short link (go.gwobserver.com/<code>) serves this page with its data in window.GWO_QUERY.
+    var query = typeof window.GWO_QUERY === 'string' ? window.GWO_QUERY : location.search;
+    var params = new URLSearchParams(query);
     var folder = params.get('m') || '';
-    var wrap = document.getElementById('watch-wrap');
 
     function el(tag, cls, text) {
       var e = document.createElement(tag);
@@ -171,14 +220,15 @@
     }
 
     if (!folder) {
-      wrap.replaceChildren();
-      var box = el('div', 'watch-error');
+      var card = document.getElementById('card');
+      card.replaceChildren();
+      var box = el('div', 'error');
       var p = el('p');
       p.append('It doesn’t name a match. Ask for the link again, or visit ');
       var a = el('a', null, 'gwobserver.com'); a.href = './';
       p.append(a, '.');
       box.append(el('h1', null, 'This link is incomplete'), p);
-      wrap.append(box);
+      card.append(box);
       return;
     }
 
@@ -191,7 +241,7 @@
       "Isle of Weeping Stone": "Isle of Weeping Stone.webp", "Isle of the Weeping Stone": "Isle of Weeping Stone.webp",
       "Isle of Wurms": "Isle of Wurms.webp", "Isle of the Dead": "Isle of the Dead.jpg",
       "Nomad's Isle": "Nomad's Isle.jpg", "Uncharted Isle": "Uncharted Isle.jpg",
-      "Warrior's Isle": "Warrior's Isle.webp", "Wizard's Isle": "Wizard's Isle.webp",
+      "Warrior's Isle": "Warrior's Isle.webp", "Wizard's Isle": "Wizard's Isle.webp"
     };
     // German clients name the recordings in German ("Insel der W__rmer" = umlaut made URL-safe).
     var EN = {
@@ -209,21 +259,40 @@
     var t = /\[([^\]]*)\]vs\[([^\]]*)\]/.exec(folder);
     if (t) tags = [t[1], t[2]];
 
-    // ---- Title: date · occasion · map, as the loading screen writes it ----
-    var title = document.getElementById('watch-title');
-    var parts = [date, params.get('o') || '', map].filter(Boolean);
-    if (parts.length) {
-      title.replaceChildren();
-      parts.forEach(function (s, i) {
-        if (i) title.append(el('span', 'dot', '·'));
-        title.append(s);
-      });
-    } else {
-      title.textContent = folder;
-    }
     if (MAPS[map]) {
-      document.getElementById('watch-bg').style.backgroundImage =
+      document.getElementById('hero').style.backgroundImage =
         'url("assets/maps/' + encodeURIComponent(MAPS[map]) + '")';
+    }
+
+    // ---- Facts: map, date, occasion ----
+    var meta = document.getElementById('meta');
+    if (map) meta.append(el('span', 'chip', map));
+    if (date) meta.append(el('span', 'chip mono', date));
+    var occasion = params.get('o');
+    if (occasion) meta.append(el('span', 'chip', occasion));
+    if (!m) meta.append(el('span', 'chip mono', folder));
+
+    // ---- The moment ----
+    function seconds(v) {
+      if (!v) return null;
+      if (/^\d+(\.\d+)?$/.test(v)) return Math.floor(+v);
+      var c = /^(\d+):(\d{1,2})$/.exec(v); if (c) return +c[1] * 60 + +c[2];
+      var s = /^(?:(\d+)m)?(?:(\d+)s)?$/.exec(v); if (s && (s[1] || s[2])) return (+s[1] || 0) * 60 + (+s[2] || 0);
+      return null;
+    }
+    var sec = seconds(params.get('t'));
+    var moment = document.getElementById('moment');
+    var label = document.getElementById('open-label');
+    if (sec !== null && sec > 0) {
+      var clock = Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+      document.getElementById('hero-eyebrow').textContent = 'Someone shared a moment from this match';
+      moment.append(el('span', 'time', clock), el('span', 'what', 'into the match'));
+      label.textContent = 'Watch from ' + clock + ' in GW Observer';
+      document.title = 'Shared match at ' + clock + ' · GW Observer';
+    } else {
+      document.getElementById('hero-eyebrow').textContent = 'Someone shared this match';
+      moment.append(el('span', 'time', tags[0] && tags[1] ? '[' + tags[0] + '] vs [' + tags[1] + ']' : 'GvG match'));
+      moment.querySelector('.time').style.fontSize = '1.9rem';
     }
 
     // ---- Teams: g1/g2 = name~rank~rating~capeId~profs (all optional) ----
@@ -236,7 +305,7 @@
       var cape = /^[0-9-]+$/.test(f[3] || '') ? f[3] : '';
       var profs = /^[0-9a]*$/i.test(f[4] || '') ? (f[4] || '') : '';
 
-      var banner = el('div', 'banner');
+      var banner = el('div', 'cape');
       var plain = el('div', 'plain');
       if (cape) {
         var img = el('img'); img.alt = ''; img.src = 'assets/capes/' + cape + '.png';
@@ -246,17 +315,15 @@
         banner.append(plain);
       }
 
-      var info = el('div', 'team-info');
-      var nm = el('div', 'team-name');
-      if (name) {
-        nm.append(name);
-        if (tag) nm.append(el('span', 'tag', '[' + tag + ']'));
-      } else {
-        nm.append(tag ? '[' + tag + ']' : 'Unknown guild');
+      var info = el('div', 'info');
+      info.append(el('div', 'gname', name || (tag ? '[' + tag + ']' : 'Unknown guild')));
+      if (name && tag) info.append(el('div', 'gtag', '[' + tag + ']'));
+      if (rank > 0 || rating > 0) {
+        var st = el('div', 'stats');
+        if (rank > 0) { var r = el('span'); r.append('Rank', el('b', null, '#' + rank)); st.append(r); }
+        if (rating > 0) { var g = el('span'); g.append('Rating', el('b', null, String(rating))); st.append(g); }
+        info.append(st);
       }
-      info.append(nm);
-      if (rank > 0) { var r = el('div', 'ws-stat'); r.append('Rank', el('b', null, '#' + rank)); info.append(r); }
-      if (rating > 0) { var g = el('div', 'ws-stat'); g.append('Rating', el('b', null, String(rating))); info.append(g); }
       if (profs) {
         var row = el('div', 'profs');
         for (var i = 0; i < profs.length; i++) {
@@ -273,31 +340,9 @@
     fillTeam(document.getElementById('team1'), params.get('g1'), tags[0]);
     fillTeam(document.getElementById('team2'), params.get('g2'), tags[1]);
 
-    // ---- The moment: seconds, or 12:34 / 12m34s ----
-    function seconds(v) {
-      if (!v) return null;
-      if (/^\d+(\.\d+)?$/.test(v)) return Math.floor(+v);
-      var c = /^(\d+):(\d{1,2})$/.exec(v); if (c) return +c[1] * 60 + +c[2];
-      var s = /^(?:(\d+)m)?(?:(\d+)s)?$/.exec(v); if (s && (s[1] || s[2])) return (+s[1] || 0) * 60 + (+s[2] || 0);
-      return null;
-    }
-    var sec = seconds(params.get('t'));
-    var openBtn = document.getElementById('watch-open');
-    if (sec !== null && sec > 0) {
-      var clock = Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
-      var kicker = document.querySelector('.watch-kicker');
-      kicker.lastChild.textContent = ' Someone shared a moment from this match at';
-      kicker.append(el('span', 'kicker-time', clock));
-      openBtn.textContent = 'Watch from ' + clock + ' in GW Observer';
-      document.title = 'Shared match moment · ' + clock + ' · GW Observer';
-    } else {
-      document.querySelector('.watch-kicker').lastChild.textContent = ' Someone shared this match';
-      document.title = 'Shared match · GW Observer';
-    }
-
     // ---- Open in the app: same query, app scheme ----
-    var appLink = 'gwobserver://watch' + location.search;
-    openBtn.href = appLink;
+    var appLink = 'gwobserver://watch' + (query.charAt(0) === '?' ? query : '?' + query);
+    document.getElementById('open').href = appLink;
 
     var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -308,14 +353,14 @@
       setTimeout(function () { location.href = appLink; }, 300);
     }
 
-    // ---- Copy the https link for the Library search fallback ----
-    var copy = document.getElementById('watch-copy');
+    // ---- Copy the https link for the Ctrl+V fallback ----
+    var copy = document.getElementById('copy');
     copy.addEventListener('click', function () {
       var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy link'; }, 1800); };
       if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, function () {});
     });
 
-    // ---- Download button follows the latest release, like the home page ----
+    // ---- Download link follows the latest release, like the home page ----
     fetch('https://api.github.com/repos/MC92-hash/GuildWarsObserver/releases?per_page=5')
       .then(function (r) { if (!r.ok) throw 0; return r.json(); })
       .then(function (rels) {
