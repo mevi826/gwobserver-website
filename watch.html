@@ -268,7 +268,9 @@
     var meta = document.getElementById('meta');
     if (map) meta.append(el('span', 'chip', map));
     if (date) meta.append(el('span', 'chip mono', date));
-    var occasion = params.get('o');
+    // Plain short text only: a link pasted twice glues the second one onto the last field.
+    var occasion = (params.get('o') || '').split(/https?:/i)[0].trim();
+    if (!/^[A-Za-z0-9 ]{1,24}$/.test(occasion)) occasion = '';
     if (occasion) meta.append(el('span', 'chip', occasion));
     if (!m) meta.append(el('span', 'chip mono', folder));
 
@@ -283,17 +285,14 @@
     var sec = seconds(params.get('t'));
     var moment = document.getElementById('moment');
     var label = document.getElementById('open-label');
-    if (sec !== null && sec > 0) {
-      var clock = Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
-      document.getElementById('hero-eyebrow').textContent = 'Someone shared a moment from this match';
-      moment.append(el('span', 'time', clock), el('span', 'what', 'into the match'));
-      label.textContent = 'Watch from ' + clock + ' in GW Observer';
-      document.title = 'Shared match at ' + clock + ' · GW Observer';
-    } else {
-      document.getElementById('hero-eyebrow').textContent = 'Someone shared this match';
-      moment.append(el('span', 'time', tags[0] && tags[1] ? '[' + tags[0] + '] vs [' + tags[1] + ']' : 'GvG match'));
-      moment.querySelector('.time').style.fontSize = '1.9rem';
-    }
+    // The time is always shown: the moment shared, or 0:00 for a whole match.
+    var shared = sec !== null && sec > 0;
+    var clock = shared ? Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0') : '0:00';
+    document.getElementById('hero-eyebrow').textContent =
+      shared ? 'Someone shared a moment from this match' : 'Someone shared this match';
+    moment.append(el('span', 'time', clock), el('span', 'what', shared ? 'into the match' : 'from the start'));
+    label.textContent = shared ? 'Watch from ' + clock + ' in GW Observer' : 'Watch from the start in GW Observer';
+    document.title = (shared ? 'Shared match at ' + clock : 'Shared match') + ' · GW Observer';
 
     // ---- Teams: g1/g2 = name~rank~rating~capeId~profs (all optional) ----
     var PROF = ['', 'Warrior', 'Ranger', 'Monk', 'Necromancer', 'Mesmer', 'Elementalist',
