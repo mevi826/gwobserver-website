@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Observer 3.6.3 Release Notes</title>
+<meta name="description" content="GW Observer 3.6.3 lets you share a link to any moment of a match and add your team&rsquo;s voice comms to a replay. It also shows lying flags as 3D models and corrects some energy and interrupt numbers.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<meta name="theme-color" content="#e0b563">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="GW Observer 3.6.3 Release Notes">
+<meta property="og:description" content="GW Observer 3.6.3 lets you share a link to any moment of a match and add your team&rsquo;s voice comms to a replay. It also shows lying flags as 3D models and corrects some energy and interrupt numbers.">
+<meta property="og:url" content="https://gwobserver.com/releases/3.6.3/">
+<meta property="og:image" content="https://gwobserver.com/assets/og-image.jpg">
+<meta property="og:site_name" content="GW Observer">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GW Observer 3.6.3 Release Notes">
+<meta name="twitter:description" content="GW Observer 3.6.3 lets you share a link to any moment of a match and add your team&rsquo;s voice comms to a replay. It also shows lying flags as 3D models and corrects some energy and interrupt numbers.">
+<meta name="twitter:image" content="https://gwobserver.com/assets/og-image.jpg">
+<style>
+  :root{
+    --bg:#0f0f10;
+    --surface:#161619;
+    --surface-2:#1c1c20;
+    --line:#2a2a30;
+    --line-soft:#212127;
+    --text:#e9e7e4;
+    --muted:#98938c;
+    --dim:#6f6a64;
+    --gold:#e0b563;
+    --gold-dim:#8a6f3c;
+    --verified:#7fb069;
+    --inferred:#e0b563;
+    --maxw:1000px;
+    --wide:1180px;
+    --shot:1400px; /* dense 1600px app shots need close to native width to read */
+  }
+
+  *{box-sizing:border-box}
+
+  html{ -webkit-text-size-adjust:100% }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.62 "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{ max-width:var(--wide); margin:0 auto; padding:0 28px 96px }
+  .col{ max-width:var(--maxw); margin-left:auto; margin-right:auto }
+
+  a{ color:var(--gold); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---------- masthead ---------- */
+
+  header.mast{
+    max-width:var(--wide);
+    margin:0 auto;
+    padding:72px 28px 40px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    font-weight:600;
+    margin:0 0 18px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    font-weight:650;
+  }
+  h1 .ver{ color:var(--gold) }
+  .lede{
+    max-width:64ch;
+    margin:24px 0 0;
+    font-size:19px;
+    line-height:1.6;
+    color:#cfcac4;
+  }
+
+  .baseline{
+    max-width:var(--maxw);
+    margin:36px auto 0;
+    padding:18px 22px;
+    background:linear-gradient(180deg,rgba(224,181,99,.09),rgba(224,181,99,.03));
+    border:1px solid rgba(224,181,99,.28);
+    border-radius:10px;
+    font-size:15px;
+    color:#ddd7cf;
+  }
+  .baseline strong{ color:var(--gold) }
+  .baseline p{ margin:0 }
+  .baseline p + p{ margin-top:8px; color:var(--muted) }
+
+  /* ---------- hero shot ---------- */
+
+  figure{ margin:0 }
+
+  .hero{
+    max-width:var(--shot);
+    margin:52px auto 0;
+    padding:0 28px;
+  }
+  .shot{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#000;
+  }
+  .screenshot-link{ display:block; border-radius:10px }
+  .screenshot-link:focus-visible{ outline:2px solid var(--gold); outline-offset:5px }
+  figcaption{
+    margin-top:11px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc{
+    max-width:var(--maxw);
+    margin:64px auto 0;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+  }
+  nav.toc h2{
+    margin:0 0 14px;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:600;
+    border:0;
+    padding:0;
+  }
+  nav.toc ol{
+    margin:0; padding:0; list-style:none;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:8px 28px;
+    counter-reset:toc;
+  }
+  nav.toc li{ counter-increment:toc; font-size:15px }
+  nav.toc li::before{
+    content:counter(toc,decimal-leading-zero);
+    color:var(--gold-dim);
+    font-variant-numeric:tabular-nums;
+    margin-right:10px;
+    font-size:12.5px;
+  }
+  nav.toc a{ color:#d6d1cb }
+  nav.toc a:hover{ color:var(--gold) }
+
+  /* ---------- sections ---------- */
+
+  section{ max-width:var(--maxw); margin:0 auto; padding-top:76px }
+
+  h2{
+    margin:0 0 6px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:650;
+  }
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--gold-dim),var(--line) 42%,transparent);
+    margin:0 0 34px;
+  }
+
+  h3{
+    margin:46px 0 10px;
+    font-size:25px;
+    line-height:1.25;
+    letter-spacing:-.01em;
+    font-weight:620;
+  }
+  section > h3:first-of-type{ margin-top:0 }
+  h3 .key{
+    display:inline-block;
+    margin-left:10px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:var(--gold);
+    background:rgba(224,181,99,.1);
+    border:1px solid rgba(224,181,99,.3);
+    border-radius:5px;
+    vertical-align:middle;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  p{ margin:0 0 14px; color:#d8d3cd }
+  p:last-child{ margin-bottom:0 }
+  strong{ color:var(--text); font-weight:620 }
+
+  .note{ color:var(--muted); font-size:15px }
+
+  /* body figures */
+
+  .fig{ margin:26px 0 0 }
+  .fig.wide{
+    /* never narrower than the column, never under the scrollbar */
+    --w:min(var(--shot), max(100%, 100vw - 56px));
+    width:var(--w);
+    margin-left:calc((100% - var(--w)) / 2);
+  }
+  .fig.narrow{ max-width:560px }
+  .fig-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:26px 0 0;
+  }
+  @media (max-width:760px){ .fig-2{ grid-template-columns:1fr } }
+
+  /* ---------- trust cards ---------- */
+
+  .trust{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:24px 0 0;
+  }
+  @media (max-width:760px){ .trust{ grid-template-columns:1fr } }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 22px 22px;
+  }
+  .card.verified{ border-top:2px solid var(--verified) }
+  .card.inferred{ border-top:2px solid var(--inferred) }
+
+  .card h4{
+    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:650;
+  }
+  .card.verified h4{ color:var(--verified) }
+  .card.inferred h4{ color:var(--inferred) }
+  .card .sub{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--dim);
+    line-height:1.5;
+  }
+  .card ul{ margin:0; padding:0; list-style:none }
+  .card li{ padding:10px 0; border-top:1px solid var(--line-soft); font-size:15px; line-height:1.55 }
+  .card li:first-child{ border-top:0; padding-top:0 }
+  .card li b{ display:block; color:var(--text); font-weight:600; margin-bottom:1px }
+  .card li span{ color:var(--muted); font-size:14.5px }
+
+  /* ---------- lists ---------- */
+
+  ul.plain{ margin:0 0 14px; padding-left:0; list-style:none }
+  ul.plain li{
+    position:relative;
+    padding:5px 0 5px 20px;
+    color:#d8d3cd;
+  }
+  ul.plain li::before{
+    content:"";
+    position:absolute;
+    left:2px; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--gold-dim);
+  }
+  ul.plain ul{ margin:6px 0 0; padding-left:0; list-style:none }
+  ul.plain ul li{ color:var(--muted); font-size:15px }
+  ul.plain ul li::before{ background:var(--dim); width:4px; height:4px; top:15px }
+
+  .fixes{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    columns:2;
+    column-gap:38px;
+  }
+  @media (max-width:760px){ .fixes{ columns:1 } }
+  .fixes li{
+    break-inside:avoid;
+    padding:9px 0 9px 22px;
+    position:relative;
+    font-size:15px;
+    color:#d3cec8;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .fixes li::before{
+    content:"";
+    position:absolute; left:0; top:16px;
+    width:9px; height:2px;
+    background:var(--gold-dim);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    max-width:var(--maxw);
+    margin:96px auto 0;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    color:var(--dim);
+    font-size:14px;
+  }
+  footer p{ color:var(--dim); margin:0 0 6px }
+
+  /* ---------- site chrome ---------- */
+
+  .back{
+    display:inline-block;
+    margin:0 0 28px;
+    font-size:13.5px;
+    color:var(--dim);
+    letter-spacing:.02em;
+  }
+  .back:hover{ color:var(--gold); text-decoration:none }
+
+  .mast-actions{
+    max-width:var(--maxw);
+    margin:28px auto 0;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    padding:11px 24px;
+    border-radius:6px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.01em;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover{ text-decoration:none }
+  .btn-primary{ background:var(--gold); color:#17140d }
+  .btn-primary:hover{ background:#eec87c; color:#17140d }
+  .btn-outline{ border:1px solid var(--line); color:var(--text) }
+  .btn-outline:hover{ border-color:var(--gold-dim); color:var(--gold) }
+
+  footer .legal{
+    margin-top:20px;
+    max-width:76ch;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--dim);
+    opacity:.7;
+  }
+
+  @media print{
+    body{ background:#fff; color:#111 }
+    .shot{ border-color:#ccc }
+    nav.toc, .back, .mast-actions{ display:none }
+    section{ padding-top:32px; break-inside:avoid }
+  }
+
+  .stats{ max-width:var(--maxw); margin:56px auto 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden }
+  .stats div{ background:var(--surface); padding:20px 22px }
+  .stats b{ display:block; font-size:30px; font-weight:650; color:var(--gold); line-height:1.1; font-variant-numeric:tabular-nums }
+  .stats span{ display:block; margin-top:6px; font-size:13.5px; color:var(--muted); line-height:1.45 }
+  @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr } }
+  .story{ margin:4px 0 0; padding:4px 0 4px 24px; border-left:2px solid var(--gold-dim) }
+  .story p{ font-size:17.5px; line-height:1.7; color:#ddd7cf }
+  ul.plain li strong .key, ul.plain .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  .fig.mid{ max-width:900px; margin-left:auto; margin-right:auto }
+  .ico{ width:32px; height:32px; vertical-align:middle; margin-right:10px; border:1px solid var(--line); border-radius:3px }
+  .ico.sm{ width:22px; height:22px; margin:0 4px 0 2px; vertical-align:-5px }
+  .key{ display:inline-block; padding:1px 7px; font-size:12px; color:var(--gold);
+    background:rgba(224,181,99,.1); border:1px solid rgba(224,181,99,.3); border-radius:5px; font-family:ui-monospace,Consolas,monospace }
+  /* text marks: same colour as the box drawn on the screenshot */
+  .hl{ text-decoration-line:underline; text-decoration-style:dotted; text-decoration-thickness:2px; text-underline-offset:5px }
+  .hl-red{ text-decoration-color:#ff4d4f; text-shadow:0 0 12px rgba(255,77,79,.55) }
+  .hl-gold{ text-decoration-color:#ffc53d; text-shadow:0 0 12px rgba(255,197,61,.5) }
+  .hl-cyan{ text-decoration-color:#40c4ff; text-shadow:0 0 12px rgba(64,196,255,.55) }
+  .hl-green{ text-decoration-color:#52e07a; text-shadow:0 0 12px rgba(82,224,122,.5) }
+  .hl-magenta{ text-decoration-color:#ff6bd6; text-shadow:0 0 12px rgba(255,107,214,.55) }
+
+  .hl{ cursor:default; border-radius:3px; transition:background .2s, text-shadow .2s }
+  .hl.on{ color:#fff }
+  .hl-red.on{ background:rgba(255,77,79,.16); text-shadow:0 0 14px rgba(255,77,79,.9) }
+  .hl-gold.on{ background:rgba(255,197,61,.14); text-shadow:0 0 14px rgba(255,197,61,.9) }
+  .hl-cyan.on{ background:rgba(64,196,255,.16); text-shadow:0 0 14px rgba(64,196,255,.9) }
+  .hl-green.on{ background:rgba(82,224,122,.14); text-shadow:0 0 14px rgba(82,224,122,.9) }
+  .hl-orange{ text-decoration-color:#ff8a3d; text-shadow:0 0 12px rgba(255,138,61,.5) }
+  .hl-orange.on{ background:rgba(255,138,61,.16); text-shadow:0 0 14px rgba(255,138,61,.9) }
+  .hl-magenta.on{ background:rgba(255,107,214,.16); text-shadow:0 0 14px rgba(255,107,214,.9) }
+
+  /* boxes drawn over the screenshots */
+  .shotbox{ position:relative }
+  .box{ position:absolute; border:2px solid var(--c); border-radius:6px; pointer-events:none;
+    box-shadow:0 0 8px var(--g), inset 0 0 6px var(--g); transition:box-shadow .2s, border-width .2s, background .2s }
+  .box.on{ border-width:3px; background:var(--f); box-shadow:0 0 22px 4px var(--c), inset 0 0 14px var(--g) }
+  .c-red{ --c:#ff4d4f; --g:rgba(255,77,79,.6); --f:rgba(255,77,79,.10) }
+  .c-gold{ --c:#ffc53d; --g:rgba(255,197,61,.55); --f:rgba(255,197,61,.10) }
+  .c-cyan{ --c:#40c4ff; --g:rgba(64,196,255,.6); --f:rgba(64,196,255,.10) }
+  .c-green{ --c:#52e07a; --g:rgba(82,224,122,.55); --f:rgba(82,224,122,.10) }
+  .c-magenta{ --c:#ff6bd6; --g:rgba(255,107,214,.6); --f:rgba(255,107,214,.10) }
+  .c-orange{ --c:#ff8a3d; --g:rgba(255,138,61,.6); --f:rgba(255,138,61,.10) }
+  .box-label{ position:absolute; left:calc(100% + 8px); top:50%; transform:translateY(-50%); white-space:nowrap;
+    background:var(--c); color:#17140d; font-size:12px; font-weight:650; padding:2px 9px; border-radius:10px;
+    box-shadow:0 0 10px var(--g) }
+
+  /* portrait shot beside its text */
+  .side{ --w:min(var(--wide) - 56px, 100vw - 56px); width:var(--w); margin-left:calc((100% - var(--w)) / 2);
+    display:grid; grid-template-columns:minmax(0,1fr) 620px; gap:36px; align-items:start }
+  .side .fig{ margin:0 }
+  @media (max-width:980px){ .side{ grid-template-columns:1fr } }
+
+  /* skill rules */
+  .rules{ margin:14px 0 0; padding:0; list-style:none }
+  .rules li{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line-soft); font-size:15px; color:#d3cec8 }
+  .rules li img{ width:28px; height:28px; flex:none; border:1px solid var(--line); border-radius:3px; margin-top:1px }
+  .rules li b{ color:var(--text); font-weight:600 }
+  .rules li .was{ display:block; margin-top:2px; font-size:13.5px; color:var(--dim) }
+  p.was{ font-size:13.5px; color:var(--dim); margin:6px 0 0 }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px }
+  .chip{ display:inline-flex; align-items:center; gap:7px; padding:3px 11px 3px 3px; background:var(--surface);
+    border:1px solid var(--line-soft); border-radius:6px; font-size:14px; color:#d8d3cd }
+  .chip img{ width:24px; height:24px; border-radius:3px }
+  .rules.scores li{ align-items:baseline }
+  .rules + p{ margin-top:14px }
+  .pts{ flex:none; min-width:52px; text-align:center; padding:1px 8px; border-radius:6px; font-weight:650; font-size:14px;
+    font-variant-numeric:tabular-nums }
+  .pts.plus{ color:#52e07a; background:rgba(82,224,122,.1); border:1px solid rgba(82,224,122,.3) }
+  .pts.minus{ color:#ff6b6b; background:rgba(255,77,79,.1); border:1px solid rgba(255,77,79,.3) }
+  .pts.zero{ color:var(--muted, #a9a39b); background:rgba(255,255,255,.04); border:1px solid var(--line-soft) }
+    --open:#8c8fa6; --open-wash:rgba(140,143,166,.13); --gold-wash:rgba(224,181,99,.09); --gold-edge:rgba(224,181,99,.28);
+    --mono:ui-monospace, SFMono-Regular, Consolas, monospace }
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:10px; font-size:17px }
+    border:1px solid var(--line); background:var(--surface-2); white-space:nowrap; max-width:100% }
+  @media (max-width:520px){
+  }
+  .fig.small{ max-width:420px }
+  .fig.medium{ max-width:720px }
+  .fig + p, .fig + ul, .fig + .fig{ margin-top:26px }
+  h4.sub{ margin:30px 0 4px; font-size:17px; font-weight:620; color:var(--text) }
+  .ico.svg{ border:0; border-radius:0 }
+  .ico.flat{ border:0; border-radius:0 }
+  .fig.flag{ max-width:300px; float:right; margin:0 0 18px 32px }
+  @media (max-width:760px){ .fig.flag{ float:none; margin:26px auto 0 } }
+  .clear{ clear:both }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="back" href="/">&larr; GW Observer</a>
+  <p class="eyebrow">Release notes</p>
+  <h1>Guild Wars Observer <span class="ver">3.6.3</span></h1>
+  <p class="lede">Share a match replay with a link that opens GW Observer at the exact moment you choose, and add separately recorded voice comms to your replays.</p>
+
+  <div class="mast-actions">
+    <a class="btn btn-primary" href="https://github.com/MC92-hash/GuildWarsObserver/releases/download/v3.6.3/GWObserver.zip">Download 3.6.3</a>
+    <a class="btn btn-outline" href="/">Back to gwobserver.com</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc" aria-label="Contents">
+    <h2>In this update</h2>
+    <ol>
+      <li><a href="#share">Share links</a></li>
+      <li><a href="#comms">Voice comms</a></li>
+      <li><a href="#other">Other improvements</a></li>
+    </ol>
+  </nav>
+
+  <section id="share">
+    <h2>Share links</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li>Press <span class="hl hl-gold" data-box="share-menu.button" tabindex="0">the Share button</span> on the play bar to create a link to a published match at a specific moment. Copy the link and share it anywhere, for example on Discord: whoever opens it watches the match from that exact moment.
+        <ul>
+          <li><span class="hl hl-cyan" data-box="share-menu.menu" tabindex="0">The Share menu</span> copies a link to this moment or from the match start, or makes a GIF clip.</li>
+        </ul>
+      </li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.3/share-menu.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The play bar with the Share menu open: Copy link to this moment, Copy link from match start, Make a clip (GIF)">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.3/share-menu.webp" width="1280" height="720" alt="The play bar with the Share menu open: Copy link to this moment, Copy link from match start, Make a clip (GIF)">
+      </a>
+        <span class="box c-gold" data-box="share-menu.button" style="left:calc(91.406% - 5px);top:calc(90.000% - 5px);width:calc(7.656% + 10px);height:calc(4.028% + 10px)"></span>
+        <span class="box c-cyan" data-box="share-menu.menu" style="left:calc(80.469% - 5px);top:calc(79.167% - 5px);width:calc(18.359% + 10px);height:calc(9.722% + 10px)"></span>
+      </div>
+      <figcaption>The Share button and its menu, on the right of the play bar. <a href="../../assets/releases/3.6.3/share-menu.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="plain">
+      <li>Links open the match in GW Observer and download it automatically if needed. You can also paste a link into the Library.</li>
+    </ul>
+    <figure class="fig medium">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.3/share-splash.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: GW Observer opening a shared link: the match, both guilds with their capes, and the shared moment">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.3/share-splash.webp" width="640" height="360" alt="GW Observer opening a shared link: the match, both guilds with their capes, and the shared moment">
+      </a>
+      </div>
+      <figcaption>Opening a link: GW Observer shows the match and the shared moment while it loads. <a href="../../assets/releases/3.6.3/share-splash.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <section id="comms">
+    <h2>Voice comms</h2>
+    <div class="rule"></div>
+    <ul class="plain">
+      <li><img class="ico sm svg" src="../../assets/releases/3.6.3/headset.svg" alt="" width="22" height="22">Add your team&rsquo;s voice comms to a replay: drag and drop any audio file, then sync it with the match using <span class="hl hl-gold" data-box="comms-sync.editor" tabindex="0">the Sync editor</span>.
+        <ul>
+          <li>Drag <span class="hl hl-green" data-box="comms-sync.clip" tabindex="0">the comms clip</span> until the recording and the match replay are in sync.</li>
+        </ul>
+      </li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.3/comms-sync.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Sync editor: the match's game sound and the comms recording on two tracks, with the comms strip under the play bar">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.3/comms-sync.webp" width="1920" height="1080" alt="The Sync editor: the match's game sound and the comms recording on two tracks, with the comms strip under the play bar">
+      </a>
+        <span class="box c-gold" data-box="comms-sync.editor" style="left:calc(12.083% - 5px);top:calc(66.852% - 5px);width:calc(75.833% + 10px);height:calc(22.407% + 10px)"></span>
+        <span class="box c-green" data-box="comms-sync.clip" style="left:calc(24.427% - 5px);top:calc(78.519% - 5px);width:calc(61.250% + 10px);height:calc(5.926% + 10px)"></span>
+        <span class="box c-cyan" data-box="comms-sync.strip" style="left:calc(5.208% - 5px);top:calc(96.759% - 5px);width:calc(94.271% + 10px);height:calc(2.315% + 10px)"></span>
+      </div>
+      <figcaption>The Sync editor: the match on top, your comms recording below. <a href="../../assets/releases/3.6.3/comms-sync.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="plain">
+      <li>Adjust playback with <span class="hl hl-cyan" data-box="comms-mixer.strip" tabindex="0">the Comms waveform</span> and <span class="hl hl-gold" data-box="comms-mixer.mixer" tabindex="0">Game / Comms volume mixer</span>. Recordings are remembered per match on your PC and never uploaded to the public match library.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.3/comms-mixer.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The play bar with the volume mixer open (Game 70%, Comms 100%) and the comms waveform under it">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.3/comms-mixer.webp" width="1280" height="180" alt="The play bar with the volume mixer open (Game 70%, Comms 100%) and the comms waveform under it">
+      </a>
+        <span class="box c-gold" data-box="comms-mixer.mixer" style="left:calc(53.906% - 5px);top:calc(9.444% - 5px);width:calc(25.000% + 10px);height:calc(46.111% + 10px)"></span>
+        <span class="box c-cyan" data-box="comms-mixer.strip" style="left:calc(7.812% - 5px);top:calc(80.556% - 5px);width:calc(91.797% + 10px);height:calc(13.889% + 10px)"></span>
+      </div>
+      <figcaption>One volume control, with a Game / Comms mixer, and the comms waveform under the play bar. <a href="../../assets/releases/3.6.3/comms-mixer.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="plain">
+      <li>The Library now groups ratings, notes and comms indicators in <span class="hl hl-gold" data-box="library-notes.notes" tabindex="0">a Notes column</span>, with <span class="hl hl-cyan" data-box="library-notes.mine" tabindex="0">filters</span> for <img class="ico sm svg" src="../../assets/releases/3.6.3/star.svg" alt="" width="22" height="22">rated matches, <img class="ico sm flat" src="../../assets/releases/3.6.3/notes-scroll.png" alt="" width="22" height="22">matches with notes and <img class="ico sm svg" src="../../assets/releases/3.6.3/headset.svg" alt="" width="22" height="22">matches with voice comms.</li>
+    </ul>
+    <figure class="fig wide">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.3/library-notes.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: The Library with the Notes column (rating stars, notes scroll, headset) and the My matches filters">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.3/library-notes.webp" width="1975" height="928" alt="The Library with the Notes column (rating stars, notes scroll, headset) and the My matches filters">
+      </a>
+        <span class="box c-gold" data-box="library-notes.notes" style="left:calc(92.810% - 5px);top:calc(5.927% - 5px);width:calc(6.835% + 10px);height:calc(38.578% + 10px)"></span>
+        <span class="box c-cyan" data-box="library-notes.mine" style="left:calc(0.759% - 5px);top:calc(84.375% - 5px);width:calc(17.975% + 10px);height:calc(9.698% + 10px)"></span>
+      </div>
+      <figcaption>The Notes column and the My matches filters in the Library. <a href="../../assets/releases/3.6.3/library-notes.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+  </section>
+
+  <section id="other">
+    <h2>Other improvements</h2>
+    <div class="rule"></div>
+    <figure class="fig flag">
+      <div class="shotbox">
+      <a class="screenshot-link" href="../../assets/releases/3.6.3/ground-flag.png" target="_blank" rel="noopener" aria-label="Open screenshot at full size: A dropped blue team flag standing on the ground as a 3D model, with the golden sparkle">
+        <img class="shot" loading="lazy" src="../../assets/releases/3.6.3/ground-flag.webp" width="476" height="580" alt="A dropped blue team flag standing on the ground as a 3D model, with the golden sparkle">
+      </a>
+      </div>
+      <figcaption>A dropped flag, with the game&rsquo;s sparkle. <a href="../../assets/releases/3.6.3/ground-flag.png" target="_blank" rel="noopener">View full size</a></figcaption>
+    </figure>
+
+    <ul class="plain">
+      <li>Flags, vine seeds and repair kits now appear as 3D models on the ground. You can select them and focus the camera on them.</li>
+      <li>GIF clips now use the replay&rsquo;s current playback speed.</li>
+      <li>Fixed energy tracking for <img class="ico sm" src="../../assets/releases/3.6.3/lyssas-aura.jpg" alt="" width="22" height="22">Lyssa&rsquo;s Aura and <img class="ico sm" src="../../assets/releases/3.6.3/second-wind.jpg" alt="" width="22" height="22">Second Wind: energy gained from these skills is now calculated correctly.</li>
+      <li><img class="ico sm" src="../../assets/releases/3.6.3/power-block.jpg" alt="" width="22" height="22">Power Block, <img class="ico sm" src="../../assets/releases/3.6.3/cry-of-frustration.jpg" alt="" width="22" height="22">Cry of Frustration and <img class="ico sm" src="../../assets/releases/3.6.3/power-leech.jpg" alt="" width="22" height="22">Power Leech were missing from the interrupt stats. They are now counted.</li>
+      <li><img class="ico sm" src="../../assets/releases/3.6.3/teinais-wind.jpg" alt="" width="22" height="22">Teinai&rsquo;s Wind and <img class="ico sm" src="../../assets/releases/3.6.3/lyssas-haste.jpg" alt="" width="22" height="22">Lyssa&rsquo;s Haste can interrupt several enemies at once. The stats now count a separate interrupt attempt for each enemy in range who was using a skill.</li>
+      <li><img class="ico sm" src="../../assets/releases/3.6.3/rejuvenation.jpg" alt="" width="22" height="22">Rejuvenation: the spirit loses Health each time it heals a party member. The number over the spirit now shows that loss correctly, the same amount as its heal (for example -9), instead of a wrong value.</li>
+      <li>Fixed the app opening off-screen after restoring a saved window position. It now opens in the centre of the screen if that position is no longer visible.</li>
+    </ul>
+    <div class="clear"></div>
+  </section>
+
+  <footer>
+    <p>Thanks to everyone who tested the update and reported problems. Keep sending us your feedback!</p>
+    <p class="legal">GW Observer is an unofficial fan project, not affiliated with ArenaNet&reg; or NCsoft&reg;. Guild Wars&reg; and all related assets are trademarks of NCSOFT Corporation. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Hovering a marked phrase lights up its box on the screenshot, and the other way round.
+  document.querySelectorAll('[data-box]').forEach(function (el) {
+    var key = el.getAttribute('data-box');
+    function set(on) {
+      document.querySelectorAll('[data-box="' + key + '"]').forEach(function (m) { m.classList.toggle('on', on); });
+    }
+    el.addEventListener('mouseenter', function () { set(true); });
+    el.addEventListener('mouseleave', function () { set(false); });
+    el.addEventListener('focus', function () { set(true); });
+    el.addEventListener('blur', function () { set(false); });
+  });
+</script>
+</body>
+</html>
